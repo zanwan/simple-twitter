@@ -12,20 +12,23 @@ describe('# reply request', () => {
   context('#index', () => {
     describe('GET /tweets/:id/replies', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
         ).returns({id: 1, Following: []});
+
         await db.User.destroy({where: {},truncate: true})
         await db.Tweet.destroy({where: {},truncate: true})
         await db.Reply.destroy({where: {},truncate: true})
+
         await db.User.create({})
         await db.Tweet.create({UserId: 1})
-        await db.Reply.create({UserId: 1, TweetId: 1})
+        await db.Reply.create({UserId: 1, TweetId: 1, comment: 'Tweet1 的 comment'})
       })
+
       it('should render index', (done) => {
         request(app)
           .get('/tweets/1/replies')
@@ -33,15 +36,13 @@ describe('# reply request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('Tweet1 的 comment')
             return done();
           });
       })
-      // it('have reply instance', (done) => {
-      // })
-      // it('can see all replies instance', (done) => {
-      // })
+
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -54,7 +55,7 @@ describe('# reply request', () => {
   context('#post', () => {
     describe('POST /tweets/1/replies successfully', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -82,12 +83,8 @@ describe('# reply request', () => {
         })
       })
 
-      // it('will create current users reply', (done) => {
-      //   done()
-      // })
-
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -98,7 +95,7 @@ describe('# reply request', () => {
 
     describe('POST /tweets/1/replies fail', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
       })
 
       it('will redirect index', (done) => {
@@ -113,7 +110,7 @@ describe('# reply request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
       })
     })
   })

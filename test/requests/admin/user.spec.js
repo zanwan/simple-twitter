@@ -14,14 +14,14 @@ describe('# Admin::User request', () => {
   context('go to admin user page', () => {
     describe('if normal user log in', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
         ).returns({id: 1, Following: []});
-        await db.User.create({})
+        await db.User.create({name: 'User1'})
       })
 
 
@@ -36,7 +36,7 @@ describe('# Admin::User request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -45,37 +45,29 @@ describe('# Admin::User request', () => {
     
     describe('if admin user log in', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
         ).returns({id: 1, Following: [], role: 'admin'});
-        await db.User.create({})
+        await db.User.create({name: 'User1'})
       })
 
-      it('should see all tweets instance', (done) => {
-        request(app)
-          .get('/admin/tweets')
-          .expect(200)
-          .end(function(err, res) {
-            if (err) return done(err);
-            done();
-          });
-      })
-      it('should order user list', (done) => {
+      it('should see all user list', (done) => {
         request(app)
           .get('/admin/users')
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User1')
             done();
           });
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})

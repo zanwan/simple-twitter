@@ -18,13 +18,7 @@ const UserModel = require('../../models/user')
 
 describe('# User Model', () => {
   
-  // start with a fresh DB 
   before(done => {
-    // db.sequelize.sync({ force: true, match: /_test$/, logging: false })
-    // .then(() => {
-    //   // console.log('==== db.sequelize.sync ====')
-    //   return done()
-    // })
     done()
   })
 
@@ -42,12 +36,12 @@ describe('# User Model', () => {
     const Reply = 'Reply'
     const Tweet = 'Tweet'
     const Like = 'Like'
-    // const Followship = 'Followship'
+    const Followship = 'Followship'
     before(() => {
       User.associate({ Reply })
       User.associate({ Tweet })
       User.associate({ Like })
-      // User.associate({ Followship })
+      User.associate({ User })
     })
 
     it('should have many replies', (done) => {
@@ -62,10 +56,10 @@ describe('# User Model', () => {
       expect(User.hasMany).to.have.been.calledWith(Like)
       done()
     })
-    // it('should have many followships', (done) => {
-    //   expect(User.hasMany).to.have.been.calledWith(Followship)
-    //   done()
-    // })
+    it('should have many followships', (done) => {
+      expect(User.belongsToMany).to.have.been.calledWith(User)
+      done()
+    })
   })
 
   context('action', () => {
@@ -83,13 +77,6 @@ describe('# User Model', () => {
           expect(data.id).to.be.equal(user.id)
           done()
         })
-
-      // db.User.create({}).then((data) => {
-      //   db.User.findByPk(data.id).then((user) => {  
-      //     expect(data.id).to.be.equal(user.id)
-      //     done()
-      //   })
-      // })
     })
     it('update', (done) => {
       db.User.update({}, { where: { id: data.id }}).then(() => {
@@ -98,15 +85,6 @@ describe('# User Model', () => {
           done()
         })
       })
-
-      // db.User.create({}).then((data) => {
-      //   db.User.update({}, { where: { id: data.id }}).then(() => {
-      //     db.User.findByPk(data.id).then((user) => { 
-      //       expect(data.updatedAt).to.be.not.equal(user.updatedAt) 
-      //       done()
-      //     })
-      //   })
-      // })
     })
     it('delete', (done) => {
       db.User.destroy({ where: { id: data.id }}).then(() => {
@@ -115,15 +93,6 @@ describe('# User Model', () => {
           done()
         })
       })
-
-      // db.User.create({}).then((data) => {
-      //   db.User.destroy({ where: { id: data.id }}).then(() => {
-      //     db.User.findByPk(data.id).then((user) => { 
-      //       expect(user).to.be.equal(null) 
-      //       done()
-      //     })
-      //   })
-      // })
     })
   })
 

@@ -18,13 +18,7 @@ const LikeModel = require('../../models/like')
 
 describe('# Like Model', () => {
   
-  // start with a fresh DB 
   before(done => {
-    // db.sequelize.sync({ force: true, match: /_test$/, logging: false })
-    // .then(() => {
-    //   // console.log('==== db.sequelize.sync ====')
-    //   return done()
-    // })
     done()
   })
 
@@ -70,7 +64,6 @@ describe('# Like Model', () => {
           expect(data.id).to.be.equal(like.id)
           done()
         })
-
     })
     it('update', (done) => {
       db.Like.update({}, { where: { id: data.id }}).then(() => {

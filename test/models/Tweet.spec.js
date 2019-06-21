@@ -18,13 +18,7 @@ const TweetModel = require('../../models/tweet')
 
 describe('# Tweet Model', () => {
   
-  // start with a fresh DB 
   before(done => {
-    // db.sequelize.sync({ force: true, match: /_test$/, logging: false })
-    // .then(() => {
-    //   // console.log('==== db.sequelize.sync ====')
-    //   return done()
-    // })
     done()
 
   })
@@ -77,7 +71,6 @@ describe('# Tweet Model', () => {
           expect(data.id).to.be.equal(like.id)
           done()
         })
-
     })
     it('update', (done) => {
       db.Tweet.update({}, { where: { id: data.id }}).then(() => {

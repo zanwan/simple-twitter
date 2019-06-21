@@ -17,7 +17,7 @@ describe('# tweet request', () => {
 
       it('will redirect to log in page', (done) => {
         request(app)
-          .post('/tweets/1/replies')
+          .get('/tweets')
           .set('Accept', 'application/json')
           .expect(302)
           .end(function(err, res) {
@@ -28,7 +28,7 @@ describe('# tweet request', () => {
     })
     describe('user log in', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -36,6 +36,8 @@ describe('# tweet request', () => {
           helpers, 'getUser'
         ).returns({id: 1, Following: []});
         await db.User.create({})
+        await db.Tweet.create({UserId: 1, description: 'User1 的 Tweet1'})
+        await db.Tweet.create({UserId: 1, description: 'User1 的 Tweet2'})
       })
 
       it('can render index', (done) => {
@@ -45,44 +47,26 @@ describe('# tweet request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User1 的 Tweet1')
+            res.text.should.include('User1 的 Tweet2')
             return done();
           });
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
+        await db.Tweet.destroy({where: {},truncate: true})
       })
     })
-
-    // describe('user behaviour', () => {
-    //   it('show current_user as log in user', (done) => {
-    //     done()
-    //   })
-    //   it('can show all popular user', (done) => {
-    //     done()
-    //   })
-    // })
-
-    // describe('tweets behaviour', () => {
-    //   it('will show 200', (done) => {
-    //     done()
-    //   })
-    //   it('can see all tweets instance', (done) => {
-    //     done()
-    //   })
-    //   it('have tweet instance', (done) => {
-    //     done()
-    //   })
-    // })
   })
 
   context('# post', () => {
     describe('when successfully save', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -110,7 +94,7 @@ describe('# tweet request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -118,9 +102,9 @@ describe('# tweet request', () => {
       })
     })
 
-    describe('when failed', () => {
+    describe('when failed without login', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
       })
 
       it('will redirect index', (done) => {
@@ -136,7 +120,45 @@ describe('# tweet request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
+      })
+    })
+
+    describe('when failed without validation', () => {
+      before(async() => {
+        
+        this.ensureAuthenticated = sinon.stub(
+          helpers, 'ensureAuthenticated'
+        ).returns(true);
+        this.getUser = sinon.stub(
+          helpers, 'getUser'
+        ).returns({id: 1, Following: []});
+        await db.User.create({})
+      })
+      it('will redirect to index', (done) => {
+        request(app)
+          .post('/tweets')
+          .send('description=臣亮言：先帝創業未半，而中道崩殂。今天下三分，益州疲弊，此誠危急存亡之秋也。然侍衛之臣，不懈於內；忠志之士，忘身於外者，蓋追先帝之殊遇，欲報之於陛下也。誠宜開張聖聽，以光先帝遺德，恢弘志士之氣；不宜妄自菲薄，引喻失義，以塞忠諫之路也。宮中府中，俱為一體，陟罰臧否，不宜異同。若有作姦犯科，及為忠善者，宜付有司，論其刑賞，以昭陛下平明之治，不宜篇私，使內外異法也。')
+          .set('Accept', 'application/json')
+          .expect(302)
+          .end(function(err, res) {
+            if (err) return done(err);
+            done();
+          });
+      })
+      it('cant create current users tweet', (done) => {
+        db.Tweet.findAll({where: {userId: 1}}).then(tweets => {
+          expect(tweets).to.be.an('array').that.is.empty;
+          done()
+        })
+      })
+
+      after(async () => {
+        
+        this.ensureAuthenticated.restore();
+        this.getUser.restore();
+        await db.User.destroy({where: {},truncate: true})
+        await db.Tweet.destroy({where: {},truncate: true})
       })
     })
   })
@@ -144,7 +166,7 @@ describe('# tweet request', () => {
   context('# iike', () => {
     describe('like first tweet', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -173,7 +195,7 @@ describe('# tweet request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -186,7 +208,7 @@ describe('# tweet request', () => {
   context('# unlike', () => {
     describe('like first tweet', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -217,7 +239,7 @@ describe('# tweet request', () => {
 
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})

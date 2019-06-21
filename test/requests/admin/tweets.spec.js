@@ -13,7 +13,7 @@ describe('# Admin::Tweet request', () => {
   context('go to admin user page', () => {
     describe('if normal user log in', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -35,7 +35,7 @@ describe('# Admin::Tweet request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})
@@ -44,7 +44,7 @@ describe('# Admin::Tweet request', () => {
 
     describe('if admin user log in', () => {
       before(async() => {
-        console.log(' \t===== before ===== ')
+        
         this.ensureAuthenticated = sinon.stub(
           helpers, 'ensureAuthenticated'
         ).returns(true);
@@ -52,7 +52,8 @@ describe('# Admin::Tweet request', () => {
           helpers, 'getUser'
         ).returns({id: 1, Following: [], role: 'admin'});
         await db.User.create({})
-        await db.Tweet.create({UserId: 1})
+        await db.User.create({})
+        await db.Tweet.create({UserId: 2, description: 'Tweet1'})
       })
 
       it('should see all tweets instance', (done) => {
@@ -61,6 +62,7 @@ describe('# Admin::Tweet request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('Tweet1')
             done();
           });
       })
@@ -78,7 +80,7 @@ describe('# Admin::Tweet request', () => {
       })
 
       after(async () => {
-        console.log(' \t===== after =====')
+        
         this.ensureAuthenticated.restore();
         this.getUser.restore();
         await db.User.destroy({where: {},truncate: true})

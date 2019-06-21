@@ -18,15 +18,8 @@ const ReplyModel = require('../../models/reply')
 
 describe('# Reply Model', () => {
   
-  // start with a fresh DB 
   before(done => {
-    // db.sequelize.sync({ force: true, match: /_test$/, logging: false })
-    // .then(() => {
-    //   // console.log('==== db.sequelize.sync ====')
-    //   return done()
-    // })
     done()
-
   })
 
   const Reply = ReplyModel(sequelize, dataTypes)
@@ -71,7 +64,6 @@ describe('# Reply Model', () => {
           expect(data.id).to.be.equal(like.id)
           done()
         })
-
     })
     it('update', (done) => {
       db.Reply.update({}, { where: { id: data.id }}).then(() => {

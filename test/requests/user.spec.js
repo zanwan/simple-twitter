@@ -1,3 +1,5 @@
+process.env.NODE_ENV = 'test'
+
 var chai = require('chai')
 var request = require('supertest')
 var sinon = require('sinon')
@@ -10,15 +12,22 @@ describe('# user request', () => {
 
   context('# tweets', () => {
     before(async() => {
-      console.log(' \t===== before ===== ')
+      
+
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
       this.getUser = sinon.stub(
         helpers, 'getUser'
       ).returns({id: 1, Following: []});
+
+      await db.User.destroy({where: {},truncate: true})
+      await db.Tweet.destroy({where: {},truncate: true})
+
       await db.User.create({})
       await db.User.create({})
+      await db.Tweet.create({UserId: 1, description: 'User1 的 Tweet'})
+      await db.Tweet.create({UserId: 2, description: 'User2 的 Tweet'})
     })
 
     describe('go to current_user page', () => {
@@ -29,6 +38,7 @@ describe('# user request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User1 的 Tweet')
             return done();
           });
       })
@@ -41,22 +51,25 @@ describe('# user request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User2 的 Tweet')
             return done();
           });
       })
     })
 
     after(async () => {
-      console.log(' \t===== after =====')
+      
       this.ensureAuthenticated.restore();
       this.getUser.restore();
+
       await db.User.destroy({where: {},truncate: true})
+      await db.Tweet.destroy({where: {},truncate: true})
     })
   })
 
   context('# edit', () => {
     before(async() => {
-      console.log(' \t===== before ===== ')
+      
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
@@ -91,7 +104,7 @@ describe('# user request', () => {
     })
 
     after(async () => {
-      console.log(' \t===== after =====')
+      
       this.ensureAuthenticated.restore();
       this.getUser.restore();
       await db.User.destroy({where: {},truncate: true})
@@ -100,7 +113,7 @@ describe('# user request', () => {
 
   context('#update', () => {
     before(async() => {
-      console.log(' \t===== before ===== ')
+      
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
@@ -119,13 +132,16 @@ describe('# user request', () => {
           .expect(302)
           .end(function(err, res) {
             if (err) return done(err);
-            return done();
+            db.User.findByPk(1).then(user => {
+              user.name.should.equal('abc');
+              return done();
+            })
           });
       })
     })
 
     after(async () => {
-      console.log(' \t===== after =====')
+      
       this.ensureAuthenticated.restore();
       this.getUser.restore();
       await db.User.destroy({where: {},truncate: true})
@@ -134,16 +150,22 @@ describe('# user request', () => {
 
   context('#followings #followers', () => {
     before(async() => {
-      console.log(' \t===== before ===== ')
+      
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
       this.getUser = sinon.stub(
         helpers, 'getUser'
       ).returns({id: 1, Following: []});
-      await db.User.create({})
-      await db.User.create({})
-      await db.Followship.create({userId: 1, followingId: 2,})
+      await db.User.create({name: 'User1'})
+      await db.User.create({name: 'User2'})
+      await db.User.create({name: 'User3'})
+
+      const date = new Date();
+      await db.Followship.create({followerId: 1, followingId: 2})
+      await db.Followship.create({followerId: 1, followingId: 3})
+      await db.Followship.create({followerId: 2, followingId: 1})
+      await db.Followship.create({followerId: 3, followingId: 1})
     })
 
     describe('go to following page', () => {
@@ -154,6 +176,18 @@ describe('# user request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User2')
+            return done();
+          });
+      })
+      it('following list ordered by desc', (done) => {
+        request(app)
+          .get('/users/1/followings')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            res.text.indexOf('User2').should.above(res.text.indexOf('User3'))
             return done();
           });
       })
@@ -167,13 +201,25 @@ describe('# user request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('User3')
+            return done();
+          });
+      })
+      it('follower list ordered by desc', (done) => {
+        request(app)
+          .get('/users/1/followings')
+          .set('Accept', 'application/json')
+          .expect(200)
+          .end(function(err, res) {
+            if (err) return done(err);
+            res.text.indexOf('User2').should.above(res.text.indexOf('User3'))
             return done();
           });
       })
     })
 
     after(async () => {
-      console.log(' \t===== after =====')
+      
       this.ensureAuthenticated.restore();
       this.getUser.restore();
       await db.User.destroy({where: {},truncate: true})
@@ -184,7 +230,7 @@ describe('# user request', () => {
 
   context('#likes', () => {
     before(async() => {
-      console.log(' \t===== before ===== ')
+      
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
@@ -192,7 +238,7 @@ describe('# user request', () => {
         helpers, 'getUser'
       ).returns({id: 1, Following: []});
       await db.User.create({})
-      await db.Tweet.create({UserId: 1})
+      await db.Tweet.create({UserId: 1, description: 'Tweet1'})
       await db.Like.create({UserId: 1, TweetId: 1})
     })
 
@@ -204,13 +250,14 @@ describe('# user request', () => {
           .expect(200)
           .end(function(err, res) {
             if (err) return done(err);
+            res.text.should.include('Tweet1')
             return done();
           });
       })
     })
 
     after(async () => {
-      console.log(' \t===== after =====')
+      
       this.ensureAuthenticated.restore();
       this.getUser.restore();
       await db.User.destroy({where: {},truncate: true})
