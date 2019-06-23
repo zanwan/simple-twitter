@@ -26,12 +26,6 @@ module.exports = {
       role: {
         type: Sequelize.STRING
       },
-      follower_count: {
-        type: Sequelize.INTEGER
-      },
-      likes_count: {
-        type: Sequelize.INTEGER
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
