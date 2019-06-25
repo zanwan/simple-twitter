@@ -163,7 +163,7 @@ describe('# tweet request', () => {
     })
   })
 
-  context('# iike', () => {
+  context('# like', () => {
     describe('like first tweet', () => {
       before(async() => {
         

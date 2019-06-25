@@ -61,29 +61,29 @@ describe('# Tweet Model', () => {
     let data = null
 
     it('create', (done) => {
-      db.Tweet.create({}).then((like) => {   
-        data = like
+      db.Tweet.create({}).then((tweet) => {   
+        data = tweet
         done()
       })
     })
     it('read', (done) => {
-        db.Tweet.findByPk(data.id).then((like) => {  
-          expect(data.id).to.be.equal(like.id)
+      db.Tweet.findByPk(data.id).then((tweet) => {  
+        expect(data.id).to.be.equal(tweet.id)
           done()
         })
     })
     it('update', (done) => {
       db.Tweet.update({}, { where: { id: data.id }}).then(() => {
-        db.Tweet.findByPk(data.id).then((like) => { 
-          expect(data.updatedAt).to.be.not.equal(like.updatedAt) 
+        db.Tweet.findByPk(data.id).then((tweet) => { 
+          expect(data.updatedAt).to.be.not.equal(tweet.updatedAt) 
           done()
         })
       })
     })
     it('delete', (done) => {
       db.Tweet.destroy({ where: { id: data.id }}).then(() => {
-        db.Tweet.findByPk(data.id).then((like) => { 
-          expect(like).to.be.equal(null) 
+        db.Tweet.findByPk(data.id).then((tweet) => { 
+          expect(tweet).to.be.equal(null) 
           done()
         })
       })
