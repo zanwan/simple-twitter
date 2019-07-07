@@ -54,29 +54,29 @@ describe('# Reply Model', () => {
     let data = null
 
     it('create', (done) => {
-      db.Reply.create({}).then((like) => {   
-        data = like
+      db.Reply.create({}).then((reply) => {   
+        data = reply
         done()
       })
     })
     it('read', (done) => {
-        db.Reply.findByPk(data.id).then((like) => {  
-          expect(data.id).to.be.equal(like.id)
+      db.Reply.findByPk(data.id).then((reply) => {  
+        expect(data.id).to.be.equal(reply.id)
           done()
         })
     })
     it('update', (done) => {
       db.Reply.update({}, { where: { id: data.id }}).then(() => {
-        db.Reply.findByPk(data.id).then((like) => { 
-          expect(data.updatedAt).to.be.not.equal(like.updatedAt) 
+        db.Reply.findByPk(data.id).then((reply) => { 
+          expect(data.updatedAt).to.be.not.equal(reply.updatedAt) 
           done()
         })
       })
     })
     it('delete', (done) => {
       db.Reply.destroy({ where: { id: data.id }}).then(() => {
-        db.Reply.findByPk(data.id).then((like) => { 
-          expect(like).to.be.equal(null) 
+        db.Reply.findByPk(data.id).then((reply) => { 
+          expect(reply).to.be.equal(null) 
           done()
         })
       })

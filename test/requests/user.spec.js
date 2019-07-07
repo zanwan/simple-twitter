@@ -13,7 +13,6 @@ describe('# user request', () => {
   context('# tweets', () => {
     before(async() => {
       
-
       this.ensureAuthenticated = sinon.stub(
         helpers, 'ensureAuthenticated'
       ).returns(true);
