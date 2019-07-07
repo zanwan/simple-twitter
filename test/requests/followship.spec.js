@@ -17,7 +17,7 @@ describe('# followship request', () => {
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
-        ).returns({id: 1, Following: []});
+        ).returns({id: 1, Followings: []});
         await db.User.destroy({where: {},truncate: true})
         await db.Followship.destroy({where: {},truncate: true})
         await db.User.create({})
@@ -33,16 +33,16 @@ describe('# followship request', () => {
           .end(function(err, res) {
             if (err) return done(err);
             db.User.findByPk(1,{include: [
-                { model: db.User, as: 'Follower' },
-                { model: db.User, as: 'Following' } 
+                { model: db.User, as: 'Followers' },
+                { model: db.User, as: 'Followings' } 
               ]}).then(user => {
-              user.Following.length.should.equal(0)
+              user.Followings.length.should.equal(0)
               return done();
             })
           });
       })
 
-      it('will show following', (done) => {
+      it('will show followings', (done) => {
         request(app)
           .post('/followships')
           .send('id=2')
@@ -51,10 +51,10 @@ describe('# followship request', () => {
           .end(function(err, res) {
             if (err) return done(err);
             db.User.findByPk(1,{include: [
-                { model: db.User, as: 'Follower' },
-                { model: db.User, as: 'Following' } 
+                { model: db.User, as: 'Followers' },
+                { model: db.User, as: 'Followings' } 
               ]}).then(user => {
-              user.Following.length.should.equal(1)
+              user.Followings.length.should.equal(1)
               return done();
             })
           });
@@ -79,7 +79,7 @@ describe('# followship request', () => {
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
-        ).returns({id: 1, Following: []});
+        ).returns({id: 1, Followings: []});
         await db.User.destroy({where: {},truncate: true})
         await db.Followship.destroy({where: {},truncate: true})
         await db.User.create({})
@@ -87,7 +87,7 @@ describe('# followship request', () => {
         await db.Followship.create({followerId: 1, followingId: 2})
       })
 
-      it('will update following index', (done) => {
+      it('will update followings index', (done) => {
         request(app)
           .delete('/followships/2')
           .set('Accept', 'application/json')
@@ -95,10 +95,10 @@ describe('# followship request', () => {
           .end(function(err, res) {
             if (err) return done(err);
             db.User.findByPk(1,{include: [
-                { model: db.User, as: 'Follower' },
-                { model: db.User, as: 'Following' } 
+                { model: db.User, as: 'Followers' },
+                { model: db.User, as: 'Followings' } 
               ]}).then(user => {
-              user.Following.length.should.equal(0)
+              user.Followings.length.should.equal(0)
               return done();
             })
           });

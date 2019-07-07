@@ -19,7 +19,7 @@ describe('# Admin::Tweet request', () => {
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
-        ).returns({id: 1, Following: []});
+        ).returns({id: 1, Followings: []});
         await db.User.create({})
       })
 
@@ -50,7 +50,7 @@ describe('# Admin::Tweet request', () => {
         ).returns(true);
         this.getUser = sinon.stub(
           helpers, 'getUser'
-        ).returns({id: 1, Following: [], role: 'admin'});
+        ).returns({id: 1, Followings: [], role: 'admin'});
         await db.User.create({})
         await db.User.create({})
         await db.Tweet.create({UserId: 2, description: 'Tweet1'})
