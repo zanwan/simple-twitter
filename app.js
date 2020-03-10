@@ -9,6 +9,8 @@ const bodyParser = require("body-parser");
 // 表單驗證與錯誤訊息
 const flash = require("connect-flash");
 const session = require("express-session");
+// 建立使用者登入機制
+const passport = require("./config/passport");
 
 // 設定 view engine 使用 handlebars
 app.engine("handlebars", handlebars());
@@ -27,6 +29,10 @@ app.use((req, res, next) => {
   res.locals.error_messages = req.flash("error_messages");
   next();
 });
+
+// setup passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
