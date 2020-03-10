@@ -4,9 +4,12 @@ const app = express();
 const port = 3000;
 // 引入資料庫
 const db = require("./models");
+const bodyParser = require("body-parser");
 // 設定 view engine 使用 handlebars
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
