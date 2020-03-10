@@ -2,6 +2,8 @@ const express = require("express");
 const handlebars = require("express-handlebars");
 const app = express();
 const port = 3000;
+// 引入資料庫
+const db = require("./models");
 // 設定 view engine 使用 handlebars
 app.engine("handlebars", handlebars());
 app.set("view engine", "handlebars");
