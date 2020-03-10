@@ -1,8 +1,14 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Reply = sequelize.define('Reply', {
-  }, {});
-  Reply.associate = function(models) {
-  };
+  const Reply = sequelize.define(
+    "Reply",
+    {
+      TweetId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
+      Comment: DataTypes.STRING
+    },
+    {}
+  );
+  Reply.associate = function(models) {};
   return Reply;
 };

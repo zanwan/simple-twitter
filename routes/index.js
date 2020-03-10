@@ -1,8 +1,8 @@
 const restController = require("../controllers/restController.js");
 const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
-const passport = require("../config/passport");
-module.exports = app => {
+module.exports = (app, passport) => {
+  // 記得這邊要接收 passport
   // 如果使用者訪問首頁，就導向 /restaurants 的頁面
   app.get("/", (req, res) => res.redirect("restaurants"));
   app.get("/restaurants", restController.getRestaurants);
