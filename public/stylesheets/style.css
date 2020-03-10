@@ -1,0 +1,68 @@
+#popular-field {
+  display: none;
+}
+
+#new-tweet {
+  font-size: 20px;
+  margin: auto;
+  resize: none;
+}
+
+#twitter-logo {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 50px;
+  height: auto;
+}
+
+#avatar-profile {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 50px;
+  height: auto;
+}
+
+#avatar-tweet {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 100px;
+  height: auto;
+}
+
+#avatar-popular {
+  display: block;
+  border-radius: 100px;
+  margin: 0px -5px 0px 0px;
+  width: 60px;
+  height: auto;
+}
+
+#avatar-profile-lg {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 200px;
+  height: auto;
+}
+
+.list-vertical {
+  display: block;
+}
+
+@media screen and (min-width: 576px) {
+}
+
+@media screen and (min-width: 768px) {
+}
+
+@media screen and (min-width: 992px) {
+  #popular-field {
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+}
