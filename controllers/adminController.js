@@ -1,6 +1,6 @@
 const adminController = {
-  getRestaurants: (req, res) => {
-    return res.render("admin/restaurants");
+  getTweets: (req, res) => {
+    return res.render("admin/tweets");
   }
 };
 
