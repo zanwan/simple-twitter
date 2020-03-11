@@ -92,19 +92,16 @@
       {{!-- 回覆貼文 --}}
       <div class="row my-2">
 
-        <form class="col mt-3">
-
+        <form class="col mt-3" action="/tweets/:tweet_id/replies" method="POST">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="new-tweet" rows="3" placeholder="What's on your mind?"></textarea>
+            <input class="form-control" id="reply" name="reply" rows="3" placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Reply</button>
           </div>
         </form>
 
       </div>
-
-
 
     </div>
   </div>
