@@ -5,10 +5,10 @@
 
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link" href="#">All Tweets</a>
+          <a class="nav-link" href="/admin/tweets">All Tweets</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">All Users</a>
+          <a class="nav-link active" href="/admin/users">All Users</a>
         </li>
 
       </ul>
@@ -23,16 +23,17 @@
           </tr>
         </thead>
         <tbody>
+          {{#each users}}
           <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td><img src="https://via.placeholder.com/80" id="avatar-profile"></td>
-            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. In dolorum cumque culpa eum doloribus minus ea,
-              velit unde aliquid voluptatibus accusamus doloremque blanditiis odit natus numquam dignissimos corrupti
-              dolores error?</td>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.name}}</td>
+            <td><img src={{this.avatar}} id={{this.id}}></td>
+            <td>
+              {{this.introduction}}
+            </td>
             <td>2020/03/10</td>
-
           </tr>
+          {{/each}}
         </tbody>
       </table>
     </div>

@@ -1,7 +1,8 @@
-const restController = require("../controllers/restController.js");
+const tweetController = require("../controllers/tweetController.js");
 const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
 module.exports = (app, passport) => {
+  // 記得這邊要接收 passport
   const authenticated = (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
@@ -17,16 +18,17 @@ module.exports = (app, passport) => {
     }
     res.redirect("/signin");
   };
-  // 記得這邊要接收 passport
-  // 如果使用者訪問首頁，就導向 /restaurants 的頁面
-  app.get("/", authenticated, (req, res) => res.redirect("restaurants"));
-  app.get("/restaurants", authenticated, restController.getRestaurants);
 
-  // 連到 /admin 頁面就轉到 /admin/restaurants
-  app.get("/admin", authenticated, (req, res) =>
-    res.redirect("/admin/restaurants")
+  // 如果使用者訪問首頁，就導向 /tweets 的頁面
+  app.get("/", authenticated, (req, res) => res.redirect("tweets"));
+  app.get("/tweets", authenticated, tweetController.getTweets);
+
+  // 連到 /admin 頁面就轉到 /admin/tweets
+  app.get("/admin", authenticatedAdmin, (req, res) =>
+    res.redirect("/admin/tweets")
   );
-  app.get("/admin/restaurants", authenticated, adminController.getRestaurants);
+  app.get("/admin/tweets", authenticatedAdmin, adminController.getAllTweets);
+  app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
 
   app.get("/signup", userController.signUpPage);
   app.post("/signup", userController.signUp);
@@ -41,4 +43,8 @@ module.exports = (app, passport) => {
     userController.signIn
   );
   app.get("/logout", userController.logout);
+  //帳號權限管理-新增路由
+  app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
+
+  app.put("/admin/users/:id", authenticatedAdmin, adminController.putUser);
 };
