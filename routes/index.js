@@ -21,6 +21,7 @@ module.exports = (app, passport) => {
   // 如果使用者訪問首頁，就導向 /tweets 的頁面
   app.get("/", authenticated, (req, res) => res.redirect("tweets"));
   app.get("/tweets", authenticated, tweetsController.getTweets);
+  app.post('/tweets', authenticated, tweetsController.postTweets)
 
   // 連到 /admin 頁面就轉到 /admin/tweets
   app.get("/admin", authenticated, (req, res) =>

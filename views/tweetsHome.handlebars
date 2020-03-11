@@ -6,10 +6,11 @@
       {{!-- 新增貼文 --}}
       <div class="row my-2">
 
-        <form class="col mt-3">
+        <form action="/tweets" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="new-tweet" rows="3" placeholder="What's on your mind?"></textarea>
+            <input class="form-control" id="newTweet" name="newTweet" rows="3"
+              placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Tweet</button>
           </div>
