@@ -13,7 +13,7 @@ const tweetsController = {
       limit: 5
 
     }).then(result => {
-      console.log(JSON.parse(JSON.stringify(result)))
+      //console.log(JSON.parse(JSON.stringify(result)))
       return res.render('tweetsHome', { result: JSON.parse(JSON.stringify(result)) })
     })
 

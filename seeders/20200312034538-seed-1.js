@@ -10,7 +10,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       name: "root",
       introduction: faker.lorem.text(),
-      avatar: faker.image.imageUrl(),
+      avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
       role: 'admin',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -19,7 +19,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       name: "user1",
       introduction: faker.lorem.text(),
-      avatar: faker.image.imageUrl(),
+      avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
       role: 'user',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -28,7 +28,7 @@ module.exports = {
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       name: "user2",
       introduction: faker.lorem.text(),
-      avatar: faker.image.imageUrl(),
+      avatar: 'https://api.adorable.io/avatars/285/abott@adorable.png',
       role: 'user',
       createdAt: new Date(),
       updatedAt: new Date()
