@@ -1,77 +1,44 @@
 <div class="container">
   <div class="row">
     {{!-- 貼文牆時間軸 --}}
-    <div class="col" id="main-stream">
-
+    <div class="col">
       {{!-- 新增貼文 --}}
-      <div class="row my-2">
-
+      <div class="row my-3">
         <form class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="new-tweet" rows="3" placeholder="What's on your mind?"></textarea>
+            <textarea class="form-control" id="newTweet" rows="3" placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Tweet</button>
           </div>
         </form>
-
       </div>
-
       {{!-- 其他貼文 --}}
       <div class="row">
         <div class="col">
-          <div class="card my-1">
-            <div class="card-body">
-              <div class="row">
-                {{!-- 大頭照 --}}
-                <div class="col-3">
-                  <img src="https://via.placeholder.com/100" alt="avatar" id="avatar-tweet">
-                </div>
-                {{!-- 貼文內容 --}}
-                <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                  <a href="#" class="card-link">Reply(2)</a>
-                  <a href="#" class="card-link">like(16)</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          {{#each tweets as |tweet|}}
+            {{#> blockTweetPost}}
+              {{tweet.value}}
+              {{/blockTweetPost}}
+          {{/each}}
         </div>
       </div>
-      {{!-- ------ --}}
-
     </div>
+    {{!----------}}
     {{!-- 熱門話題 --}}
-    <div class="col-4 mt-4" id="popular-field">
+    <div class="col-4 mt-4" id="popularField">
       <h3>Popular</h3>
       {{!-- 熱門貼文 --}}
       <div class="row">
         <div class="col">
-          <div class="card mb-1">
-            <div class="card-body">
-              <div class="row">
-                {{!-- 大頭照 --}}
-                <div class="col-3">
-                  <img src="https://via.placeholder.com/80" alt="avatar" id="avatar-popular">
-                </div>
-                {{!-- 貼文內容 --}}
-                <div class="col mt-2">
-                  <h6 class="card-subtitle mb-2 text-muted">@username</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                  <button type="button" class="btn btn-primary float-right">Unfollow</button>
-                </div>
-              </div>
-            </div>
-          </div>
+          {{#each tweets as |tweet|}}
+            {{#> blockPopular}}
+              {{tweet.value}}
+              {{/ blockPopular}}
+          {{/each}}
         </div>
       </div>
-      {{!-- ------ --}}
     </div>
-
+    {{!----------}}
   </div>
 </div>

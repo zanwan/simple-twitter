@@ -1,106 +1,24 @@
 <div class="container">
   <div class="row">
-    {{!-- 推主欄--}}
-    <div class="col-4 mt-4" id="popular-field">
-      {{!-- 推主照片 --}}
-      <div class="text-center">
-        <img src="https://via.placeholder.com/200" alt="avatar" id="avatar-profile-lg">
-        {{!-- 推主簡介 --}}
-        <h2 class="mt-3">Username</h2>
-        <div class="mx-auto" style="width: 15rem;">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            quis dolor quos
-            laborum necessitatibus.</p>
-          {{!-- 推主資訊 --}}
-          <ui class="align-items-center list-vertical">
-            <strong>Tweets</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Following</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Follower</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Like</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          {{!-- 追蹤按鈕 --}}
-          <button type="button" class="btn btn-primary mt-4">Follow</button>
-          <button type="button" class="btn btn-primary mt-4">Edit Profile</button>
-        </div>
-      </div>
-    </div>
 
+    {{> blockUserProfile data=user}}
 
     {{!-- 誰追蹤推主 --}}
-    <div class="col" id="main-stream">
+    <div class="col">
       {{!-- Follower --}}
       <h3 class="mt-5">Follower</h3>
       <div class="row no-gutters my-3">
         {{!-- 左欄 --}}
-        <div class="col mr-3">
-          <div class="row">
-            <div class="col">
-              <div class="card mb-1">
-                <div class="card-body">
-                  <div class="row no-gutters">
-                    {{!-- 大頭照 --}}
-                    <div class="col-lg-4">
-                      <img src="https://via.placeholder.com/80" alt="avatar" id="avatar-follow">
-                    </div>
-                    {{!-- 簡介內容 --}}
-                    <div class="col mt-2 text-center">
-                      <h6 class="card-subtitle my-2 text-muted">@username</h6>
-                      <p class="card-text card-follow-text">Some quick example text to build on the card title and make
-                        up the bulk of
-                        the
-                        card's
-                        content.</p>
-                      <button type="button" class="btn btn-primary mt-3">Unfollow</button>
-                      <button type="button" class="btn btn-primary mt-3">Follow</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div class="col">
+          <div class="row no-gutters">
+            {{#each followers as |follower|}}
+              {{#> blockFollower}}
+                {{follower.value}}
+                {{/ blockFollower}}
+            {{/each}}
           </div>
         </div>
-        {{!-- 右欄 --}}
-        <div class="col mr-3">
-          <div class="row">
-            <div class="col">
-              <div class="card mb-1">
-                <div class="card-body">
-                  <div class="row no-gutters">
-                    {{!-- 大頭照 --}}
-                    <div class="col-lg-4">
-                      <img src="https://via.placeholder.com/80" alt="avatar" id="avatar-follow">
-                    </div>
-                    {{!-- 簡介內容 --}}
-                    <div class="col mt-2 text-center">
-                      <h6 class="card-subtitle my-2 text-muted">@username</h6>
-                      <p class="card-text card-follow-text">Some quick example text to build on the card title and make
-                        up the bulk of
-                        the
-                        card's
-                        content.</p>
-                      <button type="button" class="btn btn-primary mt-3">Unfollow</button>
-                      <button type="button" class="btn btn-primary mt-3">Follow</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
       </div>
+
     </div>
   </div>

@@ -1,110 +1,44 @@
 <div class="container">
   <div class="row">
-    {{!-- 推主個人檔案--}}
-    <div class="col-4 mt-4" id="popular-field">
-      {{!-- 推主照片 --}}
-      <div class="text-center">
-        <img src="https://via.placeholder.com/200" alt="avatar" id="avatar-profile-lg">
-        {{!-- 推主簡介 --}}
-        <h2 class="mt-3">Username</h2>
-        <div class="mx-auto" style="width: 15rem;">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            quis dolor quos
-            laborum necessitatibus.</p>
-          {{!-- 推主資訊 --}}
-          <ui class="align-items-center list-vertical">
-            <strong>Tweets</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Following</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Follower</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          <ui class="align-items-center list-vertical">
-            <strong>Like</strong>
-            <span class="badge badge-primary badge-pill">14</span>
-          </ui>
-          {{!-- 追蹤按鈕 --}}
-          <button type="button" class="btn btn-primary mt-4">Follow</button>
-        </div>
-      </div>
-    </div>
-
+    {{> blockUserProfile data = user}}
 
     {{!-- 貼文牆時間軸 --}}
-    <div class="col" id="main-stream">
+    <div class="col">
       {{!-- 原推文 --}}
       <div class="row my-3">
         <div class="col">
           <h3>Tweets</h3>
-          <div class="card my-1">
-            <div class="card-body">
-              <div class="row">
-                {{!-- 大頭照 --}}
-                <div class="col-3">
-                  <img src="https://via.placeholder.com/100" alt="avatar" id="avatar-tweet">
-                </div>
-                {{!-- 推文內容 --}}
-                <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                  <a href="#" class="card-link">Reply(2)</a>
-                  <a href="#" class="card-link">like(16)</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          {{#each tweets as |tweet|}}
+            {{#> blockTweetPost}}
+              {{tweet.value}}
+              {{/ blockTweetPost}}
+          {{/each}}
         </div>
       </div>
-      {{!-- ------ --}}
-
+      {{!----------}}
       {{!-- 推文留言 --}}
       <div class="row my-3">
         <div class="col">
           <h3>Replies</h3>
-          <div class="card my-1">
-            <div class="card-body">
-              <div class="row">
-                {{!-- 大頭照 --}}
-                <div class="col-3">
-                  <img src="https://via.placeholder.com/100" alt="avatar" id="avatar-tweet">
-                </div>
-                {{!-- 推文內容 --}}
-                <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          {{#each replies as |reply|}}
+            {{#> blockReply}}
+              {{reply.value}}
+              {{/ blockReply}}
+          {{/each}}
         </div>
       </div>
       {{!-- ------ --}}
-
       {{!-- 回覆貼文 --}}
       <div class="row my-2">
-
         <form class="col mt-3">
-
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="new-tweet" rows="3" placeholder="What's on your mind?"></textarea>
+            <textarea class="form-control" id="newTweet" rows="3" placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Reply</button>
           </div>
         </form>
-
       </div>
-
-
 
     </div>
   </div>

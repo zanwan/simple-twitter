@@ -8,34 +8,27 @@
           <a class="nav-link active" href="#">All Tweets</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">All Users</a>
+          <a class="nav-link" href="/admin/users">All Users</a>
         </li>
 
       </ul>
-      <table class="table table-striped mt-4">
+      <table class="table table-striped mt-4 text-center">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">User</th>
-            <th scope="col">Avatar</th>
             <th scope="col">Tweets</th>
+            <th scope="col">Replies</th>
+            <th scope="col">Likes</th>
             <th scope="col">Time</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td><img src="https://via.placeholder.com/80" id="avatar-profile"></td>
-            <td>Lorem ipsum dolor sit amet consectetur adipisicing elit. In dolorum cumque culpa eum doloribus minus ea,
-              velit unde aliquid voluptatibus accusamus doloremque blanditiis odit natus numquam dignissimos corrupti
-              dolores error?</td>
-            <td>2020/03/10</td>
-            <td><button type="button" class="btn btn-danger">Delete</button>
-            </td>
-          </tr>
-        </tbody>
+        {{#each tweets as |tweet|}}
+          {{#> blockAdminTweets}}
+            {{tweet.value}}
+            {{/ blockAdminTweets}}
+        {{/each}}
       </table>
     </div>
   </div>

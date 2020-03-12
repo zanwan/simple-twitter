@@ -1,0 +1,25 @@
+<nav class=" navbar navbar-expand-lg navbar-light bg-light ">
+  {{!-- 右上角 Logo --}}
+  <a class="navbar-brand" href="/tweets">
+    <img src="https://via.placeholder.com/300" id="twitterLogo" class="d-inline-block align-center" alt="">
+    Simple Twitter
+  </a>
+  {{!-- 縮放按鈕 --}}
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse">
+    {{!-- 占空間用的ul --}}
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    {{!-- 使用者大頭縮圖 --}}
+    <a href="/users/:id/tweets">
+      <img src="https://via.placeholder.com/300" class="d-inline-block align-top" id="avatarProfile"
+        alt="profile-image">
+    </a>
+    <a href="/admin/tweets" style="color:black;margin-left:10px">Admin</a>
+    {{!-- 登出 --}}
+    <a href="/" style="color:black;margin-left:10px">Logout</a>
+  </div>
+</nav>
