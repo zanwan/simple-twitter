@@ -1,9 +1,22 @@
 const db = require('../models')
-const Tweet = db.Tweet
+const { Tweet, User, Like, Reply } = db
 
 const tweetsController = {
   getTweets: (req, res) => {
-    return res.render("tweetsHome");
+    return Tweet.findAll({
+      include: [
+        { model: User },
+        { model: Like },
+        { model: Reply }
+      ],
+      order: [['updatedAt', 'DESC']],
+      limit: 5
+
+    }).then(result => {
+      console.log(JSON.parse(JSON.stringify(result)))
+      return res.render('tweetsHome', { result: JSON.parse(JSON.stringify(result)) })
+    })
+
   },
   //將新增的推播寫入資料庫
   postTweets: (req, res) => {
