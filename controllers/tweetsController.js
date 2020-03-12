@@ -26,7 +26,7 @@ const tweetsController = {
     }
     return Tweet.create({
       description: req.body.newTweet,
-      UserId: req.body.id
+      UserId: res.locals.user.id
     }).then((tweet) => {
       req.flash('success_messages', '完成新增一則 tweet')
       res.redirect('/tweets')
