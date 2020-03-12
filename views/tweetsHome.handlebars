@@ -21,25 +21,25 @@
       {{!-- 其他貼文 --}}
       <div class="row">
         <div class="col">
+          {{#each result }}
           <div class="card my-1">
             <div class="card-body">
               <div class="row">
                 {{!-- 大頭照 --}}
                 <div class="col-3">
-                  <img src="https://via.placeholder.com/100" alt="avatar" id="avatar-tweet">
+                  <img src={{this.user.avatar}} alt="avatar" id="avatar-tweet">
                 </div>
                 {{!-- 貼文內容 --}}
                 <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                  <a href="#" class="card-link">Reply(2)</a>
-                  <a href="#" class="card-link">like(16)</a>
+                  <h6 class="card-subtitle mb-2 text-muted">@{{this.User.name}},{{this.updatedAt}}</h6>
+                  <p class="card-text">{{this.description}}</p>
+                  <a href="#" class="card-link">Reply({{this.Replies.length}})</a>
+                  <a href="#" class="card-link">like({{this.Likes.length}})</a>
                 </div>
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
       </div>
       {{!-- ------ --}}
@@ -51,24 +51,24 @@
       {{!-- 熱門貼文 --}}
       <div class="row">
         <div class="col">
+          {{#each result}}
           <div class="card mb-1">
             <div class="card-body">
               <div class="row">
                 {{!-- 大頭照 --}}
                 <div class="col-3">
-                  <img src="https://via.placeholder.com/80" alt="avatar" id="avatar-popular">
+                  <img src="{{this.user.avatar}}" alt="avatar" id="avatar-popular">
                 </div>
                 {{!-- 貼文內容 --}}
                 <div class="col mt-2">
-                  <h6 class="card-subtitle mb-2 text-muted">@username</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
+                  <h6 class="card-subtitle mb-2 text-muted">@{{this.User.name}}</h6>
+                  <p class="card-text">{{this.description}}</p>
                   <button type="button" class="btn btn-primary float-right">Unfollow</button>
                 </div>
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
       </div>
       {{!-- ------ --}}
