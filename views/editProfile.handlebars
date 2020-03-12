@@ -1,0 +1,39 @@
+<div class="container">
+  <from>
+    <div class="row">
+      {{!-- 推主個人檔案--}}
+      <div class="col-md-4 mt-4">
+        {{!-- 推主照片 --}}
+        <div class="text-center">
+          <img src="https://via.placeholder.com/200" alt="avatar" id="avatarProfileLg">
+          <button type="button" class="btn btn-primary mt-4">Browse files...</button>
+        </div>
+      </div>
+
+
+      {{!-- 編輯個人資訊 --}}
+      <div class="col">
+        <div class="row my-4">
+          <div class="col">
+
+
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" placeholder="Username">
+            </div>
+
+            <div class="form-group">
+              <label for="name">Info</label>
+              <textarea type="text" class="form-control" id="name" style="resize: none; " rows="5"
+                placeholder="Type anything about you here..."></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary float-right">Update</button>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </from>
+</div>

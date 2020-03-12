@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+
+    {{> blockUserProfile data=user}}
+
+    {{!-- 誰追蹤推主 --}}
+    <div class="col">
+      {{!-- Follower --}}
+      <h3 class="mt-5">Follower</h3>
+      <div class="row no-gutters my-3">
+        {{!-- 左欄 --}}
+        <div class="col">
+          <div class="row no-gutters">
+            {{#each followers as |follower|}}
+              {{#> blockFollower}}
+                {{follower.value}}
+                {{/ blockFollower}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>

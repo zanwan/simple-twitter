@@ -1,14 +1,61 @@
-#popular-field {
+.a-block {
+  display: block;
+}
+
+.popular-text {
+  font-size: 14px;
+}
+
+.text-truncate-multiple-lines {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+img:hover {
+  animation-name: darker;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+@keyframes darker {
+  0% {
+    filter: brightness(100%);
+  }
+  100% {
+    filter: brightness(80%);
+  }
+}
+
+.select-card:hover {
+  animation-name: lightgray;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+@keyframes lightgray {
+  0% {
+    background-color: white;
+  }
+  100% {
+    background-color: rgb(245, 245, 245);
+  }
+}
+
+#popularField {
   display: none;
 }
 
-#new-tweet {
+#newTweet {
   font-size: 20px;
   margin: auto;
   resize: none;
 }
 
-#twitter-logo {
+#twitterLogo {
   display: block;
   border-radius: 100px;
   margin: auto;
@@ -16,7 +63,7 @@
   height: auto;
 }
 
-#avatar-profile {
+#avatarProfile {
   display: block;
   border-radius: 100px;
   margin: auto;
@@ -24,15 +71,23 @@
   height: auto;
 }
 
-#avatar-tweet {
+#avatarFollow {
   display: block;
   border-radius: 100px;
   margin: auto;
-  width: 100px;
+  width: 80px;
   height: auto;
 }
 
-#avatar-popular {
+#avatarTweet {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 75px;
+  height: auto;
+}
+
+#avatarPopular {
   display: block;
   border-radius: 100px;
   margin: 0px -5px 0px 0px;
@@ -40,7 +95,7 @@
   height: auto;
 }
 
-#avatar-profile-lg {
+#avatarProfileLg {
   display: block;
   border-radius: 100px;
   margin: auto;
@@ -48,18 +103,38 @@
   height: auto;
 }
 
-.list-vertical {
+.listVertical {
   display: block;
 }
 
+.cardFollowText {
+  font-size: 14px;
+  width: 150px;
+  margin: auto;
+}
+
+.container-width {
+  width: 21rem;
+}
+
+.container-widthAdmin {
+  width: 100rem;
+}
+
 @media screen and (min-width: 576px) {
+  #avatarTweet {
+    width: 80px;
+  }
 }
 
 @media screen and (min-width: 768px) {
+  #avatarTweet {
+    width: 100px;
+  }
 }
 
 @media screen and (min-width: 992px) {
-  #popular-field {
+  #popularField {
     display: block;
   }
 }
