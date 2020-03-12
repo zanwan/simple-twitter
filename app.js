@@ -24,7 +24,7 @@ app.use(flash());
 
 app.use(express.static("public")) //讀取靜態檔案
 //前端視圖暫時路由
-app.get("/", (req, res) => res.render("replies"))
+app.get("/", (req, res) => res.redirect('/tweets'))
 
 
 // 把 req.flash 放到 res.locals 裡面
