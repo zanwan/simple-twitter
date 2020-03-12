@@ -33,7 +33,7 @@
                 <div class="col mt-1">
                   <h6 class="card-subtitle mb-2 text-muted">@{{this.User.name}},{{this.updatedAt}}</h6>
                   <p class="card-text">{{this.description}}</p>
-                  <a href="#" class="card-link">Reply({{this.Replies.length}})</a>
+                  <a href="/tweets/{{this.id}}/replies" class="card-link">Reply({{this.Replies.length}})</a>
                   <a href="#" class="card-link">like({{this.Likes.length}})</a>
                 </div>
               </div>
@@ -61,7 +61,11 @@
                 </div>
                 {{!-- 貼文內容 --}}
                 <div class="col mt-2">
-                  <h6 class="card-subtitle mb-2 text-muted">@{{this.User.name}}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted">
+                    <a href="/users/{{this.User.id}}/tweets">
+                      @{{this.User.name}}
+                    </a>
+                  </h6>
                   <p class="card-text">{{this.description}}</p>
                   <button type="button" class="btn btn-primary float-right">Unfollow</button>
                 </div>
