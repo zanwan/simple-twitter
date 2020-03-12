@@ -8,10 +8,35 @@ module.exports = (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       avatar: DataTypes.STRING,
       introduction: DataTypes.TEXT,
-      role: DataTypes.STRING
+      role: DataTypes.STRING,
+      isAdmin: DataTypes.BOOLEAN
     },
     {}
   );
-  User.associate = function(models) {};
+  User.associate = function (models) {
+    User.hasMany(models.Tweet, { foreignKey: 'UserId' })
+    User.hasMany(models.Like, { foreignKey: 'UserId' })
+    User.hasMany(models.Reply, { foreignKey: 'UserId' })
+
+    // 被 User 追蹤
+    User.belongsToMany(models.User, {
+      through: models.Followship,
+      foreignKey: 'follwerId',
+      as: 'Followings'
+    })
+    // 追蹤 User 的粉絲
+    User.belongsToMany(models.User, {
+      through: models.Followship,
+      foreignKey: 'followingId',
+      as: 'Followers'
+    })
+
+    User.belongsToMany(models.Tweet, {
+      through: models.Like,
+      foreignKey: 'UserId',
+      as: 'LikedTweets'
+    })
+
+  };
   return User;
 };
