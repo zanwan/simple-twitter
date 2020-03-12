@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       TweetId: DataTypes.INTEGER,
       UserId: DataTypes.INTEGER,
-      Comment: DataTypes.STRING
+      comment: DataTypes.STRING
     },
     {}
   );
