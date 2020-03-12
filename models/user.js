@@ -19,13 +19,13 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Reply, { foreignKey: 'UserId' })
 
     // 被 User 追蹤
-    User.belongsToMany(models.User, {
+    User.belongsToMany(User, {
       through: models.Followship,
-      foreignKey: 'follwerId',
+      foreignKey: 'followerId',
       as: 'Followings'
     })
     // 追蹤 User 的粉絲
-    User.belongsToMany(models.User, {
+    User.belongsToMany(User, {
       through: models.Followship,
       foreignKey: 'followingId',
       as: 'Followers'
