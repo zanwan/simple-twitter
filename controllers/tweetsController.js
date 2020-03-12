@@ -34,7 +34,31 @@ const tweetsController = {
   },
   //GET	/tweets/:tweet_id/replies	回覆特定 tweet 的頁面，並看見 tweet 主人的簡介
   getTweet: (req, res) => {
-    return res.render('replies')
+    return Tweet.findAll({
+      where: { id: req.params.tweet_id },
+      include: [
+        { model: User },
+        { model: Reply, include: [{ model: User }] },
+        { model: Like }
+      ]
+    }).then(tweet => {
+
+      tweet = JSON.parse(JSON.stringify(tweet))[0]
+      console.log(tweet)
+      return User.findByPk(tweet.User.id, {
+        include: [
+          { model: Like },
+          { model: User, as: 'Followers' },
+          { model: User, as: 'Followings' },
+          { model: Tweet }
+        ]
+      }).then(user => {
+        //console.log(JSON.parse(JSON.stringify(user)))
+        user = JSON.parse(JSON.stringify(user))
+        return res.render('replies', { tweet, user })
+      })
+    })
+
   }
 };
 module.exports = tweetsController;

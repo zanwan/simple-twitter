@@ -6,27 +6,25 @@
       <div class="text-center">
         <img src="https://via.placeholder.com/200" alt="avatar" id="avatar-profile-lg">
         {{!-- 推主簡介 --}}
-        <h2 class="mt-3">Username</h2>
+        <h2 class="mt-3">{{user.name}}</h2>
         <div class="mx-auto" style="width: 15rem;">
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus
-            quis dolor quos
-            laborum necessitatibus.</p>
+          <p>{{user.introduction}}</p>
           {{!-- 推主資訊 --}}
           <ui class="align-items-center list-vertical">
             <strong>Tweets</strong>
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">{{user.Tweets.length}}</span>
           </ui>
           <ui class="align-items-center list-vertical">
             <strong>Following</strong>
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">{{user.Followings.length}}</span>
           </ui>
           <ui class="align-items-center list-vertical">
             <strong>Follower</strong>
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">{{user.Followers.length}}</span>
           </ui>
           <ui class="align-items-center list-vertical">
             <strong>Like</strong>
-            <span class="badge badge-primary badge-pill">14</span>
+            <span class="badge badge-primary badge-pill">{{user.Likes.length}}</span>
           </ui>
           {{!-- 追蹤按鈕 --}}
           <button type="button" class="btn btn-primary mt-4">Follow</button>
@@ -46,16 +44,14 @@
               <div class="row">
                 {{!-- 大頭照 --}}
                 <div class="col-3">
-                  <img src="https://via.placeholder.com/100" alt="avatar" id="avatar-tweet">
+                  <img src="{{tweet.User.avatar}}" alt="avatar" id="avatar-tweet">
                 </div>
                 {{!-- 推文內容 --}}
                 <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
-                  <a href="#" class="card-link">Reply(2)</a>
-                  <a href="#" class="card-link">like(16)</a>
+                  <h6 class="card-subtitle mb-2 text-muted">@{{tweet.User.name}},{{tweet.updatedAt}}</h6>
+                  <p class="card-text">{{tweet.description}}</p>
+                  <a href="#" class="card-link">Reply({{tweet.Replies.length}})</a>
+                  <a href="#" class="card-link">like({{tweet.Likes.length}})</a>
                 </div>
               </div>
             </div>
@@ -68,6 +64,7 @@
       <div class="row my-3">
         <div class="col">
           <h3>Replies</h3>
+          {{#each tweet.Replies}}
           <div class="card my-1">
             <div class="card-body">
               <div class="row">
@@ -77,14 +74,14 @@
                 </div>
                 {{!-- 推文內容 --}}
                 <div class="col mt-1">
-                  <h6 class="card-subtitle mb-2 text-muted">@username,time</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's
-                    content.</p>
+                  <h6 class="card-subtitle mb-2 text-muted">@{{this.User.name}},{{this.updatedAt}}
+                  </h6>
+                  <p class="card-text">{{this.comment}}</p>
                 </div>
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
       </div>
       {{!-- ------ --}}
