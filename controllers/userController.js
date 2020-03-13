@@ -59,6 +59,21 @@ const userController = {
     })
   },
 
+  //GET	/users/:id/followers	看見某一使用者的跟隨者
+  getUserFollowers: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Like }
+      ]
+    }).then(user => {
+      user = JSON.parse(JSON.stringify(user))
+      return res.render('follower', { user })
+    })
+  },
+
   logout: (req, res) => {
     req.flash("success_messages", "登出成功！");
     req.logout();
