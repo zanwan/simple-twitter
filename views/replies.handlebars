@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    {{> blockUserProfile data = user}}
+    {{> blockUserProfile user}}
 
     {{!-- 貼文牆時間軸 --}}
     <div class="col">
@@ -8,11 +8,7 @@
       <div class="row my-3">
         <div class="col">
           <h3>Tweets</h3>
-          {{#each tweets as |tweet|}}
-          {{#> blockTweetPost}}
-          {{tweet.value}}
-          {{/ blockTweetPost}}
-          {{/each}}
+          {{> blockTweetPost tweet}}
         </div>
       </div>
       {{!----------}}
@@ -20,7 +16,7 @@
       <div class="row my-3">
         <div class="col">
           <h3>Replies</h3>
-          {{#each replies as |reply|}}
+          {{#each tweet.Replies as |reply|}}
           {{#> blockReply}}
           {{reply.value}}
           {{/ blockReply}}

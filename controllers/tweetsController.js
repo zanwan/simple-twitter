@@ -44,7 +44,7 @@ const tweetsController = {
     }).then(tweet => {
 
       tweet = JSON.parse(JSON.stringify(tweet))[0]
-      console.log(tweet)
+      //console.log(tweet)
       return User.findByPk(tweet.User.id, {
         include: [
           { model: Like },

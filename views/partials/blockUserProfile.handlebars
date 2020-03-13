@@ -2,31 +2,31 @@
 <div class="col-4 mt-4" id="popularField">
   {{!-- 推主照片 --}}
   <div class="text-center">
-    <img src="{{data.avatar}}" alt="avatar" id="avatarProfileLg">
+    <img src="{{avatar}}" alt="avatar" id="avatarProfileLg">
     {{!-- 推主簡介 --}}
-    <h2 class="mt-3">{{data.name}}</h2>
+    <h2 class="mt-3">{{name}}</h2>
     <div class="mx-auto" style="width: 15rem;">
-      <p>{{data.introduction}}</p>
+      <p>{{introduction}}</p>
       {{!-- 推主資訊 --}}
       <ui class="align-items-center listVertical">
         <strong>Tweets</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{Tweets.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Following</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{Followings.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Follower</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{Followers.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Like</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{Likes.length}}</span>
       </ui>
       {{!-- 追蹤按鈕 --}}
       <button type="button" class="btn btn-primary mt-4">Follow</button>
-      <a href="/users/:id/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+      <a href="/users/{{id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
     </div>
   </div>
 </div>
