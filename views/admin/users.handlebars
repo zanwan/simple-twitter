@@ -12,27 +12,25 @@
         </li>
 
       </ul>
-      <table class="table table-striped mt-4">
+      <table class="table table-striped mt-4 text-center">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">User</th>
-            <th scope="col">Avatar</th>
-            <th scope="col">Bio</th>
+            <th scope="col">Role</th>
+            <th scope="col">Tweets</th>
+            <th scope="col">Followings</th>
+            <th scope="col">Followers</th>
+            <th scope="col">Likes</th>
             <th scope="col">Sign Time</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          {{#each users}}
-          <tr>
-            <th scope="row">{{this.id}}</th>
-            <td>{{this.name}}</td>
-            <td><img src={{this.avatar}} id={{this.id}}></td>
-            <td>
-              {{this.introduction}}
-            </td>
-            <td>2020/03/10</td>
-          </tr>
+          {{#each users as |user|}}
+          {{#> blockAdminUsers}}
+          {{user.value}}
+          {{/ blockAdminUsers}}
           {{/each}}
         </tbody>
       </table>

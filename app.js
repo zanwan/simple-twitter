@@ -6,12 +6,18 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("./config/passport");
 const helpers = require("./_helpers");
+const path = require("path");
 
 const app = express();
 const port = 3000;
 
 // 設定 view engine 使用 handlebars
-app.engine("handlebars", handlebars({ defaultLayout: "main" }));
+app.engine(
+  "handlebars",
+  handlebars({
+    defaultLayout: "main"
+  })
+);
 app.set("view engine", "handlebars");
 
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -15,30 +15,7 @@
 <body>
   <main role="main">
     {{!-- NavBar 導覽列 --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      {{!-- 右上角 Logo --}}
-      <a class="navbar-brand" href="#">
-        <img src="https://via.placeholder.com/300" id="twitter-logo" class="d-inline-block align-center" alt="">
-        Simple Twitter
-      </a>
-      {{!-- 縮放按鈕 --}}
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
-        aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        {{!-- 占空間用的ul --}}
-        <ul class="navbar-nav mr-auto">
-        </ul>
-        {{!-- 使用者大頭縮圖 --}}
-        <a href="#">
-          <img src="https://via.placeholder.com/300" class="d-inline-block align-top" id="avatar-profile"
-            alt="profile-image">
-        </a>
-        {{!-- 登出 --}}
-        <a href="#" style="color:black;margin-left:10px">Logout</a>
-      </div>
-    </nav>
+    {{> navBar}}
     {{{body}}}
   </main>
 

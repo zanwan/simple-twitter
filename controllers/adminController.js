@@ -34,8 +34,8 @@ const adminController = {
         });
     });
   },
-  getAllTweets: (req, res) => {
-    return res.render("admin/allTweets");
+  getTweets: (req, res) => {
+    return res.render("admin/tweets");
   }
 };
 
