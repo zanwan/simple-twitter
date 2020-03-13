@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const db = require("../models");
-const User = db.User;
+const { Tweet, User, Like, Reply } = db
 
 const userController = {
   signUpPage: (req, res) => {
@@ -42,6 +42,21 @@ const userController = {
   signIn: (req, res) => {
     req.flash("success_messages", "成功登入！");
     res.redirect("/tweets");
+  },
+
+  //GET	/users/:id/followings	看見某一使用者正在關注的使用者
+  getUserFollowings: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Like }
+      ]
+    }).then(user => {
+      user = JSON.parse(JSON.stringify(user))
+      return res.render('following', { user })
+    })
   },
 
   logout: (req, res) => {

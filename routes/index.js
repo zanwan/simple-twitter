@@ -25,6 +25,9 @@ module.exports = (app, passport) => {
   app.get('/tweets/:tweet_id/replies', authenticated, tweetsController.getTweet)
   app.post('/tweets/:tweet_id/replies', authenticated, tweetsController.postTweet)
 
+  // users routes
+  app.get('/users/:id/followings', authenticated, userController.getUserFollowings)
+
   // 連到 /admin 頁面就轉到 /admin/tweets
   app.get("/admin", authenticated, (req, res) =>
     res.redirect("/admin/tweets")
