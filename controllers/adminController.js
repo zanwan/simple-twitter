@@ -43,11 +43,10 @@ const adminController = {
     });
   },
   deleteTweet: (req, res) => {
-    return Tweet.findByPk(req.params.tweet_id).then(tweet => {
+    console.log(req.params.id);
+    return Tweet.findByPk(req.params.id).then(tweet => {
       tweet.destroy().then(tweet => {
-        return res.render("admin/tweets", {
-          tweets: JSON.parse(JSON.stringify(tweets))
-        });
+        res.redirect("/admin/tweets");
       });
     });
   }

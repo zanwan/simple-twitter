@@ -51,7 +51,7 @@ module.exports = (app, passport) => {
   app.put("/admin/users/:id", authenticatedAdmin, adminController.putUser);
   // 管理者刪除使用者評論
   app.delete(
-    "admin/tweets/:id",
+    "/admin/tweets/:id",
     authenticatedAdmin,
     adminController.deleteTweet
   );
