@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.User;
+const Tweet = db.Tweet;
 const adminController = {
   //A3: 使用者權限管理!
   getAllUsers: (req, res) => {
@@ -35,7 +36,20 @@ const adminController = {
     });
   },
   getTweets: (req, res) => {
-    return res.render("admin/tweets");
+    return Tweet.findAll().then(tweets => {
+      return res.render("admin/tweets", {
+        tweets: JSON.parse(JSON.stringify(tweets))
+      });
+    });
+  },
+  deleteTweet: (req, res) => {
+    return Tweet.findByPk(req.params.id).then(tweet => {
+      tweet.destroy().then(tweet => {
+        return res.render("admin/tweets", {
+          tweets: JSON.parse(JSON.stringify(tweets))
+        });
+      });
+    });
   }
 };
 
