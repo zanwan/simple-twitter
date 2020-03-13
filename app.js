@@ -5,8 +5,7 @@ const bodyParser = require("body-parser");
 const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("./config/passport");
-const helpers = require("./_helpers")
-
+const helpers = require("./_helpers");
 
 const app = express();
 const port = 3000;
@@ -15,17 +14,13 @@ const port = 3000;
 app.engine("handlebars", handlebars({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-app.use(express.static("public")) //讀取靜態檔案
-//前端視圖暫時路由
-app.get("/", (req, res) => res.render("replies"))
-
+app.use(express.static("public")); //讀取靜態檔案
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {

@@ -1,0 +1,41 @@
+<div class="container container-width-admin">
+  <div class="row justify-content-center">
+    <div class="col ">
+      <h2 class="my-4">All Users</h2>
+
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/tweets">All Tweets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/admin/users">All Users</a>
+        </li>
+
+      </ul>
+      <table class="table table-striped mt-4">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">User</th>
+            <th scope="col">Avatar</th>
+            <th scope="col">Bio</th>
+            <th scope="col">Sign Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each users}}
+          <tr>
+            <th scope="row">{{this.id}}</th>
+            <td>{{this.name}}</td>
+            <td><img src={{this.avatar}} id={{this.id}}></td>
+            <td>
+              {{this.introduction}}
+            </td>
+            <td>2020/03/10</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

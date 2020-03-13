@@ -1,3 +1,7 @@
+/* 圓形圖示相關
+需要再整理
+現在很重複 */
+
 #popular-field {
   display: none;
 }
@@ -21,6 +25,14 @@
   border-radius: 100px;
   margin: auto;
   width: 50px;
+  height: auto;
+}
+
+#avatar-follow {
+  display: block;
+  border-radius: 100px;
+  margin: auto;
+  width: 80px;
   height: auto;
 }
 
@@ -48,8 +60,23 @@
   height: auto;
 }
 
+/* 推文/追蹤...統計置中 */
 .list-vertical {
   display: block;
+}
+
+.card-follow-text {
+  font-size: 14px;
+  width: 150px;
+  margin: auto;
+}
+
+.container-width {
+  width: 21rem;
+}
+
+.container-width-admin {
+  width: 100rem;
 }
 
 @media screen and (min-width: 576px) {
