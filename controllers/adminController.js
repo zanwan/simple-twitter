@@ -43,7 +43,7 @@ const adminController = {
     });
   },
   deleteTweet: (req, res) => {
-    return Tweet.findByPk(req.params.id).then(tweet => {
+    return Tweet.findByPk(req.params.tweet_id).then(tweet => {
       tweet.destroy().then(tweet => {
         return res.render("admin/tweets", {
           tweets: JSON.parse(JSON.stringify(tweets))
