@@ -10,19 +10,19 @@
       {{!-- 推主資訊 --}}
       <ui class="align-items-center listVertical">
         <strong>Tweets</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{data.Tweets.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Following</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{data.Followings.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Follower</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{data.Followers.length}}</span>
       </ui>
       <ui class="align-items-center listVertical">
         <strong>Like</strong>
-        <span class="badge badge-primary badge-pill">14</span>
+        <span class="badge badge-primary badge-pill">{{data.Likes.length}}</span>
       </ui>
       {{!-- 追蹤按鈕 --}}
       <button type="button" class="btn btn-primary mt-4">Follow</button>

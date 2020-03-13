@@ -1,7 +1,13 @@
 <div class="container">
   <div class="row">
     {{!-- 推主個人檔案 --}}
-    {{>blockUserProfile data = user}}
+    {{#if thisUser}}
+      {{>blockUserProfile data = user}}
+    {{/if}}
+
+    {{#if viewUser }}
+      {{>blockUserProfile data = user}}
+    {{/if}}
 
 
     {{!-- 個人貼文牆時間軸 --}}
@@ -9,11 +15,22 @@
       {{!-- 原推文 --}}
       <div class="row my-4">
         <div class="col">
-          {{#each tweets as |tweet|}}
-            {{#> blockTweetPost}}
-              {{tweet.value}}
-              {{/ blockTweetPost}}
-          {{/each}}
+          {{#if thisUser}}
+            {{#each tweets as |tweet|}}
+              {{#> blockTweetPost}}
+                {{tweet.value}}
+                {{/ blockTweetPost}}
+            {{/each}}
+          {{/if}}
+
+          {{#if viewUser}}
+            {{#each tweets as |tweet|}}
+              {{#> blockTweetPost}}
+                {{tweet.value}}
+                {{/ blockTweetPost}}
+            {{/each}}
+          {{/if}}
+
         </div>
       </div>
       {{!-- ------ --}}

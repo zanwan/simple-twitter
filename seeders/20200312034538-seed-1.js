@@ -47,7 +47,9 @@ module.exports = {
         UserId: Math.floor(Math.random() * 3) + 1,
         description: faker.lorem.text(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
+        ReplyCounts: 0,
+        LikeCounts: 0
       })),
       {}
     )
