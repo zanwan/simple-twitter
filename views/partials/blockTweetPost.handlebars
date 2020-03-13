@@ -4,16 +4,16 @@
       {{!-- 大頭照 --}}
       <div class="col-3 pr-5">
         <a href="/users/1/tweets">
-          <img src={{user.avatar}} alt="avatar" id="avatarTweet">
+          <img src={{User.avatar}} alt="avatar" id="avatarTweet">
         </a>
       </div>
       {{!-- 貼文內容 --}}
       <div class="col pt-1 ml-n4">
-        <h6 class="card-subtitle mb-2 text-muted">@{{user.name}},time</h6>
+        <h6 class="card-subtitle mb-2 text-muted">@{{User.name}},{{updatedAt}}</h6>
         <p class="card-text">{{description}}</p>
-        <a href="/tweets/1/replies" class="card-link">Reply({{replyCount}})</a>
-        <a href="#" class="card-link">like({{likeCount}})</a>
-        <a href="#" class="card-link">Unlike({{likeCount}})</a>
+        <a href="/tweets/1/replies" class="card-link">Reply({{Replies.length}})</a>
+        <a href="#" class="card-link">like({{Likes.length}})</a>
+        <a href="#" class="card-link">Unlike({{Unlike.length}})</a>
       </div>
     </div>
   </div>

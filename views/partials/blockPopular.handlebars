@@ -3,11 +3,11 @@
     <div class="row">
       {{!-- 大頭照 --}}
       <div class="col-3 mx-n2">
-        <img src="{{user.avatar}}" alt="avatar" id="avatarPopular">
+        <img src="{{User.avatar}}" alt="avatar" id="avatarPopular">
       </div>
       {{!-- 貼文內容 --}}
       <div class="col mt-2 pl-4">
-        <h6 class="card-subtitle mb-2 text-muted">@ {{user.name}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">@ {{User.name}}</h6>
         <p class="card-text popular-text text-truncate-multiple-lines">{{description}}</p>
         <button type="button" class="btn btn-primary btn-sm float-right">Follow</button>
         <button type="button" class="btn btn-danger btn-sm float-right">Unfollow</button>
