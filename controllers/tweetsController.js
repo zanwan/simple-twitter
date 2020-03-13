@@ -58,7 +58,23 @@ const tweetsController = {
         return res.render('replies', { tweet, user })
       })
     })
+  },
 
+  //POST	/tweets/:tweet_id/replies	將回覆的內容寫入資料庫
+  postTweet: (req, res) => {
+    if (!req.body.replyMsg) {
+      req.flash('error_messages', "沒有輸入任何推播訊息")
+      return res.redirect('back')
+    }
+    return Reply.create({
+      UserId: +res.locals.user.id,
+      TweetId: Number(req.params.tweet_id),
+      comment: req.body.replyMsg
+    }).then((comment) => {
+
+      res.redirect(`/tweets/${req.params.tweet_id}/replies`)
+    })
   }
+
 };
 module.exports = tweetsController;
