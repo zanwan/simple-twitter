@@ -74,6 +74,36 @@ const userController = {
     })
   },
 
+  //GET	/users/:id/likes	看見某一使用者按過 like 的推播
+  getUserLike: (req, res) => {
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet },
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Like }
+      ]
+    }).then(user => {
+      return Like.findAll({
+        where: { userId: req.params.id },
+        include: [
+          {
+            model: Tweet, include: [
+              { model: User },
+              { model: Reply },
+              { model: Like }
+            ]
+          }
+        ]
+      }).then(tweets => {
+        user = JSON.parse(JSON.stringify(user))
+        tweets = JSON.parse(JSON.stringify(tweets))
+        return res.render('like', { user, tweets })
+      })
+
+    })
+  },
+
   logout: (req, res) => {
     req.flash("success_messages", "登出成功！");
     req.logout();

@@ -1,0 +1,21 @@
+<div class="card my-1 select-card">
+  <div class="card-body" onclick="location.href='/tweets/{{Tweet.id}}/replies'" style="cursor: pointer;">
+    <div class="row no-gutters">
+      {{!-- 大頭照 --}}
+      <div class="col-3 pr-5">
+        <a href="/users/{{Tweet.User.id}}/tweets">
+          <img src={{Tweet.User.avatar}} alt="avatar" id="avatarTweet">
+        </a>
+      </div>
+      {{!-- 貼文內容 --}}
+      <div class="col pt-1 ml-n4">
+        <h6 class="card-subtitle mb-2 text-muted">@{{Tweet.User.name}},{{Tweet.updatedAt}}</h6>
+        <p class="card-text">{{Tweet.description}}</p>
+        <a href="/tweets/{{Tweet.id}}/replies" class="card-link">Reply({{Tweet.Replies.length}})</a>
+        <a href="#" class="card-link">like({{Tweet.Likes.length}})</a>
+        <a href="#" class="card-link">Unlike({{Tweet.Unlike.length}})</a>
+      </div>
+    </div>
+  </div>
+</div>
+</a>

@@ -28,6 +28,7 @@ module.exports = (app, passport) => {
   // users routes
   app.get('/users/:id/followings', authenticated, userController.getUserFollowings)
   app.get('/users/:id/followers', authenticated, userController.getUserFollowers)
+  app.get('/users/:id/likes', authenticated, userController.getUserLike)
 
 
   // 連到 /admin 頁面就轉到 /admin/tweets

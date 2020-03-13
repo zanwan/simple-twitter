@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    {{> blockUserProfile data=user}}
+    {{> blockUserProfile user}}
 
 
     {{!-- Like貼文牆時間軸 --}}
@@ -11,9 +11,9 @@
         <div class="col">
           <h3>Like</h3>
           {{#each tweets as |tweet|}}
-            {{#> blockTweetPost}}
-              {{tweet.value}}
-              {{/ blockTweetPost}}
+          {{#> blockLikePost}}
+          {{tweet.value}}
+          {{/ blockLikePost}}
           {{/each}}
         </div>
       </div>
