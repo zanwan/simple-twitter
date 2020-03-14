@@ -1,16 +1,20 @@
 <div class="card mb-1 select-card">
-  <div class="card-body" onclick="location.href='/users/{{User.id}}/tweets'" style="cursor: pointer;">
+  <div class="card-body" onclick="location.href='/users/{{id}}/tweets'" style="cursor: pointer;">
     <div class="row">
       {{!-- 大頭照 --}}
       <div class="col-3 mx-n2">
-        <img src="{{User.avatar}}" alt="avatar" id="avatarPopular">
+        <img src="{{avatar}}" alt="avatar" id="avatarPopular">
       </div>
       {{!-- 貼文內容 --}}
       <div class="col mt-2 pl-4">
-        <h6 class="card-subtitle mb-2 text-muted">@ {{User.name}}</h6>
-        <p class="card-text popular-text text-truncate-multiple-lines">{{description}}</p>
-        <button type="button" class="btn btn-primary btn-sm float-right">Follow</button>
-        <button type="button" class="btn btn-danger btn-sm float-right">Unfollow</button>
+        <h6 class="card-subtitle mb-2 text-muted">@ {{name}}</h6>
+        <p class="card-text popular-text text-truncate-multiple-lines">{{introduction}}</p>
+        {{#if isFollowed}}
+          <button type="button" class="btn btn-danger btn-sm float-right">Unfollow</button>
+
+        {{else}}
+          <button type="button" class="btn btn-primary btn-sm float-right">Follow</button>
+        {{/if}}
       </div>
     </div>
   </div>

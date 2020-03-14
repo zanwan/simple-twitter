@@ -3,13 +3,32 @@ const { Tweet, User, Like, Reply } = db
 
 const tweetsController = {
   getTweets: (req, res) => {
+    let popUser = ""
+    //查詢網紅
+    User.findAll({
+      order: [["FollowerCounts", "DESC"]],
+      include: [{ model: User, as: "Followers" }],
+      limit: 10,
+      nest: true,
+      raw: true
+    }).then(popusers => {
+      //將是否已追蹤網紅的資訊，塞入網紅資料包中
+      const popUserData = popusers.map(p => ({
+        ...p,
+        isFollowed: req.user.Followings.map(f => f.id).includes(p.id)
+      }))
+      popUser = popUserData
+    })
+    // 找出左欄時間週中的推文
     return Tweet.findAll({
       include: [{ model: User }, { model: Like }, { model: Reply }],
-      order: [["updatedAt", "DESC"]],
-      limit: 5
+      order: [["createdAt", "DESC"]],
+      limit: 20,
+      nest: true,
+      raw: true
     }).then(tweets => {
-      //console.log(JSON.parse(JSON.stringify(tweets)))
-      return res.render("tweetsHome", { tweets: JSON.parse(JSON.stringify(tweets)) })
+      //以兩個參數輸出
+      return res.render("tweetsHome", { tweets: tweets, popUsers: popUser })
     })
   },
   //將新增的推播寫入資料庫

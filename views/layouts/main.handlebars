@@ -25,7 +25,10 @@
           {{error_messages}}
         </div>
       {{/if}}
-      {{> navBar}}
+      {{#if user}}
+        {{> navBar data = user}}
+      {{/if}}
+
       {{{body}}}
     </main>
 

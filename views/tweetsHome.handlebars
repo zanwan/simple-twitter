@@ -28,15 +28,16 @@
       </div>
     </div>
     {{!----------}}
-    {{!-- 熱門話題 --}}
+    {{!-- 熱門推主 --}}
     <div class="col-4 mt-4" id="popularField">
       <h3>Popular</h3>
-      {{!-- 熱門貼文 --}}
+      {{!-- 熱門推主 --}}
       <div class="row">
         <div class="col">
-          {{#each tweets as |tweet|}}
+
+          {{#each popUsers as |popUser|}}
             {{#> blockPopular}}
-              {{tweet.value}}
+              {{popUser.value}}
               {{/ blockPopular}}
           {{/each}}
         </div>

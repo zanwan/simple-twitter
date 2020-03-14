@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       introduction: DataTypes.TEXT,
       role: DataTypes.STRING,
-      isAdmin: DataTypes.BOOLEAN
+      isAdmin: DataTypes.BOOLEAN,
+      FollowerCounts: DataTypes.INTEGER,
+      FollowingCounts: DataTypes.INTEGER
     },
     {}
   )
@@ -20,14 +22,14 @@ module.exports = (sequelize, DataTypes) => {
     // 被 User 追蹤
     User.belongsToMany(User, {
       through: models.Followship,
-      foreignKey: "followerId",
-      as: "Followings"
+      foreignKey: "followingId",
+      as: "Followers"
     })
     // 追蹤 User 的粉絲
     User.belongsToMany(User, {
       through: models.Followship,
       foreignKey: "followerId",
-      as: "Followers"
+      as: "Followings"
     })
     User.belongsToMany(models.Tweet, {
       through: models.Like,

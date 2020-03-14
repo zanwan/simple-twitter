@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const db = require("../models")
-const { Tweet, User, Like, Reply } = db
+const { Tweet, User, Like, Reply, Followship } = db
 
 const userController = {
   signUpPage: (req, res) => {
@@ -37,7 +37,7 @@ const userController = {
   },
 
   signIn: (req, res) => {
-    // req.flash("success_messages", "成功登入！")
+    req.flash("success_messages", "成功登入！")
     res.redirect("/tweets")
   },
 
@@ -98,31 +98,38 @@ const userController = {
   },
 
   getUserTweets: (req, res) => {
+    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
     const userSelf = Number(req.user.id)
     const otherUser = Number(req.params.id)
+    //當為本人
     if (userSelf === otherUser) {
       const thisUser = true
-      const user = req.user
-      const userTweets = user.Tweets
+      // const user = req.user
+      const userTweets = req.user.Tweets
+      //展開在登入時有存好的本人資料
       const tweetObject = userTweets.map(tweet => ({
         ...tweet
       }))
+      //蒐集所有推文的id
       const tweetId = tweetObject.map(tweet => Object.values(tweet)[0])
-      console.log("======== why ======")
-      console.log(tweetId)
+      //找出推文與資料關聯
       return Tweet.findAll({
         where: { id: tweetId },
         include: [{ model: Reply }, { model: Like }, { model: User }],
+        order: [["createdAt", "DESC"]],
+        limit: 3,
         nest: true,
         raw: true
       }).then(tweet => {
-        console.log("==========FindData==========")
-        console.log(tweet)
         res.render("profile", { tweets: tweet, thisUser: thisUser })
       })
+      //當瀏覽他人
     } else {
+      //以網址參數查詢他人資料
       const userId = req.params.id
+      //用於視圖判斷渲染
       const viewUser = true
+      //開始查詢！
       User.findByPk(userId, {
         include: [
           { model: Tweet },
@@ -131,33 +138,50 @@ const userController = {
           { model: User, as: "Followers" }
         ]
       }).then(otherUser => {
-        console.log("++++++++ Hey ++++++++")
-        console.log(otherUser)
-        const userTweets = otherUser.Tweets
-        const tweetObject = userTweets.map(tweet => ({
-          ...tweet
-        }))
-        console.log("~~~~~~~Tweet Object~~~~~~~~~~")
-        console.log(tweetObject)
-        const tweetId = tweetObject.map(tweet => Object.values(tweet.dataValues)[0])
-        console.log("~~~~~~~Tweet ID~~~~~~~~~~")
-        console.log(tweetId)
+        //整理資料
+        const tweetArr = otherUser.dataValues.Tweets.map(tweet => tweet.id)
+
+        // 判斷使用者是否追蹤
+        const followData = otherUser.dataValues.Followers.map(f => f.id).includes(req.user.id)
+
+        //依 tweet id 找到本文與關聯資料
         return Tweet.findAll({
-          where: { id: tweetId },
+          where: { id: tweetArr },
           include: [{ model: Reply }, { model: Like }, { model: User }],
           nest: true,
           raw: true
         }).then(tweet => {
-          console.log("==========FindOtherUserData==========")
-          console.log(tweet)
           res.render("profile", {
-            user: otherUser.get({ plain: true }),
+            otherUser: otherUser.get({ plain: true }),
             tweets: tweet,
+            isFollowed: followData,
             viewUser: viewUser
           })
         })
       })
     }
+  },
+
+  addFollowing: (req, res) => {
+    return Followship.create({
+      followerId: req.user.id,
+      followingId: req.params.id
+    }).then(followship => {
+      return res.redirect("back")
+    })
+  },
+
+  removeFollowing: (req, res) => {
+    return Followship.findOne({
+      where: {
+        followerId: req.user.id,
+        followingId: req.params.id
+      }
+    }).then(followship => {
+      followship.destroy().then(followship => {
+        return res.redirect("back")
+      })
+    })
   },
 
   logout: (req, res) => {

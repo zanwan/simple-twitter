@@ -19,7 +19,7 @@ module.exports = (app, passport) => {
     }
     res.redirect("/signin")
   }
-
+  app.get("/", (req, res) => res.redirect("/signin"))
   /* ---------------------------------- */
   /*               signin               */
   /* ---------------------------------- */
@@ -30,29 +30,36 @@ module.exports = (app, passport) => {
   app.get("/signin", userController.signInPage) //OK
   app.post(
     "/signin",
-    passport.authenticate(
-      "local",
-      { failureRedirect: "/signin", failureFlash: true },
-      userController.signIn
-    )
-  )
+    passport.authenticate("local", { failureRedirect: "/signin", failureFlash: true }),
+    userController.signIn
+  ) //OK
+
   /* ---------------------------------- */
   /*               tweets               */
   /* ---------------------------------- */
 
-  app.get("/", authenticated, (req, res) => res.redirect("/tweets"))
   app.get("/tweets", authenticated, tweetsController.getTweets)
   app.post("/tweets", authenticated, tweetsController.postTweets)
-  app.get("/tweets/:tweet_id/replies", authenticated, tweetsController.getTweet)
-  app.post("/tweets/:tweet_id/replies", authenticated, tweetsController.postTweet)
+  app.get("/tweets/:id/replies", authenticated, tweetsController.getTweet)
+  app.post("/tweets/:id/replies", authenticated, tweetsController.postTweet)
 
   /* ---------------------------------- */
   /*                users               */
   /* ---------------------------------- */
+  app.get("/users/:id/tweets", authenticated, userController.getUserTweets) //OK
+  app.get("/users/:id/likes", authenticated, userController.getUserLike)
+
+  /* ---------------------------------- */
+  /*               Follow               */
+  /* ---------------------------------- */
+
+  app.post("/followships/:id", authenticated, userController.addFollowing)
+
+  app.delete("/followships/:followingId", authenticated, userController.removeFollowing)
 
   app.get("/users/:id/followings", authenticated, userController.getUserFollowings)
+
   app.get("/users/:id/followers", authenticated, userController.getUserFollowers)
-  app.get("/users/:id/likes", authenticated, userController.getUserLike)
 
   /* ---------------------------------- */
   /*                admin               */
@@ -77,6 +84,9 @@ module.exports = (app, passport) => {
   // app.get("/chat/:id", authenticated, chatController.creatChat);
   app.get("/chat/:id", authenticated, (req, res) => res.sendFile(__dirname + "/chat2.html"))
 
-  // logout 永遠放最後面!
-  app.get("/logout", userController.logout)
+  /* ---------------------------------- */
+  /*               logout               */
+  /* ---------------------------------- */
+
+  app.get("/logout", userController.logout) //OK
 }
