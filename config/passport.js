@@ -26,9 +26,12 @@ passport.use(
 )
 
 // serialize and deserialize user
+//序列化這個技術的用意就是只存 user id，不存整個 user
+//當資料很大包、會頻繁使用資料，但用到的欄位又很少時，就會考慮使用序列化的技巧來節省空間。
 passport.serializeUser((user, cb) => {
   cb(null, user.id)
 })
+//反序列化」就是透過 user id，把整個 user 物件實例拿出來。
 passport.deserializeUser((id, cb) => {
   User.findByPk(id, {
     include: [

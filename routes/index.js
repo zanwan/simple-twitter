@@ -19,14 +19,28 @@ module.exports = (app, passport) => {
     }
     res.redirect("/signin")
   }
-  // 記得這邊要接收 passport
-  // 如果使用者訪問首頁，就導向 /tweets 的頁面
 
+  /* ---------------------------------- */
+  /*               signin               */
+  /* ---------------------------------- */
+
+  app.get("/signup", userController.signUpPage) //OK
+  app.post("/signup", userController.signUp) //OK
+
+  app.get("/signin", userController.signInPage) //OK
+  app.post(
+    "/signin",
+    passport.authenticate(
+      "local",
+      { failureRedirect: "/signin", failureFlash: true },
+      userController.signIn
+    )
+  )
   /* ---------------------------------- */
   /*               tweets               */
   /* ---------------------------------- */
 
-  app.get("/", authenticated, (req, res) => res.redirect("tweets"))
+  app.get("/", authenticated, (req, res) => res.redirect("/tweets"))
   app.get("/tweets", authenticated, tweetsController.getTweets)
   app.post("/tweets", authenticated, tweetsController.postTweets)
   app.get("/tweets/:tweet_id/replies", authenticated, tweetsController.getTweet)
@@ -44,9 +58,9 @@ module.exports = (app, passport) => {
   /*                admin               */
   /* ---------------------------------- */
 
-  app.get("/admin", authenticated, (req, res) => res.redirect("/admin/tweets"))
-  app.get("/admin/tweets", authenticated, adminController.getTweets)
-  app.get("/admin/users", authenticated, adminController.getUsers)
+  app.get("/admin", authenticatedAdmin, (req, res) => res.redirect("/admin/tweets"))
+  app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets)
+  app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers)
 
   // 帳號權限管理-新增路由
   app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers)
@@ -62,19 +76,6 @@ module.exports = (app, passport) => {
   app.get("/chat", authenticated, (req, res) => res.redirect("/chat/:id"))
   // app.get("/chat/:id", authenticated, chatController.creatChat);
   app.get("/chat/:id", authenticated, (req, res) => res.sendFile(__dirname + "/chat2.html"))
-
-  app.get("/signup", userController.signUpPage)
-  app.post("/signup", userController.signUp)
-
-  app.get("/signin", userController.signInPage)
-  app.post(
-    "/signin",
-    passport.authenticate(
-      "local",
-      { failureRedirect: "/signin", failureFlash: true },
-      userController.signIn
-    )
-  )
 
   // logout 永遠放最後面!
   app.get("/logout", userController.logout)

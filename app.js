@@ -26,20 +26,24 @@ app.engine(
 app.set("view engine", "handlebars")
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride("_method"))
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }))
+
 app.use(passport.initialize())
 app.use(passport.session())
+
 app.use(flash())
-app.use(methodOverride("_method"))
-app.use(express.static("public")) //讀取靜態檔案
 
 // 把 req.flash 放到 res.locals 裡面
+//只要把資料放進 res.locals，就可以讓 View 也能存取到。
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash("success_messages")
   res.locals.error_messages = req.flash("error_messages")
   res.locals.user = req.user
   next()
 })
+
+app.use(express.static("public")) //讀取靜態檔案
 
 io.on("connection", function(socket) {
   console.log("a user connected")
