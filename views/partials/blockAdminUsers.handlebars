@@ -9,7 +9,14 @@
   <td>1</td>
   <td>400</td>
   <td>2020/03/10</td>
-  <td><a href="#" type="button" class="btn btn-primary btn-sm">Set Admin</a>
+  {{#if this.isAdmin}}
+  <td>administrator</td>
+  {{else}}
+  <td>user</td>
+  {{/if}}
+  <td>
+  <td>
+    <a href="#" type="button" class="btn btn-primary btn-sm">Set Admin</a>
     <a href="#" type="button" class="btn btn-danger btn-sm">Set User</a>
   </td>
 </tr>

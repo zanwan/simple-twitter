@@ -1,6 +1,7 @@
 const tweetsController = require("../controllers/tweetsController.js");
 const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
+const path = require("path");
 // const chatController = require("../controllers/chatController.js");
 module.exports = (app, passport) => {
   // 記得這邊要接收 passport
@@ -34,7 +35,7 @@ module.exports = (app, passport) => {
   app.get("/chat", authenticated, (req, res) => res.redirect("/chat/:id"));
   // app.get("/chat/:id", authenticated, chatController.creatChat);
   app.get("/chat/:id", authenticated, (req, res) =>
-    res.sendFile(__dirname + "/chat2.html")
+    res.sendFile(path.join(__dirname, "../public", "chat2.html"))
   );
 
   app.get("/signup", userController.signUpPage);
@@ -53,15 +54,15 @@ module.exports = (app, passport) => {
   // 連到 /admin 頁面就轉到 /admin/tweets
   app.get("/admin", authenticated, (req, res) => res.redirect("/admin/tweets"));
   app.get("/admin/tweets", authenticated, adminController.getTweets);
-  // 帳號權限管理-新增路由
-  app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
-  app.put("/admin/users/:id", authenticatedAdmin, adminController.putUser);
   // 管理者刪除使用者評論
   app.delete(
     "/admin/tweets/:id",
     authenticatedAdmin,
     adminController.deleteTweet
   );
+  // 帳號權限管理-新增路由
+  app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
+  app.put("/admin/users/:id", authenticatedAdmin, adminController.putUser);
 
   // logout 永遠放最後面!
   app.get("/logout", userController.logout);
