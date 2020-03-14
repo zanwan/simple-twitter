@@ -23,8 +23,13 @@ module.exports = (app, passport) => {
   app.get("/", authenticated, (req, res) => res.redirect("tweets"))
   app.get("/tweets", authenticated, tweetsController.getTweets)
   app.post("/tweets", authenticated, tweetsController.postTweets)
-  app.get("/tweets/:id/replies", authenticated, tweetsController.getTweet)
-  app.get("/users/:id/tweets", authenticated, userController.getUserTweets)
+  app.get("/tweets/:tweet_id/replies", authenticated, tweetsController.getTweet)
+  app.post("/tweets/:tweet_id/replies", authenticated, tweetsController.postTweet)
+
+  // users routes
+  app.get("/users/:id/followings", authenticated, userController.getUserFollowings)
+  app.get("/users/:id/followers", authenticated, userController.getUserFollowers)
+  app.get("/users/:id/likes", authenticated, userController.getUserLike)
 
   // 連到 /admin 頁面就轉到 /admin/tweets
   app.get("/admin", authenticated, (req, res) => res.redirect("/admin/tweets"))

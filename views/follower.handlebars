@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
 
-    {{> blockUserProfile data=user}}
+    {{> blockUserProfile user}}
 
     {{!-- 誰追蹤推主 --}}
     <div class="col">
@@ -11,10 +11,10 @@
         {{!-- 左欄 --}}
         <div class="col">
           <div class="row no-gutters">
-            {{#each followers as |follower|}}
-              {{#> blockFollower}}
-                {{follower.value}}
-                {{/ blockFollower}}
+            {{#each user.Followers as |follower|}}
+            {{#> blockFollower}}
+            {{follower.value}}
+            {{/ blockFollower}}
             {{/each}}
           </div>
         </div>

@@ -1,9 +1,9 @@
 <div class="card my-1 select-card">
-  <div class="card-body" onclick="location.href='/tweets/:id/replies'" style="cursor: pointer;">
+  <div class="card-body" onclick="location.href='/tweets/{{id}}/replies'" style="cursor: pointer;">
     <div class="row no-gutters">
       {{!-- 大頭照 --}}
       <div class="col-3 pr-5">
-        <a href="/users/1/tweets">
+        <a href="/users/{{User.id}}/tweets">
           <img src={{User.avatar}} alt="avatar" id="avatarTweet">
         </a>
       </div>
