@@ -1,7 +1,10 @@
 const adminController = {
   getTweets: (req, res) => {
-    return res.render("admin/tweets");
+    return res.render("admin/allTweets")
+  },
+  getUsers: (req, res) => {
+    return res.render("admin/allUsers")
   }
-};
+}
 
-module.exports = adminController;
+module.exports = adminController

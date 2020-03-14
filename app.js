@@ -15,7 +15,8 @@ const port = 3000
 app.engine(
   "handlebars",
   handlebars({
-    defaultLayout: "main"
+    defaultLayout: "main",
+    helpers: require("./config/handlebars-helper")
   })
 )
 app.set("view engine", "handlebars")
@@ -27,7 +28,6 @@ app.use(passport.session())
 app.use(flash())
 
 app.use(express.static("public")) //讀取靜態檔案
-
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {

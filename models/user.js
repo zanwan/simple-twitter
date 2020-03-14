@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
@@ -12,12 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       isAdmin: DataTypes.BOOLEAN
     },
     {}
-  );
+  )
   User.associate = function (models) {
-    User.hasMany(models.Tweet, { foreignKey: 'UserId' })
-    User.hasMany(models.Like, { foreignKey: 'UserId' })
-    User.hasMany(models.Reply, { foreignKey: 'UserId' })
-
+    User.hasMany(models.Tweet)
+    User.hasMany(models.Like)
+    User.hasMany(models.Reply)
     // 被 User 追蹤
     User.belongsToMany(User, {
       through: models.Followship,
@@ -27,16 +26,14 @@ module.exports = (sequelize, DataTypes) => {
     // 追蹤 User 的粉絲
     User.belongsToMany(User, {
       through: models.Followship,
-      foreignKey: 'followingId',
-      as: 'Followers'
+      foreignKey: "followerId",
+      as: "Followers"
     })
-
     User.belongsToMany(models.Tweet, {
       through: models.Like,
-      foreignKey: 'UserId',
-      as: 'LikedTweets'
+      foreignkey: "UserId",
+      as: "LikedTweets"
     })
-
-  };
-  return User;
-};
+  }
+  return User
+}
