@@ -39,27 +39,28 @@ module.exports = (app, passport) => {
   /* ---------------------------------- */
 
   app.get("/tweets", authenticated, tweetsController.getTweets)
-  app.post("/tweets", authenticated, tweetsController.postTweets)
-  app.get("/tweets/:id/replies", authenticated, tweetsController.getTweet)
-  app.post("/tweets/:id/replies", authenticated, tweetsController.postTweet)
+  app.post("/tweets", authenticated, tweetsController.postTweets) //OK
+  app.get("/tweets/:tweet_id/replies", authenticated, tweetsController.getTweet) //OK
+  app.post("/tweets/:tweet_id/replies", authenticated, tweetsController.postTweet) //OK
 
   /* ---------------------------------- */
   /*                users               */
   /* ---------------------------------- */
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets) //OK
   app.get("/users/:id/likes", authenticated, userController.getUserLike)
+  app.get("/users/:id/edit", authenticated, userController.editUserProfile)
 
   /* ---------------------------------- */
   /*               Follow               */
   /* ---------------------------------- */
 
-  app.post("/followships/:id", authenticated, userController.addFollowing)
+  app.post("/followships/:id", authenticated, userController.addFollowing) //OK
 
-  app.delete("/followships/:followingId", authenticated, userController.removeFollowing)
+  app.delete("/followships/:id", authenticated, userController.removeFollowing) //OK
 
-  app.get("/users/:id/followings", authenticated, userController.getUserFollowings)
+  app.get("/users/:id/followings", authenticated, userController.getUserFollowings) //OK
 
-  app.get("/users/:id/followers", authenticated, userController.getUserFollowers)
+  app.get("/users/:id/followers", authenticated, userController.getUserFollowers) //OK
 
   /* ---------------------------------- */
   /*                admin               */

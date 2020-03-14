@@ -43,6 +43,10 @@ const userController = {
 
   //GET	/users/:id/followings	看見某一使用者正在關注的使用者
   getUserFollowings: (req, res) => {
+    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
+    const userSelf = Number(req.user.id)
+    const otherUser = Number(req.params.id)
+
     return User.findByPk(req.params.id, {
       include: [
         { model: Tweet },
@@ -104,11 +108,9 @@ const userController = {
     //當為本人
     if (userSelf === otherUser) {
       const thisUser = true
-      // const user = req.user
-      const userTweets = req.user.Tweets
       //展開在登入時有存好的本人資料
-      const tweetObject = userTweets.map(tweet => ({
-        ...tweet
+      const tweetObject = req.user.Tweets.map(tweet => ({
+        ...tweet.dataValues
       }))
       //蒐集所有推文的id
       const tweetId = tweetObject.map(tweet => Object.values(tweet)[0])
@@ -151,7 +153,10 @@ const userController = {
           nest: true,
           raw: true
         }).then(tweet => {
+          console.log("======otherUser")
+          console.log(otherUser.get({ plain: true }))
           res.render("profile", {
+            userId: userId,
             otherUser: otherUser.get({ plain: true }),
             tweets: tweet,
             isFollowed: followData,
@@ -171,6 +176,10 @@ const userController = {
     })
   },
 
+  editUserProfile: (req, res) => {
+    return res.render("editProfile")
+  },
+
   removeFollowing: (req, res) => {
     return Followship.findOne({
       where: {
@@ -178,6 +187,7 @@ const userController = {
         followingId: req.params.id
       }
     }).then(followship => {
+      console.log(followship)
       followship.destroy().then(followship => {
         return res.redirect("back")
       })

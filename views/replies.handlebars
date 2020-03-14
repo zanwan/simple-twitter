@@ -1,6 +1,9 @@
 <div class="container">
   <div class="row">
-    {{> blockUserProfile user}}
+
+    <div class="col-4 mt-4" id="popularField">
+      {{> blockUserProfile data = tweetuser}}
+    </div>
 
     {{!-- 貼文牆時間軸 --}}
     <div class="col">
@@ -29,7 +32,7 @@
         <form action="/tweets/{{tweet.id}}/replies" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="replyMsg" name="replyMsg" rows="3"
+            <textarea class="form-control text-form" id="replyMsg" name="replyMsg" rows="3"
               placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Reply</button>

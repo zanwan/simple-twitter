@@ -1,3 +1,7 @@
+.button {
+  z-index: 10;
+}
+
 .a-block {
   display: block;
 }
@@ -49,7 +53,7 @@ img:hover {
   display: none;
 }
 
-#newTweet {
+.text-form {
   font-size: 20px;
   margin: auto;
   resize: none;

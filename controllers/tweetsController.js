@@ -5,9 +5,11 @@ const tweetsController = {
   getTweets: (req, res) => {
     let popUser = ""
     //查詢網紅
+    //不知道如何排除特定
     User.findAll({
       order: [["FollowerCounts", "DESC"]],
-      include: [{ model: User, as: "Followers" }],
+      // 這裏如果關聯以下會出現重複，目前不知道怎麼辦
+      // include: { model: User, as: "Followers" },
       limit: 10,
       nest: true,
       raw: true
@@ -17,7 +19,8 @@ const tweetsController = {
         ...p,
         isFollowed: req.user.Followings.map(f => f.id).includes(p.id)
       }))
-      popUser = popUserData
+      const removeUserSelf = popUserData.filter(p => p.id !== req.user.id)
+      popUser = removeUserSelf
     })
     // 找出左欄時間週中的推文
     return Tweet.findAll({
@@ -47,23 +50,27 @@ const tweetsController = {
   },
   //GET	/tweets/:tweet_id/replies	回覆特定 tweet 的頁面，並看見 tweet 主人的簡介
   getTweet: (req, res) => {
+    /* ---------------------------------- */
+    /*                待二次重整            */
+    /* ---------------------------------- */
+
+    //Tweet 的 reply 一起撈可能無法依時間排序
     return Tweet.findAll({
       where: { id: req.params.tweet_id },
       include: [{ model: User }, { model: Reply, include: [{ model: User }] }, { model: Like }]
     }).then(tweet => {
       tweet = JSON.parse(JSON.stringify(tweet))[0]
-      //console.log(tweet)
       return User.findByPk(tweet.User.id, {
         include: [
+          { model: Tweet },
           { model: Like },
           { model: User, as: "Followers" },
-          { model: User, as: "Followings" },
-          { model: Tweet }
+          { model: User, as: "Followings" }
         ]
-      }).then(user => {
-        //console.log(JSON.parse(JSON.stringify(user)))
-        user = JSON.parse(JSON.stringify(user))
-        return res.render("replies", { tweet, user })
+      }).then(userdata => {
+        console.log("=====userdata=====")
+        console.log(userdata)
+        return res.render("replies", { tweet, tweetuser: userdata.get({ plain: true }) })
       })
     })
   },

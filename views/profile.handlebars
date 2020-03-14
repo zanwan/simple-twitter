@@ -20,12 +20,12 @@
         {{!-- 追蹤按鈕 --}}
         {{#if viewUser}}
           {{#if isFollowed}}
-            <form action="/followships/{{user.id}}?_method=DELETE">
+            <form action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
             </form>
 
           {{else}}
-            <form action="/followships/{{user.id}}" method="POST">
+            <form action="/followships/{{otherUser.id}}" method="POST">
               <button type="submit" class="btn btn-primary mt-4">Follow</button>
             </form>
           {{/if}}

@@ -1,5 +1,4 @@
 {{!-- 推主個人檔案--}}
-<<<<<<< HEAD
 {{!-- 推主照片 --}}
 <div class="text-center">
   <img src="{{data.avatar}}" alt="avatar" id="avatarProfileLg">
@@ -9,51 +8,32 @@
     <p>{{data.introduction}}</p>
     {{!-- 推主資訊 --}}
     <ui class="align-items-center listVertical">
-      <strong>Tweets</strong>
-      <span class="badge badge-primary badge-pill">{{data.Tweets.length}}</span>
-    </ui>
-    <ui class="align-items-center listVertical">
-      <strong>Following</strong>
-      <span class="badge badge-primary badge-pill">{{data.Followings.length}}</span>
-    </ui>
-    <ui class="align-items-center listVertical">
-      <strong>Follower</strong>
-      <span class="badge badge-primary badge-pill">{{data.Followers.length}}</span>
-    </ui>
-    <ui class="align-items-center listVertical">
-      <strong>Like</strong>
-      <span class="badge badge-primary badge-pill">{{data.Likes.length}}</span>
-    </ui>
-=======
-<div class="col-4 mt-4" id="popularField">
-  {{!-- 推主照片 --}}
-  <div class="text-center">
-    <img src="{{avatar}}" alt="avatar" id="avatarProfileLg">
-    {{!-- 推主簡介 --}}
-    <h2 class="mt-3">{{name}}</h2>
-    <div class="mx-auto" style="width: 15rem;">
-      <p>{{introduction}}</p>
-      {{!-- 推主資訊 --}}
-      <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/tweets">
         <strong>Tweets</strong>
-        <span class="badge badge-primary badge-pill">{{Tweets.length}}</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Tweets.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/followings/">
         <strong>Following</strong>
-        <span class="badge badge-primary badge-pill">{{Followings.length}}</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Followings.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/followers">
         <strong>Follower</strong>
-        <span class="badge badge-primary badge-pill">{{Followers.length}}</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Followers.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/likes">
         <strong>Like</strong>
-        <span class="badge badge-primary badge-pill">{{Likes.length}}</span>
-      </ui>
-      {{!-- 追蹤按鈕 --}}
-      <button type="button" class="btn btn-primary mt-4">Follow</button>
-      <a href="/users/{{id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
-    </div>
->>>>>>> 9d87b1555035d0f605bf26111166417e459b8cd4
+        <span class="badge badge-primary badge-pill">{{data.Likes.length}}</span>
+      </a>
+
+    </ui>
   </div>
 </div>
