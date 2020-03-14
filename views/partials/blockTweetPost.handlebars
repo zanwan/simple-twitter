@@ -9,11 +9,19 @@
       </div>
       {{!-- 貼文內容 --}}
       <div class="col pt-1 ml-n4">
+<<<<<<< HEAD
         <h6 class="card-subtitle mb-2 text-muted">@ {{User.name}}, {{moment createdAt}}</h6>
         <p class="card-text">{{description}}</p>
         <a href="/tweets/1/replies" class="card-link">Reply({{ReplyCounts}})</a>
         <a href="#" class="card-link">like({{LikeCounts}})</a>
         <a href="#" class="card-link">Unlike</a>
+=======
+        <h6 class="card-subtitle mb-2 text-muted">@{{User.name}},{{updatedAt}}</h6>
+        <p class="card-text">{{description}}</p>
+        <a href="/tweets/{{id}}/replies" class="card-link">Reply({{Replies.length}})</a>
+        <a href="#" class="card-link">like({{Likes.length}})</a>
+        <a href="#" class="card-link">Unlike({{Unlike.length}})</a>
+>>>>>>> 9d87b1555035d0f605bf26111166417e459b8cd4
       </div>
     </div>
   </div>
