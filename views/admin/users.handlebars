@@ -1,14 +1,14 @@
 <div class="container container-width-admin">
   <div class="row justify-content-center">
     <div class="col ">
-      <h2 class="my-4">All Tweets</h2>
+      <h2 class="my-4">All Users</h2>
 
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a class="nav-link active" href="#">All Tweets</a>
+          <a class="nav-link" href="/admin/tweets">All Tweets</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin/users">All Users</a>
+          <a class="nav-link active" href="/admin/users">All Users</a>
         </li>
 
       </ul>
@@ -17,18 +17,22 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">User</th>
+            <th scope="col">Role</th>
             <th scope="col">Tweets</th>
-            <th scope="col">Replies</th>
+            <th scope="col">Followings</th>
+            <th scope="col">Followers</th>
             <th scope="col">Likes</th>
-            <th scope="col">Time</th>
+            <th scope="col">Sign Time</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
-        {{#each tweets as |tweet|}}
-          {{#> blockAdminTweets}}
-            {{tweet.value}}
-            {{/ blockAdminTweets}}
-        {{/each}}
+        <tbody>
+          {{#each users as |user|}}
+          {{#> blockAdminUsers}}
+          {{user.value}}
+          {{/ blockAdminUsers}}
+          {{/each}}
+        </tbody>
       </table>
     </div>
   </div>

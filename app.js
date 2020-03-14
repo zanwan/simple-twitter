@@ -7,9 +7,13 @@ const session = require("express-session")
 const passport = require("./config/passport")
 const helpers = require("./_helpers")
 const path = require("path")
+const methodOverride = require("method-override")
 
 const app = express()
 const port = 3000
+
+const server = require("http").Server(app)
+const io = require("socket.io")(server)
 
 // 設定 view engine 使用 handlebars
 app.engine(
@@ -26,7 +30,7 @@ app.use(session({ secret: "secret", resave: false, saveUninitialized: false }))
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(flash())
-
+app.use(methodOverride("_method"))
 app.use(express.static("public")) //讀取靜態檔案
 
 // 把 req.flash 放到 res.locals 裡面
@@ -37,7 +41,20 @@ app.use((req, res, next) => {
   next()
 })
 
-app.listen(port, () => {
+io.on("connection", function(socket) {
+  console.log("a user connected")
+  socket.on("disconnect", function() {
+    console.log("user disconnected")
+  })
+})
+
+io.on("connection", function(socket) {
+  socket.on("chat message", function(msg) {
+    io.emit("chat message", msg)
+  })
+})
+
+server.listen(port, () => {
   db.sequelize.sync() // 跟資料庫同步
   console.log(`Example app listening on port ${port}`)
 })
