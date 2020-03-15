@@ -13,11 +13,17 @@ const tweetsController = {
       include: [{ model: User }, { model: Like }, { model: Reply }],
       order: [["createdAt", "DESC"]],
       limit: 20,
-      nest: true,
-      raw: true
+      nest: true
     }).then(tweets => {
       //以兩個參數輸出
-      return res.render("tweetsHome", { tweets: tweets, popUsers: popData.popUser })
+      //打包資料，偷塞資料
+      addCountData = tweets.map(t => ({
+        ...t.dataValues,
+        User: t.User.dataValues,
+        isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+      }))
+      console.log("addCountData", addCountData)
+      return res.render("tweetsHome", { tweets: addCountData, popUsers: popData.popUser })
     })
   },
   //將新增的推播寫入資料庫
