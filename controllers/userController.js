@@ -42,6 +42,7 @@ const userController = {
 
   signIn: (req, res) => {
     req.session.username = helpers.getUser(req).name;
+    // io什麼都沒有 先跟app講好我要跟你共用session 然後app本來有的就一點點 所以app必須割地賠款地再多存一些東西好讓io取用這樣
     req.flash("success_messages", "成功登入！");
     res.redirect("/tweets");
   },

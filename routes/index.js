@@ -32,8 +32,11 @@ module.exports = (app, passport) => {
   );
 
   // 聊天室試作
-  app.get("/chat", authenticated, (req, res) => res.redirect("/chat/:id"));
-  app.get("/chat/:id", authenticated, (req, res) =>
+  // app.get("/chat", authenticated, (req, res) => res.redirect("/chat/:id"));
+  // app.get("/chat/:id", authenticated, (req, res) =>
+  //   res.sendFile(path.join(__dirname, "../public", "chat2.html"))
+  // );
+  app.get("/chat", authenticated, (req, res) =>
     res.sendFile(path.join(__dirname, "../public", "chat2.html"))
   );
 
