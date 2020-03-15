@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs")
 const db = require("../models")
 const { Tweet, User, Like, Reply, Followship } = db
+const blockController = require("./blockController")
 
 const userController = {
   signUpPage: (req, res) => {
@@ -46,33 +47,53 @@ const userController = {
     //分為使用者本人 vs 瀏覽其他使用者 兩種情況
     const userSelf = Number(req.user.id)
     const otherUser = Number(req.params.id)
-
-    return User.findByPk(req.params.id, {
-      include: [
-        { model: Tweet },
-        { model: User, as: "Followers" },
-        { model: User, as: "Followings" },
-        { model: Like }
-      ]
-    }).then(user => {
-      user = JSON.parse(JSON.stringify(user))
-      return res.render("following", { user })
-    })
+    if (userSelf === otherUser) {
+    } else {
+      let viewUser = true
+      return blockController.getSideUserProfile(req, res, data => {
+        let otherUser = data.userData.toJSON()
+        let followData = data.isfollowed
+        return res.render("following", {
+          userId: req.params.id,
+          otherUser: otherUser,
+          isFollowed: followData,
+          viewUser: viewUser
+        })
+      })
+    }
   },
 
   //GET	/users/:id/followers	看見某一使用者的跟隨者
   getUserFollowers: (req, res) => {
-    return User.findByPk(req.params.id, {
-      include: [
-        { model: Tweet },
-        { model: User, as: "Followers" },
-        { model: User, as: "Followings" },
-        { model: Like }
-      ]
-    }).then(user => {
-      user = JSON.parse(JSON.stringify(user))
-      return res.render("follower", { user })
-    })
+    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
+    const userSelf = Number(req.user.id)
+    const otherUser = Number(req.params.id)
+    if (userSelf === otherUser) {
+    } else {
+      let viewUser = true
+      //左側欄資訊
+      return blockController.getSideUserProfile(req, res, data => {
+        let otherUser = data.userData.toJSON()
+        let followData = data.isfollowed
+        return res.render("follower", {
+          userId: req.params.id,
+          otherUser: otherUser,
+          isFollowed: followData,
+          viewUser: viewUser
+        })
+      })
+    }
+    // return User.findByPk(req.params.id, {
+    //   include: [
+    //     { model: Tweet },
+    //     { model: User, as: "Followers" },
+    //     { model: User, as: "Followings" },
+    //     { model: Like }
+    //   ]
+    // }).then(user => {
+    //   user = JSON.parse(JSON.stringify(user))
+    //   return res.render("follower", { user })
+    // })
   },
 
   //GET	/users/:id/likes	看見某一使用者按過 like 的推播
@@ -127,37 +148,24 @@ const userController = {
       })
       //當瀏覽他人
     } else {
-      //以網址參數查詢他人資料
-      const userId = req.params.id
       //用於視圖判斷渲染
       const viewUser = true
       //開始查詢！
-      User.findByPk(userId, {
-        include: [
-          { model: Tweet },
-          { model: Like },
-          { model: User, as: "Followings" },
-          { model: User, as: "Followers" }
-        ]
-      }).then(otherUser => {
-        //整理資料
-        const tweetArr = otherUser.dataValues.Tweets.map(tweet => tweet.id)
+      return blockController.getSideUserProfile(req, res, data => {
+        let tweetId = data.tweetArr
+        let otherUser = data.userData.toJSON()
+        let followData = data.isfollowed
 
-        // 判斷使用者是否追蹤
-        const followData = otherUser.dataValues.Followers.map(f => f.id).includes(req.user.id)
-
-        //依 tweet id 找到本文與關聯資料
         return Tweet.findAll({
-          where: { id: tweetArr },
+          where: { id: tweetId },
           include: [{ model: Reply }, { model: Like }, { model: User }],
           nest: true,
           raw: true
         }).then(tweet => {
-          console.log("======otherUser")
-          console.log(otherUser.get({ plain: true }))
+          console.log(tweet)
           res.render("profile", {
-            userId: userId,
-            otherUser: otherUser.get({ plain: true }),
+            userId: req.params.id,
+            otherUser: otherUser,
             tweets: tweet,
             isFollowed: followData,
             viewUser: viewUser
@@ -167,6 +175,10 @@ const userController = {
     }
   },
 
+  editUserProfile: (req, res) => {
+    return res.render("editProfile")
+  },
+
   addFollowing: (req, res) => {
     return Followship.create({
       followerId: req.user.id,
@@ -174,10 +186,6 @@ const userController = {
     }).then(followship => {
       return res.redirect("back")
     })
-  },
-
-  editUserProfile: (req, res) => {
-    return res.render("editProfile")
   },
 
   removeFollowing: (req, res) => {

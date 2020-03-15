@@ -12,8 +12,19 @@
         <div class="col mt-2 text-center">
           <h6 class="card-subtitle my-2 text-muted">@{{name}}</h6>
           <p class="card-text card-follow-text text-truncate-multiple-lines">{{introduction}}</p>
-          <button type="button" class="btn btn-danger mt-3">Unfollow</button>
-          <button type="button" class="btn btn-primary mt-3">Follow</button>
+          {{#if viewUser}}
+            {{#if isFollowed}}
+              <a action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-danger mt-3">Unfollow</button>
+              </a>
+            {{else}}
+              <form action="/followships/{{otherUser.id}}" method="POST">
+                <button type="submit" class="btn btn-primary mt-3">Follow</button>
+              </form>
+            {{/if}}
+          {{else}}
+            </br>
+          {{/if}}
         </div>
       </div>
     </div>
