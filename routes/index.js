@@ -63,6 +63,14 @@ module.exports = (app, passport) => {
   app.get("/users/:id/followers", authenticated, userController.getUserFollowers) //OK
 
   /* ---------------------------------- */
+  /*                Like                */
+  /* ---------------------------------- */
+
+  app.post("/tweets/:id/like", authenticated, userController.addLike) //OK
+
+  app.delete("/tweets/:id/unlike", authenticated, userController.removeLike) //OK
+
+  /* ---------------------------------- */
   /*                admin               */
   /* ---------------------------------- */
 

@@ -10,6 +10,13 @@
         {{>blockUserProfile data = otherUser}}
       {{/if}}
 
+      <div class="mx-auto text-center" style="width: 15rem;">
+        {{!-- 編輯按鈕 --}}
+        {{#if thisUser}}
+          <a href="/users/{{user.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+        {{/if}}
+      </div>
+
       {{!-- 追蹤按鈕 --}}
       {{#if viewUser}}
         {{#if isFollowed}}

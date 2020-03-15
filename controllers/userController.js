@@ -48,6 +48,10 @@ const userController = {
     const userSelf = Number(req.user.id)
     const otherUser = Number(req.params.id)
     if (userSelf === otherUser) {
+      //使用 req.user
+      const thisUser = true
+      let user = JSON.parse(JSON.stringify(req.user))
+      return res.render("following", { user: user, thisUser: thisUser })
     } else {
       let viewUser = true
       return blockController.getSideUserProfile(req, res, data => {
@@ -69,6 +73,10 @@ const userController = {
     const userSelf = Number(req.user.id)
     const otherUser = Number(req.params.id)
     if (userSelf === otherUser) {
+      //使用 req.user
+      const thisUser = true
+      const user = JSON.parse(JSON.stringify(req.user))
+      return res.render("follower", { user: user, thisUser: thisUser })
     } else {
       let viewUser = true
       //左側欄資訊
@@ -83,43 +91,51 @@ const userController = {
         })
       })
     }
-    // return User.findByPk(req.params.id, {
-    //   include: [
-    //     { model: Tweet },
-    //     { model: User, as: "Followers" },
-    //     { model: User, as: "Followings" },
-    //     { model: Like }
-    //   ]
-    // }).then(user => {
-    //   user = JSON.parse(JSON.stringify(user))
-    //   return res.render("follower", { user })
-    // })
   },
 
   //GET	/users/:id/likes	看見某一使用者按過 like 的推播
   getUserLike: (req, res) => {
-    return User.findByPk(req.params.id, {
-      include: [
-        { model: Tweet },
-        { model: User, as: "Followers" },
-        { model: User, as: "Followings" },
-        { model: Like }
-      ]
-    }).then(user => {
-      return Like.findAll({
-        where: { userId: req.params.id },
-        include: [
-          {
-            model: Tweet,
-            include: [{ model: User }, { model: Reply }, { model: Like }]
-          }
-        ]
+    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
+    const userSelf = Number(req.user.id)
+    const otherUser = Number(req.params.id)
+    if (userSelf === otherUser) {
+      //使用 req.user
+      const thisUser = true
+      const user = req.user
+      const likeArr = user.Likes.map(l => Object.values(l.dataValues)[1])
+      return Tweet.findAll({
+        where: { id: likeArr },
+        include: [{ model: Reply }, { model: Like }, { model: User }]
       }).then(tweets => {
-        user = JSON.parse(JSON.stringify(user))
         tweets = JSON.parse(JSON.stringify(tweets))
-        return res.render("like", { user, tweets })
+        res.render("like", { user: user, thisUser: thisUser, tweets: tweets })
       })
-    })
+    } else {
+      const viewUser = true
+      return User.findByPk(req.params.id, {
+        include: [
+          { model: Tweet },
+          { model: Like },
+          { model: User, as: "Followers" },
+          { model: User, as: "Followings" }
+        ]
+      }).then(user => {
+        const likeArr = user.Likes.map(l => Object.values(l.dataValues)[1])
+        return Tweet.findAll({
+          where: { id: likeArr },
+          include: [{ model: Reply }, { model: Like }, { model: User }]
+        }).then(tweets => {
+          //其他人的檔案需要塞入是否有追蹤的資訊
+          addisFollow = user.dataValues.map(u => ({
+            ...u,
+            isFollowed: req.user.Followings.map(f => f.id).includes(u.id)
+          }))
+          user = JSON.parse(JSON.stringify(addisFollow))
+          tweets = JSON.parse(JSON.stringify(tweets))
+          res.render("like", { viewUser: viewUser, otherUser: user, tweets: tweets })
+        })
+      })
+    }
   },
 
   getUserTweets: (req, res) => {
@@ -195,8 +211,29 @@ const userController = {
         followingId: req.params.id
       }
     }).then(followship => {
-      console.log(followship)
       followship.destroy().then(followship => {
+        return res.redirect("back")
+      })
+    })
+  },
+
+  addLike: (req, res) => {
+    return Like.create({
+      UserId: req.user.id,
+      TweetId: req.params.id
+    }).then(like => {
+      return res.redirect("back")
+    })
+  },
+
+  removeLike: (req, res) => {
+    return Like.findOne({
+      where: {
+        UserId: req.user.id,
+        TweetId: req.params.id
+      }
+    }).then(like => {
+      like.destroy().then(unlike => {
         return res.redirect("back")
       })
     })
