@@ -15,6 +15,12 @@ const port = 3000;
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
 
+const sessionMiddleware = session({
+  secret: "secret",
+  resave: false,
+  saveUninitialized: false
+});
+
 // 設定 view engine 使用 handlebars
 app.engine(
   "handlebars",
@@ -25,7 +31,7 @@ app.engine(
 app.set("view engine", "handlebars");
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
+app.use(sessionMiddleware);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
@@ -40,16 +46,29 @@ app.use((req, res, next) => {
   next();
 });
 
+let now = new Date();
+let daytime =
+  now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
+daytime +=
+  " " + now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+
+io.use((socket, next) => {
+  sessionMiddleware(socket.request, socket.request.res, next);
+});
+
 io.on("connection", function(socket) {
-  console.log("a user connected");
+  console.log(socket.request.session.username + " is connected");
   socket.on("disconnect", function() {
-    console.log("user disconnected");
+    console.log(socket.request.session.username + " is disconnected");
   });
 });
 
 io.on("connection", function(socket) {
   socket.on("chat message", function(msg) {
-    io.emit("chat message", msg);
+    io.emit(
+      "chat message",
+      socket.request.session.username + " says: " + msg + " @ " + daytime
+    );
   });
 });
 

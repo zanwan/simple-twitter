@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const db = require("../models");
 const User = db.User;
+const helpers = require("../_helpers.js");
 
 const userController = {
   signUpPage: (req, res) => {
@@ -40,6 +41,7 @@ const userController = {
   },
 
   signIn: (req, res) => {
+    req.session.username = helpers.getUser(req).name;
     req.flash("success_messages", "成功登入！");
     res.redirect("/tweets");
   },

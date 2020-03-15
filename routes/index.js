@@ -2,7 +2,6 @@ const tweetsController = require("../controllers/tweetsController.js");
 const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
 const path = require("path");
-// const chatController = require("../controllers/chatController.js");
 module.exports = (app, passport) => {
   // 記得這邊要接收 passport
   const authenticated = (req, res, next) => {
@@ -32,8 +31,8 @@ module.exports = (app, passport) => {
     tweetsController.getTweet
   );
 
+  // 聊天室試作
   app.get("/chat", authenticated, (req, res) => res.redirect("/chat/:id"));
-  // app.get("/chat/:id", authenticated, chatController.creatChat);
   app.get("/chat/:id", authenticated, (req, res) =>
     res.sendFile(path.join(__dirname, "../public", "chat2.html"))
   );
@@ -52,8 +51,10 @@ module.exports = (app, passport) => {
   );
 
   // 連到 /admin 頁面就轉到 /admin/tweets
-  app.get("/admin", authenticated, (req, res) => res.redirect("/admin/tweets"));
-  app.get("/admin/tweets", authenticated, adminController.getTweets);
+  app.get("/admin", authenticatedAdmin, (req, res) =>
+    res.redirect("/admin/tweets")
+  );
+  app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets);
   // 管理者刪除使用者評論
   app.delete(
     "/admin/tweets/:id",
