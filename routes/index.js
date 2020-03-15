@@ -19,7 +19,7 @@ module.exports = (app, passport) => {
     }
     res.redirect("/signin")
   }
-  app.get("/", (req, res) => res.redirect("/signin"))
+  app.get("/", (req, res) => res.redirect("/tweets"))
   /* ---------------------------------- */
   /*               signin               */
   /* ---------------------------------- */
