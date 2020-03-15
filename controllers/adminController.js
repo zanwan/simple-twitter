@@ -1,6 +1,5 @@
 const db = require("../models")
-const User = db.User
-const Tweet = db.Tweet
+const { Tweet, User, Like, Reply, Followship } = db
 const adminController = {
   //A3: 使用者權限管理!
   getAllUsers: (req, res) => {
@@ -33,7 +32,13 @@ const adminController = {
     })
   },
   getTweets: (req, res) => {
-    return Tweet.findAll().then(tweets => {
+    return Tweet.findAll({
+      include: [
+        { model: User },
+        { model: Reply },
+        { model: Like }
+      ]
+    }).then(tweets => {
       return res.render("admin/tweets", {
         tweets: JSON.parse(JSON.stringify(tweets))
       })

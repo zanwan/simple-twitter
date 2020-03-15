@@ -2,14 +2,14 @@
   <tr>
     <th scope="row">{{this.id}}</th>
     <td>
-      <a href="/users/{{this.id}}/tweets"><img src={{this.avatar}} id="avatarProfile">{{this.name}}
+      <a href="/users/{{this.User.id}}/tweets"><img src={{this.User.avatar}} id="avatarProfile">{{this.name}}
       </a>
     </td>
 
-    <td>{{description}}</td>
-    <td>30</td>
-    <td>40</td>
-    <td>2020/03/10</td>
+    <td>{{this.description}}</td>
+    <td>{{this.Replies.length}}</td>
+    <td>{{this.Likes.length}}</td>
+    <td>{{moment this.createdAt}}</td>
     <td>
       {{!-- <a href="#" type="button" class="btn btn-danger btn-sm">Delete</a> --}}
       {{!-- {{#if .../user.isAdmin}} --}}
