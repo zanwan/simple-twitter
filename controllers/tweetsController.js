@@ -17,12 +17,11 @@ const tweetsController = {
     }).then(tweets => {
       //以兩個參數輸出
       //打包資料，偷塞資料
-      addCountData = tweets.map(t => ({
+      let addCountData = tweets.map(t => ({
         ...t.dataValues,
         User: t.User.dataValues,
         isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
       }))
-      console.log("addCountData", addCountData)
       return res.render("tweetsHome", { tweets: addCountData, popUsers: popData.popUser })
     })
   },
@@ -60,8 +59,6 @@ const tweetsController = {
           { model: User, as: "Followings" }
         ]
       }).then(userdata => {
-        console.log("=====userdata=====")
-        console.log(userdata)
         return res.render("replies", { tweet, tweetuser: userdata.get({ plain: true }) })
       })
     })

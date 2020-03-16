@@ -41,17 +41,17 @@
         <div class="col">
           {{#if thisUser}}
             {{#each tweets as |tweet|}}
-              {{#> blockLikePost}}
+              {{#> blockTweetPost}}
                 {{tweet.value}}
-                {{/ blockLikePost}}
+                {{/ blockTweetPost}}
             {{/each}}
           {{/if}}
 
           {{#if viewUser}}
             {{#each tweets as |tweet|}}
-              {{#> blockLikePost}}
+              {{#> blockTweetPost}}
                 {{tweet.value}}
-                {{/ blockLikePost}}
+                {{/ blockTweetPost}}
             {{/each}}
           {{/if}}
         </div>

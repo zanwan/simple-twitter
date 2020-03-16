@@ -65,15 +65,18 @@
                           <h6 class="card-subtitle my-2 text-muted">@{{name}}</h6>
                           <p class="card-text card-follow-text text-truncate-multiple-lines">{{introduction}}
                           </p>
+
+
                           {{#if isFollowed}}
-                            <form action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
+                            <form action="/followships/{{id}}?_method=DELETE" method="POST">
                               <button type="submit" class="btn btn-danger mt-3 float-right">Unfollow</button>
                             </form>
                           {{else}}
-                            <form action="/followships/{{otherUser.id}}" method="POST">
+                            <form action="/followships/{{id}}" method="POST">
                               <button type="submit" class="btn btn-primary mt-3 float-right">Follow</button>
                             </form>
                           {{/if}}
+
                         </div>
                       </div>
                     </div>
