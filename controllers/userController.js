@@ -58,7 +58,7 @@ const userController = {
     if (userSelf === otherUser) {
       //使用 req.user
       const thisUser = true;
-      let user = JSON.parse(JSON.stringify(req.user));
+      let user = JSON.parse(JSON.stringify(helpers.getUser(req)));
       return res.render("following", { user: user, thisUser: thisUser });
     } else {
       let viewUser = true;
@@ -78,12 +78,12 @@ const userController = {
   //GET	/users/:id/followers	看見某一使用者的跟隨者
   getUserFollowers: (req, res) => {
     //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(req.user.id);
+    const userSelf = Number(helpers.getUser(req).id);
     const otherUser = Number(req.params.id);
     if (userSelf === otherUser) {
       //使用 req.user
       const thisUser = true;
-      const user = JSON.parse(JSON.stringify(req.user));
+      const user = JSON.parse(JSON.stringify(helpers.getUser(req)));
       return res.render("follower", { user: user, thisUser: thisUser });
     } else {
       let viewUser = true;
@@ -104,12 +104,12 @@ const userController = {
   //GET	/users/:id/likes	看見某一使用者按過 like 的推播
   getUserLike: (req, res) => {
     //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(req.user.id);
+    const userSelf = Number(helpers.getUser(req).id);
     const otherUser = Number(req.params.id);
     if (userSelf === otherUser) {
       //使用 req.user
       const thisUser = true;
-      const user = req.user;
+      const user = helpers.getUser(req);
       const likeArr = user.Likes.map(l => Object.values(l.dataValues)[1]);
       return Tweet.findAll({
         where: { id: likeArr },
@@ -118,7 +118,7 @@ const userController = {
         let addCountData = tweets.map(t => ({
           ...t.dataValues,
           User: t.User.dataValues,
-          isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+          isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
         }));
         res.render("like", {
           user: user,
@@ -143,7 +143,7 @@ const userController = {
           let addCountData = tweets.map(t => ({
             ...t.dataValues,
             User: t.User.dataValues,
-            isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+            isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
           }));
           res.render("like", {
             viewUser: viewUser,
@@ -158,13 +158,13 @@ const userController = {
 
   getUserTweets: (req, res) => {
     //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(req.user.id);
+    const userSelf = Number(helpers.getUser(req).id);
     const otherUser = Number(req.params.id);
     //當為本人
     if (userSelf === otherUser) {
       const thisUser = true;
       //展開在登入時有存好的本人資料
-      const tweetObject = req.user.Tweets.map(tweet => ({
+      const tweetObject = helpers.getUser(req).Tweets.map(tweet => ({
         ...tweet.dataValues
       }));
       //蒐集所有推文的id
@@ -180,7 +180,7 @@ const userController = {
         let addCountData = tweets.map(t => ({
           ...t.dataValues,
           User: t.User.dataValues,
-          isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+          isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
         }));
         res.render("profile", { tweets: addCountData, thisUser: thisUser });
       });
@@ -203,7 +203,7 @@ const userController = {
           let addCountData = tweets.map(t => ({
             ...t.dataValues,
             User: t.User.dataValues,
-            isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+            isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
           }));
           res.render("profile", {
             userId: req.params.id,
@@ -262,8 +262,11 @@ const userController = {
   },
 
   addFollowing: (req, res) => {
+    if (helpers.getUser(req).id === Number(req.body.id)) {
+      return res.send('cant not follow self')
+    }
     return Followship.create({
-      followerId: req.user.id,
+      followerId: helpers.getUser(req).id,
       followingId: req.params.id
     }).then(followship => {
       return res.redirect("back");
@@ -273,7 +276,7 @@ const userController = {
   removeFollowing: (req, res) => {
     return Followship.findOne({
       where: {
-        followerId: req.user.id,
+        followerId: helpers.getUser(req).id,
         followingId: req.params.id
       }
     }).then(followship => {
@@ -285,7 +288,7 @@ const userController = {
 
   addLike: (req, res) => {
     return Like.create({
-      UserId: req.user.id,
+      UserId: helpers.getUser(req).id,
       TweetId: req.params.id
     }).then(like => {
       return res.redirect("back");
@@ -295,7 +298,7 @@ const userController = {
   removeLike: (req, res) => {
     return Like.findOne({
       where: {
-        UserId: req.user.id,
+        UserId: helpers.getUser(req).id,
         TweetId: req.params.id
       }
     }).then(like => {

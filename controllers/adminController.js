@@ -19,7 +19,7 @@ const adminController = {
   // 修改使用者權限
   putUser: (req, res) => {
     return User.findByPk(req.params.id).then(user => {
-      if (req.user.id === user.id) {
+      if (helpers.getUser(req).id === user.id) {
         req.flash("error_messages", "without permission change");
         res.redirect("/admin/users");
       } else {

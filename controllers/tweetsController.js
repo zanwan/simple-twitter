@@ -20,7 +20,7 @@ const tweetsController = {
       let addCountData = tweets.map(t => ({
         ...t.dataValues,
         User: t.User.dataValues,
-        isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+        isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
       }))
       return res.render("tweetsHome", { tweets: addCountData, popUsers: popData.popUser })
     })

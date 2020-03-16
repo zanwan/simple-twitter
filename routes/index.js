@@ -1,3 +1,4 @@
+const helpers = require('../_helpers');
 const path = require("path");
 const tweetsController = require("../controllers/tweetsController.js");
 const adminController = require("../controllers/adminController.js");
@@ -6,22 +7,22 @@ const multer = require("multer");
 const upload = multer({ dest: "temp/" });
 // const chatController = require("../controllers/chatController.js");
 module.exports = (app, passport) => {
-  // 記得這邊要接收 passport
   const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
+    if (helpers.ensureAuthenticated(req)) {
+      return next()
     }
-    res.redirect("/signin");
-  };
+    res.redirect('/signin')
+  }
+
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (req.user.isAdmin) {
-        return next();
+      if (helpers.getUser(req).role === 'admin') {
+        return next()
       }
-      return res.redirect("/");
+      return res.redirect('/')
     }
-    res.redirect("/signin");
-  };
+    res.redirect('/signin')
+  }
   app.get("/", (req, res) => res.redirect("/tweets"));
   /* ---------------------------------- */
   /*               signin               */

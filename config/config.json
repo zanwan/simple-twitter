@@ -7,8 +7,9 @@
     "dialect": "mysql"
   },
   "test": {
-    "username": "travis",
-    "database": "ac_twitter_workspace_test",
+    "username": "root",
+    "password": "password",
+    "database": "ac_twitter_workspace",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false
