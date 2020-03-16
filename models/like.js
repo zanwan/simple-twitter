@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Like.associate = function(models) {};
+  Like.associate = function (models) {
+    Like.belongsTo(models.User)
+    Like.belongsTo(models.Tweet)
+  };
   return Like;
 };
