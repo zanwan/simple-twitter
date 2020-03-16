@@ -4,17 +4,17 @@ const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
 const multer = require("multer");
 const upload = multer({ dest: "temp/" });
-// const chatController = require("../controllers/chatController.js");
+const helpers = require("../_helpers");
 module.exports = (app, passport) => {
   // 記得這邊要接收 passport
   const authenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       return next();
     }
     res.redirect("/signin");
   };
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       if (req.user.isAdmin) {
         return next();
       }
