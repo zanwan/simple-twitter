@@ -1,12 +1,12 @@
 <div class="container">
-  <from>
+  <form action="/users/2/edit?_method=PUT" method="POST" enctype="multipart/form-data">
     <div class="row">
       {{!-- 推主個人檔案--}}
       <div class="col-md-4 mt-4">
         {{!-- 推主照片 --}}
-        <div class="text-center">
-          <img src="https://via.placeholder.com/200" alt="avatar" id="avatarProfileLg">
-          <button type="button" class="btn btn-primary mt-4">Browse files...</button>
+        <div class="form-group text-center">
+          <img src={{user.avatar}} alt="avatar" id="avatarProfileLg">
+          <input type="file" class="form-control-file btn btn-primary mt-4" id="avatar" name="avatar">
         </div>
       </div>
 
@@ -19,21 +19,21 @@
 
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" id="name" placeholder="Username">
+              <input type="text" class="form-control" name="name" id="name" value={{user.name}}>
             </div>
 
             <div class="form-group">
-              <label for="name">Info</label>
-              <textarea type="text" class="form-control" id="name" style="resize: none; " rows="5"
-                placeholder="Type anything about you here..."></textarea>
+              <label for="introduction">Info</label>
+              <textarea type="text" class="form-control" name="introduction" id="introduction" style="resize: none; "
+                rows="5">{{user.introduction}}</textarea>
             </div>
 
-            <button type="button" class="btn btn-primary float-right">Update</button>
+            <button type="submit" class="btn btn-primary float-right">Update</button>
 
 
           </div>
         </div>
       </div>
     </div>
-  </from>
+  </form>
 </div>

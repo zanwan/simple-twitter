@@ -1,4 +1,4 @@
-"use strict";
+"use strict"
 module.exports = (sequelize, DataTypes) => {
   const Reply = sequelize.define(
     "Reply",
@@ -8,10 +8,10 @@ module.exports = (sequelize, DataTypes) => {
       comment: DataTypes.STRING
     },
     {}
-  );
-  Reply.associate = function (models) {
+  )
+  Reply.associate = function(models) {
     Reply.belongsTo(models.User)
     Reply.belongsTo(models.Tweet)
-  };
-  return Reply;
-};
+  }
+  return Reply
+}

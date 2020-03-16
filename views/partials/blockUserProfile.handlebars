@@ -1,32 +1,39 @@
 {{!-- 推主個人檔案--}}
-<div class="col-4 mt-4" id="popularField">
-  {{!-- 推主照片 --}}
-  <div class="text-center">
-    <img src="{{data.avatar}}" alt="avatar" id="avatarProfileLg">
-    {{!-- 推主簡介 --}}
-    <h2 class="mt-3">{{data.name}}</h2>
-    <div class="mx-auto" style="width: 15rem;">
-      <p>{{data.introduction}}</p>
-      {{!-- 推主資訊 --}}
-      <ui class="align-items-center listVertical">
+{{!-- 推主照片 --}}
+<div class="text-center">
+  <img src="{{data.avatar}}" alt="avatar" id="avatarProfileLg">
+  {{!-- 推主簡介 --}}
+  <h2 class="mt-3">{{data.name}}</h2>
+  <div class="mx-auto" style="width: 15rem;">
+    <p>{{data.introduction}}</p>
+    {{!-- 推主資訊 --}}
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/tweets">
         <strong>Tweets</strong>
-        <span class="badge badge-primary badge-pill">14</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Tweets.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/followings">
         <strong>Following</strong>
-        <span class="badge badge-primary badge-pill">14</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Followings.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/followers">
         <strong>Follower</strong>
-        <span class="badge badge-primary badge-pill">14</span>
-      </ui>
-      <ui class="align-items-center listVertical">
+        <span class="badge badge-primary badge-pill">{{data.Followers.length}}</span>
+      </a>
+
+    </ui>
+    <ui class="align-items-center listVertical">
+      <a href="/users/{{data.id}}/likes">
         <strong>Like</strong>
-        <span class="badge badge-primary badge-pill">14</span>
-      </ui>
-      {{!-- 追蹤按鈕 --}}
-      <button type="button" class="btn btn-primary mt-4">Follow</button>
-      <a href="/users/:id/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
-    </div>
+        <span class="badge badge-primary badge-pill">{{data.Likes.length}}</span>
+      </a>
+
+    </ui>
   </div>
 </div>

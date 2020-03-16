@@ -1,22 +1,20 @@
 <tr>
   <th scope="row">{{id}}</th>
-  <td><a href="/users/:id/tweets">
+  <td><a href="/users/{{id}}/tweets">
       <img src={{avatar}} id="avatarProfile">
       {{name}}</a></td>
-  <td>User</td>
-  <td>50</td>
-  <td>30</td>
-  <td>1</td>
-  <td>400</td>
-  <td>2020/03/10</td>
-  {{#if this.isAdmin}}
-  <td>administrator</td>
-  {{else}}
-  <td>user</td>
-  {{/if}}
+  <td>{{role}}</td>
+  <td>{{Tweets.length}}</td>
+  <td>{{Followings.length}}</td>
+  <td>{{Followers.length}}</td>
+  <td>{{Likes.length}}</td>
+  <td>{{createdAt}}</td>
+
   <td>
-  <td>
-    <a href="#" type="button" class="btn btn-primary btn-sm">Set Admin</a>
-    <a href="#" type="button" class="btn btn-danger btn-sm">Set User</a>
+    <form action="/admin/users/{{id}}?_method=PUT" method="POST">
+      <button class="btn {{#if this.isAdmin}}btn-primary {{else}} btn-danger {{/if}} btn-sm">
+        Set {{#if this.isAdmin}}User {{else}} Admin {{/if}}
+      </button>
+    </form>
   </td>
 </tr>

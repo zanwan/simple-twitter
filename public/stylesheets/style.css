@@ -1,3 +1,13 @@
+.button-nofunny {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
 .a-block {
   display: block;
 }
@@ -10,7 +20,8 @@
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
+  min-height: 40px;
 }
 
 img:hover {
@@ -49,7 +60,7 @@ img:hover {
   display: none;
 }
 
-#newTweet {
+.text-form {
   font-size: 20px;
   margin: auto;
   resize: none;

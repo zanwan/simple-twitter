@@ -1,6 +1,9 @@
 <div class="container">
   <div class="row">
-    {{> blockUserProfile data = user}}
+
+    <div class="col-4 mt-4" id="popularField">
+      {{> blockUserProfile data = tweetuser}}
+    </div>
 
     {{!-- 貼文牆時間軸 --}}
     <div class="col">
@@ -8,11 +11,7 @@
       <div class="row my-3">
         <div class="col">
           <h3>Tweets</h3>
-          {{#each tweets as |tweet|}}
-          {{#> blockTweetPost}}
-          {{tweet.value}}
-          {{/ blockTweetPost}}
-          {{/each}}
+          {{> blockTweetPost tweet}}
         </div>
       </div>
       {{!----------}}
@@ -20,20 +19,21 @@
       <div class="row my-3">
         <div class="col">
           <h3>Replies</h3>
-          {{#each replies as |reply|}}
-          {{#> blockReply}}
-          {{reply.value}}
-          {{/ blockReply}}
+          {{#each tweet.Replies as |reply|}}
+            {{#> blockReply}}
+              {{reply.value}}
+              {{/ blockReply}}
           {{/each}}
         </div>
       </div>
       {{!-- ------ --}}
       {{!-- 回覆貼文 --}}
       <div class="row my-2">
-        <form class="col mt-3">
+        <form action="/tweets/{{tweet.id}}/replies" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control" id="newTweet" rows="3" placeholder="What's on your mind?"></textarea>
+            <textarea class="form-control text-form" id="replyMsg" name="replyMsg" rows="3"
+              placeholder="What's on your mind?"></textarea>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Reply</button>
           </div>

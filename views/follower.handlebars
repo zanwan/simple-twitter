@@ -1,24 +1,91 @@
 <div class="container">
   <div class="row">
+    <div class="col-4 mt-4 text-center" id="popularField">
+      {{!-- 推主個人檔案 --}}
+      {{#if thisUser}}
+        {{>blockUserProfile data = user}}
+      {{/if}}
+      {{!-- 瀏覽他人檔案 --}}
+      {{#if viewUser }}
+        {{>blockUserProfile data = otherUser}}
+      {{/if}}
 
-    {{> blockUserProfile data=user}}
+      <div class="mx-auto text-center" style="width: 15rem;">
+        {{!-- 編輯按鈕 --}}
+        {{#if thisUser}}
+          <a href="/users/{{user.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+        {{/if}}
+      </div>
 
+      {{!-- 追蹤按鈕 --}}
+      {{#if viewUser}}
+        {{#if isFollowed}}
+          <form action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
+          </form>
+
+        {{else}}
+          <form action="/followships/{{otherUser.id}}" method="POST">
+            <button type="submit" class="btn btn-primary mt-4">Follow</button>
+          </form>
+        {{/if}}
+      {{/if}}
+    </div>
     {{!-- 誰追蹤推主 --}}
-    <div class="col">
+    <div class="col" id="main-stream">
       {{!-- Follower --}}
       <h3 class="mt-5">Follower</h3>
       <div class="row no-gutters my-3">
-        {{!-- 左欄 --}}
+        {{!-- 右欄 --}}
         <div class="col">
           <div class="row no-gutters">
-            {{#each followers as |follower|}}
-              {{#> blockFollower}}
-                {{follower.value}}
-                {{/ blockFollower}}
-            {{/each}}
+            {{#if thisUser}}
+              {{#each user.Followers as |follower|}}
+                {{#> blockFollower}}
+                  {{follower.value}}
+                  {{/ blockFollower}}
+              {{/each}}
+            {{/if}}
+
+            {{#if viewUser}}
+              {{#each otherUser.Followers}}
+                <div class="col-6">
+                  <div class="card mb-1 mx-1 select-card">
+                    <div class="card-body" onclick="location.href='/users/{{id}}/tweets'" style="cursor: pointer;">
+                      <div class="row no-gutters">
+                        {{!-- 大頭照 --}}
+                        <div class="col-lg-4">
+                          <a href="/users/{{id}}/tweets">
+                            <img src={{avatar}} alt="avatar" id="avatarFollow">
+                          </a>
+                        </div>
+                        {{!-- 簡介內容 --}}
+                        <div class="col mt-2 text-center">
+                          <h6 class="card-subtitle my-2 text-muted">@{{name}}</h6>
+                          <p class="card-text card-follow-text text-truncate-multiple-lines">{{introduction}}
+                          </p>
+
+
+                          {{#if isFollowed}}
+                            <form action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
+                              <button type="submit" class="btn btn-danger mt-3 float-right">Unfollow</button>
+                            </form>
+                          {{else}}
+                            <form action="/followships/{{otherUser.id}}" method="POST">
+                              <button type="submit" class="btn btn-primary mt-3 float-right">Follow</button>
+                            </form>
+                          {{/if}}
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {{/each}}
+            {{/if}}
           </div>
         </div>
       </div>
-
     </div>
   </div>
+</div>

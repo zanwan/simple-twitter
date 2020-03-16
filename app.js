@@ -10,6 +10,9 @@ const path = require("path");
 const methodOverride = require("method-override");
 
 const app = express();
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const port = 3000;
 
 const server = require("http").Server(app);
@@ -25,7 +28,8 @@ const sessionMiddleware = session({
 app.engine(
   "handlebars",
   handlebars({
-    defaultLayout: "main"
+    defaultLayout: "main",
+    helpers: require("./config/handlebars-helper")
   })
 );
 app.set("view engine", "handlebars");
@@ -39,6 +43,7 @@ app.use(methodOverride("_method"));
 app.use(express.static("public")); //讀取靜態檔案
 
 // 把 req.flash 放到 res.locals 裡面
+//只要把資料放進 res.locals，就可以讓 View 也能存取到。
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash("success_messages");
   res.locals.error_messages = req.flash("error_messages");
