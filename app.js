@@ -10,6 +10,9 @@ const path = require("path")
 const methodOverride = require("method-override")
 
 const app = express()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const port = 3000
 
 const server = require("http").Server(app)
@@ -45,15 +48,15 @@ app.use((req, res, next) => {
 
 app.use(express.static("public")) //讀取靜態檔案
 
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   console.log("a user connected")
-  socket.on("disconnect", function() {
+  socket.on("disconnect", function () {
     console.log("user disconnected")
   })
 })
 
-io.on("connection", function(socket) {
-  socket.on("chat message", function(msg) {
+io.on("connection", function (socket) {
+  socket.on("chat message", function (msg) {
     io.emit("chat message", msg)
   })
 })

@@ -1,6 +1,8 @@
 const tweetsController = require("../controllers/tweetsController.js")
 const adminController = require("../controllers/adminController.js")
 const userController = require("../controllers/userController.js")
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 // const chatController = require("../controllers/chatController.js");
 module.exports = (app, passport) => {
   // 記得這邊要接收 passport
@@ -49,6 +51,7 @@ module.exports = (app, passport) => {
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets) //OK
   app.get("/users/:id/likes", authenticated, userController.getUserLike)
   app.get("/users/:id/edit", authenticated, userController.editUserProfile)
+  app.put('/users/:id/edit', authenticated, upload.single('avatar'), userController.putUserProfile)
 
   /* ---------------------------------- */
   /*               Follow               */

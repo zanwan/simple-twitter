@@ -2,6 +2,8 @@ const bcrypt = require("bcryptjs")
 const db = require("../models")
 const { Tweet, User, Like, Reply, Followship } = db
 const blockController = require("./blockController")
+const imgur = require('imgur-node-api')
+const IMGUR_CLIENT_ID = process.env.IMGUR_ID
 
 const userController = {
   signUpPage: (req, res) => {
@@ -193,6 +195,44 @@ const userController = {
 
   editUserProfile: (req, res) => {
     return res.render("editProfile")
+  },
+
+  putUserProfile: (req, res) => {
+    if (!req.body.name) {
+      req.flash('error_messages', "name didn't exist")
+      return res.redirect('back')
+    }
+
+    const { file } = req
+    if (file) {
+      imgur.setClientID(IMGUR_CLIENT_ID)
+      imgur.upload(file.path, (err, img) => {
+        if (err) console.log('Error: ', err)
+        return User.findByPk(req.params.id)
+          .then((user) => {
+            user.update({
+              name: req.body.name,
+              introduction: req.body.introduction,
+              avatar: file ? img.data.link : user.avatar
+            }).then((user) => {
+              req.flash('success_messages', 'user was successfully to update')
+              res.redirect(`/users/${req.params.id}/edit`)
+            })
+          })
+      })
+    } else {
+      return User.findByPk(req.params.id)
+        .then((user) => {
+          user.update({
+            name: req.body.name,
+            introduction: req.body.introduction,
+            avatar: user.avatar
+          }).then((user) => {
+            req.flash('success_messages', 'user was successfully to update')
+            res.redirect(`/users/${req.params.id}/edit`)
+          })
+        })
+    }
   },
 
   addFollowing: (req, res) => {
