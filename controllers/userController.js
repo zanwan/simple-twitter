@@ -107,32 +107,38 @@ const userController = {
         where: { id: likeArr },
         include: [{ model: Reply }, { model: Like }, { model: User }]
       }).then(tweets => {
-        tweets = JSON.parse(JSON.stringify(tweets))
-        res.render("like", { user: user, thisUser: thisUser, tweets: tweets })
+        let addCountData = tweets.map(t => ({
+          ...t.dataValues,
+          User: t.User.dataValues,
+          isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+        }))
+        res.render("like", { user: user, thisUser: thisUser, tweets: addCountData })
       })
     } else {
+      //用於視圖判斷渲染
       const viewUser = true
-      return User.findByPk(req.params.id, {
-        include: [
-          { model: Tweet },
-          { model: Like },
-          { model: User, as: "Followers" },
-          { model: User, as: "Followings" }
-        ]
-      }).then(user => {
-        const likeArr = user.Likes.map(l => Object.values(l.dataValues)[1])
+      //開始查詢！
+      return blockController.getSideUserProfile(req, res, data => {
+        let otherUser = data.userData.toJSON()
+        let followData = data.isfollowed
+
+        const likeArr = otherUser.Likes.map(l => Object.values(l)[1])
         return Tweet.findAll({
           where: { id: likeArr },
-          include: [{ model: Reply }, { model: Like }, { model: User }]
+          include: [{ model: Reply }, { model: Like }, { model: User }],
+          nest: true
         }).then(tweets => {
-          //其他人的檔案需要塞入是否有追蹤的資訊
-          addisFollow = user.dataValues.map(u => ({
-            ...u,
-            isFollowed: req.user.Followings.map(f => f.id).includes(u.id)
+          let addCountData = tweets.map(t => ({
+            ...t.dataValues,
+            User: t.User.dataValues,
+            isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
           }))
-          user = JSON.parse(JSON.stringify(addisFollow))
-          tweets = JSON.parse(JSON.stringify(tweets))
-          res.render("like", { viewUser: viewUser, otherUser: user, tweets: tweets })
+          res.render("like", {
+            viewUser: viewUser,
+            otherUser: otherUser,
+            tweets: addCountData,
+            isFollowed: followData
+          })
         })
       })
     }
@@ -157,10 +163,14 @@ const userController = {
         include: [{ model: Reply }, { model: Like }, { model: User }],
         order: [["createdAt", "DESC"]],
         limit: 3,
-        nest: true,
-        raw: true
-      }).then(tweet => {
-        res.render("profile", { tweets: tweet, thisUser: thisUser })
+        nest: true
+      }).then(tweets => {
+        let addCountData = tweets.map(t => ({
+          ...t.dataValues,
+          User: t.User.dataValues,
+          isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+        }))
+        res.render("profile", { tweets: addCountData, thisUser: thisUser })
       })
       //當瀏覽他人
     } else {
@@ -175,14 +185,18 @@ const userController = {
         return Tweet.findAll({
           where: { id: tweetId },
           include: [{ model: Reply }, { model: Like }, { model: User }],
-          nest: true,
-          raw: true
-        }).then(tweet => {
-          console.log(tweet)
+          nest: true
+        }).then(tweets => {
+          //打包資料，偷塞資料
+          let addCountData = tweets.map(t => ({
+            ...t.dataValues,
+            User: t.User.dataValues,
+            isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+          }))
           res.render("profile", {
             userId: req.params.id,
             otherUser: otherUser,
-            tweets: tweet,
+            tweets: addCountData,
             isFollowed: followData,
             viewUser: viewUser
           })
