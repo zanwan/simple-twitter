@@ -73,7 +73,7 @@ module.exports = (app, passport) => {
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets); //OK
   app.get("/users/:id/likes", authenticated, userController.getUserLike);
   app.get("/users/:id/edit", authenticated, userController.editUserProfile);
-  app.put(
+  app.post(
     "/users/:id/edit",
     authenticated,
     upload.single("avatar"),
