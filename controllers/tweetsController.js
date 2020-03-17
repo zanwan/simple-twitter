@@ -1,43 +1,65 @@
 const db = require("../models")
+const helpers = require("../_helpers");
 const { Tweet, User, Like, Reply } = db
 const blockController = require("./blockController")
 
 const tweetsController = {
   getTweets: (req, res) => {
-    let popData = ""
-    //呼叫封裝的函式
-    blockController.getPopular(req, res, data => {
-      return (popData = data)
-    })
     return Tweet.findAll({
-      include: [{ model: User }, { model: Like }, { model: Reply }],
-      order: [["createdAt", "DESC"]],
-      limit: 20,
-      nest: true
+      limit: 10,
+      order: [['createdAt', 'DESC']],
+      include: [
+        User,
+        Reply,
+        { model: User, as: 'LikedUsers' }
+      ]
     }).then(tweets => {
-      //以兩個參數輸出
-      //打包資料，偷塞資料
-      let addCountData = tweets.map(t => ({
-        ...t.dataValues,
-        User: t.User.dataValues,
-        isLiked: req.user.Likes.map(l => l.TweetId).includes(t.id)
+      const data = tweets.map(tweet => ({
+        ...tweet.dataValues,
+        isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id),
+        likeCount: tweet.LikedUsers.length,
+        replyCount: tweet.Replies.length
       }))
-      return res.render("tweetsHome", { tweets: addCountData, popUsers: popData.popUser })
+      User.findAll({
+        limit: 10,
+        order: [['createdAt', 'DESC']],
+        include: [{ model: User, as: 'Followers' }]
+      }).then(users => {
+        //整理 users 資料
+        users = users.map(user => ({
+          ...user.dataValues,
+          // 計算追蹤者人數
+          followerCount: user.Followers.length,
+          // 判斷目前登入使用者是否已追蹤該 User 物件
+          isFollowed: helpers.getUser(req).Followings.map(d => d.id).includes(user.id)
+        }))
+        // 依追蹤者人數排序清單
+        users = users.sort((a, b) => b.followerCount - a.followerCount)
+        return res.render(
+          'tweetsHome',
+          JSON.parse(
+            JSON.stringify({
+              tweets: data,
+              users: users
+            })
+          )
+        )
+      })
     })
   },
   //將新增的推播寫入資料庫
   postTweets: (req, res) => {
-    if (!req.body.newTweet) {
-      req.flash("error_messages", "沒有輸入任何推播訊息")
-      return res.redirect("back")
+    if (req.body.description.length <= 140) {
+      Tweet.create({
+        description: req.body.description.trim(),
+        UserId: helpers.getUser(req).id
+      }).then(tweet => {
+        return res.redirect('/tweets')
+      })
+    } else {
+      req.flash('error_msg', '輸入不可為空白！')
+      return res.redirect('/tweets')
     }
-    return Tweet.create({
-      description: req.body.newTweet,
-      UserId: res.locals.user.id
-    }).then(tweet => {
-      req.flash("success_messages", "完成新增一則 tweet")
-      res.redirect("/tweets")
-    })
   },
   //GET	/tweets/:tweet_id/replies	回覆特定 tweet 的頁面，並看見 tweet 主人的簡介
   getTweet: (req, res) => {
@@ -65,14 +87,10 @@ const tweetsController = {
   },
 
   //POST	/tweets/:tweet_id/replies	將回覆的內容寫入資料庫
-  postTweet: (req, res) => {
-    if (!req.body.replyMsg) {
-      req.flash("error_messages", "沒有輸入任何推播訊息")
-      return res.redirect("back")
-    }
+  postReply: (req, res) => {
     return Reply.create({
-      UserId: +res.locals.user.id,
-      TweetId: Number(req.params.tweet_id),
+      UserId: helpers.getUser(req).id,
+      TweetId: req.params.tweet_id,
       comment: req.body.replyMsg
     }).then(comment => {
       res.redirect(`/tweets/${req.params.tweet_id}/replies`)

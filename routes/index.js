@@ -1,3 +1,4 @@
+const helpers = require('../_helpers');
 const path = require("path");
 const tweetsController = require("../controllers/tweetsController.js");
 const adminController = require("../controllers/adminController.js");
@@ -6,22 +7,22 @@ const multer = require("multer");
 const upload = multer({ dest: "temp/" });
 const helpers = require("../_helpers");
 module.exports = (app, passport) => {
-  // 記得這邊要接收 passport
   const authenticated = (req, res, next) => {
     if (helpers.ensureAuthenticated(req)) {
-      return next();
+      return next()
     }
-    res.redirect("/signin");
-  };
+    res.redirect('/signin')
+  }
+
   const authenticatedAdmin = (req, res, next) => {
-    if (helpers.ensureAuthenticated(req)) {
-      if (helpers.getUser(req).isAdmin) {
-        return next();
+    if (req.isAuthenticated()) {
+      if (helpers.getUser(req).role === 'admin') {
+        return next()
       }
-      return res.redirect("/");
+      return res.redirect('/')
     }
-    res.redirect("/signin");
-  };
+    res.redirect('/signin')
+  }
   app.get("/", (req, res) => res.redirect("/tweets"));
   /* ---------------------------------- */
   /*               signin               */
@@ -61,7 +62,7 @@ module.exports = (app, passport) => {
   app.post(
     "/tweets/:tweet_id/replies",
     authenticated,
-    tweetsController.postTweet
+    tweetsController.postReply
   ); //OK
 
   /* ---------------------------------- */
@@ -70,7 +71,7 @@ module.exports = (app, passport) => {
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets); //OK
   app.get("/users/:id/likes", authenticated, userController.getUserLike);
   app.get("/users/:id/edit", authenticated, userController.editUserProfile);
-  app.put(
+  app.post(
     "/users/:id/edit",
     authenticated,
     upload.single("avatar"),
@@ -81,7 +82,7 @@ module.exports = (app, passport) => {
   /*               Follow               */
   /* ---------------------------------- */
 
-  app.post("/followships/:id", authenticated, userController.addFollowing); //OK
+  app.post("/followships/", authenticated, userController.addFollowing); //OK
 
   app.delete("/followships/:id", authenticated, userController.removeFollowing); //OK
 
@@ -103,7 +104,7 @@ module.exports = (app, passport) => {
 
   app.post("/tweets/:id/like", authenticated, userController.addLike); //OK
 
-  app.delete("/tweets/:id/unlike", authenticated, userController.removeLike); //OK
+  app.post("/tweets/:id/unlike", authenticated, userController.removeLike); //OK
 
   /* ---------------------------------- */
   /*                admin               */
