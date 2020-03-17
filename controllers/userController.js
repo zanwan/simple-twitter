@@ -130,57 +130,38 @@ const userController = {
 
   //GET	/users/:id/likes	看見某一使用者按過 like 的推播
   getUserLike: (req, res) => {
-    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(helpers.getUser(req).id);
-    const otherUser = Number(req.params.id);
-    if (userSelf === otherUser) {
-      //使用 req.user
-      const thisUser = true;
-      const user = helpers.getUser(req);
-      const likeArr = user.Likes.map(l => Object.values(l.dataValues)[1]);
-      return Tweet.findAll({
-        where: { id: likeArr },
-        include: [{ model: Reply }, { model: Like }, { model: User }]
-      }).then(tweets => {
-        let addCountData = tweets.map(t => ({
-          ...t.dataValues,
-          User: t.User.dataValues,
-          isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
-        }));
-        res.render("like", {
-          user: user,
-          thisUser: thisUser,
-          tweets: addCountData
-        });
-      });
-    } else {
-      //用於視圖判斷渲染
-      const viewUser = true;
-      //開始查詢！
-      return blockController.getSideUserProfile(req, res, data => {
-        let otherUser = data.userData.toJSON();
-        let followData = data.isfollowed;
-
-        const likeArr = otherUser.Likes.map(l => Object.values(l)[1]);
-        return Tweet.findAll({
-          where: { id: likeArr },
-          include: [{ model: Reply }, { model: Like }, { model: User }],
-          nest: true
-        }).then(tweets => {
-          let addCountData = tweets.map(t => ({
-            ...t.dataValues,
-            User: t.User.dataValues,
-            isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
-          }));
-          res.render("like", {
-            viewUser: viewUser,
-            otherUser: otherUser,
-            tweets: addCountData,
-            isFollowed: followData
-          });
-        });
-      });
-    }
+    return User.findByPk(req.params.id, {
+      include: [
+        Tweet,
+        { model: User, as: 'Followers' },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets', include: [User, Reply, Like] }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      const LikedTweetList = user.LikedTweets.map(tweet => ({
+        ...tweet.dataValues,
+        isLiked: helpers.getUser(req).LikedTweets
+          ? helpers
+            .getUser(req)
+            .LikedTweets.map(d => d.id)
+            .includes(tweet.id)
+          : helpers.getUser(req).LikedTweets
+      })).sort((a, b) => b.likeCreatedAt - a.likeCreatedAt)
+      return res.render(
+        'like',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed,
+            LikedTweetList
+          })
+        )
+      )
+    })
   },
 
   getUserTweets: (req, res) => {
