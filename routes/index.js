@@ -64,7 +64,7 @@ module.exports = (app, passport) => {
   app.post(
     "/tweets/:tweet_id/replies",
     authenticated,
-    tweetsController.postTweet
+    tweetsController.postReply
   ); //OK
 
   /* ---------------------------------- */

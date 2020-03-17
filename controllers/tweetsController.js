@@ -66,14 +66,10 @@ const tweetsController = {
   },
 
   //POST	/tweets/:tweet_id/replies	將回覆的內容寫入資料庫
-  postTweet: (req, res) => {
-    if (!req.body.replyMsg) {
-      req.flash("error_messages", "沒有輸入任何推播訊息")
-      return res.redirect("back")
-    }
+  postReply: (req, res) => {
     return Reply.create({
-      UserId: +res.locals.user.id,
-      TweetId: Number(req.params.tweet_id),
+      UserId: helpers.getUser(req).id,
+      TweetId: req.params.tweet_id,
       comment: req.body.replyMsg
     }).then(comment => {
       res.redirect(`/tweets/${req.params.tweet_id}/replies`)
