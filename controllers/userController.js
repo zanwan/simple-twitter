@@ -52,53 +52,80 @@ const userController = {
 
   //GET	/users/:id/followings	看見某一使用者正在關注的使用者
   getUserFollowings: (req, res) => {
-    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(req.user.id);
-    const otherUser = Number(req.params.id);
-    if (userSelf === otherUser) {
-      //使用 req.user
-      const thisUser = true;
-      let user = JSON.parse(JSON.stringify(helpers.getUser(req)));
-      return res.render("following", { user: user, thisUser: thisUser });
-    } else {
-      let viewUser = true;
-      return blockController.getSideUserProfile(req, res, data => {
-        let otherUser = data.userData.toJSON();
-        let followData = data.isfollowed;
-        return res.render("following", {
-          userId: req.params.id,
-          otherUser: otherUser,
-          isFollowed: followData,
-          viewUser: viewUser
-        });
-      });
-    }
+    return User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet, include: [User] },
+        { model: User, as: 'Followers' },
+        {
+          model: User,
+          as: 'Followings',
+          include: [{ model: User, as: 'Followers' }]
+        },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      const followingList = user.Followings.map(r => ({
+        ...r.dataValues,
+        introduction: r.dataValues.introduction
+          ? `${r.dataValues.introduction.substring(0, 50)}.....`
+          : r.dataValues.introduction
+      })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+      return res.render(
+        'following',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed,
+            followingList
+          })
+        )
+      )
+    })
   },
 
   //GET	/users/:id/followers	看見某一使用者的跟隨者
   getUserFollowers: (req, res) => {
-    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(helpers.getUser(req).id);
-    const otherUser = Number(req.params.id);
-    if (userSelf === otherUser) {
-      //使用 req.user
-      const thisUser = true;
-      const user = JSON.parse(JSON.stringify(helpers.getUser(req)));
-      return res.render("follower", { user: user, thisUser: thisUser });
-    } else {
-      let viewUser = true;
-      //左側欄資訊
-      return blockController.getSideUserProfile(req, res, data => {
-        let otherUser = data.userData.toJSON();
-        let followData = data.isfollowed;
-        return res.render("follower", {
-          userId: req.params.id,
-          otherUser: otherUser,
-          isFollowed: followData,
-          viewUser: viewUser
-        });
-      });
-    }
+    User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet, include: [User] },
+        {
+          model: User,
+          as: 'Followers',
+          include: [{ model: User, as: 'Followers' }]
+        },
+        { model: User, as: 'Followings' },
+        { model: Tweet, as: 'LikedTweets' }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      const followerList = user.Followers.map(r => ({
+        ...r.dataValues,
+        introduction: r.dataValues.introduction
+          ? `${r.dataValues.introduction.substring(0, 50)}.....`
+          : r.dataValues.introduction,
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(d => d.id)
+          .includes(r.id)
+      })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
+      return res.render(
+        'follower',
+        JSON.parse(
+          JSON.stringify({
+            profile: user,
+            isFollowed,
+            followerList
+          })
+        )
+      )
+    })
   },
 
   //GET	/users/:id/likes	看見某一使用者按過 like 的推播
