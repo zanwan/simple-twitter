@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
   }
 
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       if (helpers.getUser(req).role === 'admin') {
         return next()
       }
@@ -118,17 +118,9 @@ module.exports = (app, passport) => {
   app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets);
   app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
 
-  // 連到 /admin 頁面就轉到 /admin/tweets
-  app.get("/admin", authenticatedAdmin, (req, res) =>
-    res.redirect("/admin/tweets")
-  );
   app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets);
   // 管理者刪除使用者評論
-  app.delete(
-    "/admin/tweets/:id",
-    authenticatedAdmin,
-    adminController.deleteTweet
-  );
+  app.delete("/admin/tweets/:id", authenticatedAdmin, adminController.deleteTweet);
   // 帳號權限管理-新增路由
   app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
   app.put("/admin/users/:id", authenticatedAdmin, adminController.putUser);
