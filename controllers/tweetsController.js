@@ -49,17 +49,17 @@ const tweetsController = {
   },
   //將新增的推播寫入資料庫
   postTweets: (req, res) => {
-    if (!req.body.newTweet) {
-      req.flash("error_messages", "沒有輸入任何推播訊息")
-      return res.redirect("back")
+    if (req.body.description.length <= 140) {
+      Tweet.create({
+        description: req.body.description.trim(),
+        UserId: helpers.getUser(req).id
+      }).then(tweet => {
+        return res.redirect('/tweets')
+      })
+    } else {
+      req.flash('error_msg', '輸入不可為空白！')
+      return res.redirect('/tweets')
     }
-    return Tweet.create({
-      description: req.body.newTweet,
-      UserId: res.locals.user.id
-    }).then(tweet => {
-      req.flash("success_messages", "完成新增一則 tweet")
-      res.redirect("/tweets")
-    })
   },
   //GET	/tweets/:tweet_id/replies	回覆特定 tweet 的頁面，並看見 tweet 主人的簡介
   getTweet: (req, res) => {
