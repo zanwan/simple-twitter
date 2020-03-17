@@ -106,7 +106,7 @@ module.exports = (app, passport) => {
 
   app.post("/tweets/:id/like", authenticated, userController.addLike); //OK
 
-  app.delete("/tweets/:id/unlike", authenticated, userController.removeLike); //OK
+  app.post("/tweets/:id/unlike", authenticated, userController.removeLike); //OK
 
   /* ---------------------------------- */
   /*                admin               */
