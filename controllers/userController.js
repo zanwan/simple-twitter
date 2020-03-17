@@ -157,64 +157,29 @@ const userController = {
   },
 
   getUserTweets: (req, res) => {
-    //分為使用者本人 vs 瀏覽其他使用者 兩種情況
-    const userSelf = Number(helpers.getUser(req).id);
-    const otherUser = Number(req.params.id);
-    //當為本人
-    if (userSelf === otherUser) {
-      const thisUser = true;
-      //展開在登入時有存好的本人資料
-      const tweetObject = helpers.getUser(req).Tweets.map(tweet => ({
-        ...tweet.dataValues
-      }));
-      //蒐集所有推文的id
-      const tweetId = tweetObject.map(tweet => Object.values(tweet)[0]);
-      //找出推文與資料關聯
-      return Tweet.findAll({
-        where: { id: tweetId },
-        include: [{ model: Reply }, { model: Like }, { model: User }],
-        order: [["createdAt", "DESC"]],
-        limit: 3,
-        nest: true
-      }).then(tweets => {
-        let addCountData = tweets.map(t => ({
-          ...t.dataValues,
-          User: t.User.dataValues,
-          isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
-        }));
-        res.render("profile", { tweets: addCountData, thisUser: thisUser });
-      });
-      //當瀏覽他人
-    } else {
-      //用於視圖判斷渲染
-      const viewUser = true;
-      //開始查詢！
-      return blockController.getSideUserProfile(req, res, data => {
-        let tweetId = data.tweetArr;
-        let otherUser = data.userData.toJSON();
-        let followData = data.isfollowed;
-
-        return Tweet.findAll({
-          where: { id: tweetId },
-          include: [{ model: Reply }, { model: Like }, { model: User }],
-          nest: true
-        }).then(tweets => {
-          //打包資料，偷塞資料
-          let addCountData = tweets.map(t => ({
-            ...t.dataValues,
-            User: t.User.dataValues,
-            isLiked: helpers.getUser(req).Likes.map(l => l.TweetId).includes(t.id)
-          }));
-          res.render("profile", {
-            userId: req.params.id,
-            otherUser: otherUser,
-            tweets: addCountData,
-            isFollowed: followData,
-            viewUser: viewUser
-          });
-        });
-      });
-    }
+    User.findByPk(req.params.id, {
+      include: [
+        { model: Tweet, include: [User, Reply, Like] },
+        { model: User, as: "Followers" },
+        { model: User, as: "Followings" },
+        { model: Tweet, as: "LikedTweets" }
+      ]
+    }).then(user => {
+      const isFollowed = helpers
+        .getUser(req)
+        .Followings.map(d => d.id)
+        .includes(user.id)
+      const tweets = user.Tweets.map(tweet => ({
+        ...tweet.dataValues,
+        isLiked: helpers.getUser(req).LikedTweets
+          ? helpers
+            .getUser(req)
+            .LikedTweets.map(d => d.id)
+            .includes(tweet.id)
+          : helpers.getUser(req).LikedTweets
+      })).sort((a, b) => b.createdAt - a.createdAt)
+      res.render("profile", { profile: JSON.parse(JSON.stringify(user)), tweets, isFollowed })
+    })
   },
 
   editUserProfile: (req, res) => {
