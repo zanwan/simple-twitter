@@ -264,13 +264,14 @@ const userController = {
   addFollowing: (req, res) => {
     if (helpers.getUser(req).id === Number(req.body.id)) {
       return res.send('cant not follow self')
+    } else {
+      return Followship.create({
+        followerId: helpers.getUser(req).id,
+        followingId: Number(req.body.id)
+      }).then(followship => {
+        return res.redirect("back");
+      });
     }
-    return Followship.create({
-      followerId: helpers.getUser(req).id,
-      followingId: req.params.id
-    }).then(followship => {
-      return res.redirect("back");
-    });
   },
 
   removeFollowing: (req, res) => {

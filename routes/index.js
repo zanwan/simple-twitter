@@ -84,7 +84,7 @@ module.exports = (app, passport) => {
   /*               Follow               */
   /* ---------------------------------- */
 
-  app.post("/followships/:id", authenticated, userController.addFollowing); //OK
+  app.post("/followships/", authenticated, userController.addFollowing); //OK
 
   app.delete("/followships/:id", authenticated, userController.removeFollowing); //OK
 
