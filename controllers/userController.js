@@ -202,7 +202,6 @@ const userController = {
 
   editUserProfile: (req, res) => {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
-      req.flash('error_msg', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
     }
     return User.findByPk(req.params.id, { raw: true }).then(user => {

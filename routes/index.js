@@ -71,8 +71,8 @@ module.exports = (app, passport) => {
   /*                users               */
   /* ---------------------------------- */
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets); //OK
-  app.get("/users/:id/likes", authenticated, userController.getUserLike);
-  app.get("/users/:id/edit", authenticated, userController.editUserProfile);
+  app.get("/users/:id/likes", authenticated, userController.getUserLike); //OK
+  app.get("/users/:id/edit", authenticated, userController.editUserProfile); //OK
   app.post(
     "/users/:id/edit",
     authenticated,
