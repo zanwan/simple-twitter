@@ -14,7 +14,7 @@ module.exports = (app, passport) => {
   };
 
   const authenticatedAdmin = (req, res, next) => {
-    if (req.isAuthenticated()) {
+    if (helpers.ensureAuthenticated(req)) {
       if (helpers.getUser(req).role === "admin") {
         return next();
       }
