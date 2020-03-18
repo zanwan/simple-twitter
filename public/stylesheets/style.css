@@ -1,3 +1,7 @@
+.tweet-post {
+  max-width: 340px;
+}
+
 .button-nofunny {
   background: none;
   color: inherit;
@@ -142,11 +146,17 @@ img:hover {
   #avatarTweet {
     width: 100px;
   }
+  .tweet-post {
+    max-width: 500px;
+  }
 }
 
 @media screen and (min-width: 992px) {
   #popularField {
     display: block;
+  }
+  .tweet-post {
+    max-width: 450px;
   }
 }
 

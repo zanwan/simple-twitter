@@ -9,13 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       introduction: DataTypes.TEXT,
       role: DataTypes.STRING,
-      isAdmin: DataTypes.BOOLEAN,
-      FollowerCounts: DataTypes.INTEGER,
-      FollowingCounts: DataTypes.INTEGER
+      isAdmin: DataTypes.BOOLEAN
     },
     {}
   )
-  User.associate = function (models) {
+  User.associate = function(models) {
     User.hasMany(models.Tweet)
     User.hasMany(models.Like)
     User.hasMany(models.Reply)
