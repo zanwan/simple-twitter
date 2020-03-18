@@ -38,7 +38,6 @@ const tweetsController = {
         //當我們想要排序陣列時，就可以使用 sort 方法，它會自動把陣列按照「字典順序」排序
         //a,b 代表排序時挑出來的前後項，b - a 時回傳正數表示 b 比 a大
         users = users.sort((a, b) => b.followerCount - a.followerCount)
-        console.log("======>", JSON.parse(JSON.stringify(data)))
         return res.render("tweetsHome", {
           tweets: JSON.parse(JSON.stringify(data)),
           popUsers: users
@@ -62,16 +61,23 @@ const tweetsController = {
   },
   //GET	/tweets/:tweet_id/replies	回覆特定 tweet 的頁面，並看見 tweet 主人的簡介
   getTweet: (req, res) => {
-    /* ---------------------------------- */
-    /*                待二次重整            */
-    /* ---------------------------------- */
-
-    //Tweet 的 reply 一起撈可能無法依時間排序
     return Tweet.findAll({
       where: { id: req.params.tweet_id },
-      include: [{ model: User }, { model: Reply, include: [{ model: User }] }, { model: Like }]
-    }).then(tweet => {
-      tweet = JSON.parse(JSON.stringify(tweet))[0]
+      include: [
+        { model: User },
+        { model: Reply, include: [{ model: User }] },
+        { model: Like },
+        { model: User, as: "LikedUsers" }
+      ]
+    }).then(tweets => {
+      //塞入統計資料
+      const addCountData = tweets.map(t => ({
+        ...t.dataValues,
+        isLiked: t.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id),
+        likeCount: t.Likes.length,
+        replyCount: t.Replies.length
+      }))
+      tweet = JSON.parse(JSON.stringify(addCountData))[0]
       return User.findByPk(tweet.User.id, {
         include: [
           { model: Tweet },
@@ -80,6 +86,7 @@ const tweetsController = {
           { model: User, as: "Followings" }
         ]
       }).then(userdata => {
+        console.log("TWEET+++++++>", tweet)
         return res.render("replies", { tweet, tweetuser: userdata.get({ plain: true }) })
       })
     })
