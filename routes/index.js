@@ -37,10 +37,10 @@ module.exports = (app, passport) => {
     res.sendFile(path.join(__dirname, "../public", "chat2.html"))
   )
 
-  app.get("/signup", userController.signUpPage) //OK
-  app.post("/signup", userController.signUp) //OK
+  app.get("/signup", userController.signUpPage)
+  app.post("/signup", userController.signUp)
 
-  app.get("/signin", userController.signInPage) //OK
+  app.get("/signin", userController.signInPage)
   app.post(
     "/signin",
     passport.authenticate("local", {
@@ -63,9 +63,9 @@ module.exports = (app, passport) => {
   /*                users               */
   /* ---------------------------------- */
   app.get("/users/:id/tweets", authenticated, userController.getUserTweets) //OK
-  app.get("/users/:id/likes", authenticated, userController.getUserLike)
-  app.get("/users/:id/edit", authenticated, userController.editUserProfile)
-  app.post("/users/:id/edit", authenticated, upload.single("avatar"), userController.putUserProfile)
+  app.get("/users/:id/likes", authenticated, userController.getUserLike) //OK
+  app.get("/users/:id/edit", authenticated, userController.editUserProfile) //OK
+  app.post("/users/:id/edit", authenticated, upload.single("avatar"), userController.putUserProfile) //OK
 
   /* ---------------------------------- */
   /*               Follow               */
@@ -83,9 +83,9 @@ module.exports = (app, passport) => {
   /*                Like                */
   /* ---------------------------------- */
 
-  app.post("/tweets/:id/like", authenticated, userController.addLike) //OK
+  app.post("/tweets/:id/like", authenticated, userController.addLike)
 
-  app.post("/tweets/:id/unlike", authenticated, userController.removeLike) //OK
+  app.post("/tweets/:id/unlike", authenticated, userController.removeLike)
 
   /* ---------------------------------- */
   /*                admin               */

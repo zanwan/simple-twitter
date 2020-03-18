@@ -151,15 +151,18 @@ const userController = {
             .includes(tweet.id)
           : helpers.getUser(req).LikedTweets
       })).sort((a, b) => b.likeCreatedAt - a.likeCreatedAt)
+
+      // 判斷 req.params.id 跟 登入者id 是否一致 
+      const thisUser = helpers.getUser(req).id === Number(req.params.id) ? true : false
+
       return res.render(
-        'like',
-        JSON.parse(
-          JSON.stringify({
-            profile: user,
-            isFollowed,
-            LikedTweetList
-          })
-        )
+        'like', {
+        profile: JSON.parse(JSON.stringify(user)),
+        isFollowed: JSON.parse(JSON.stringify(isFollowed)),
+        LikedTweetList: JSON.parse(JSON.stringify(LikedTweetList)),
+        thisUser
+      }
+
       )
     })
   },
@@ -186,13 +189,19 @@ const userController = {
             .includes(tweet.id)
           : helpers.getUser(req).LikedTweets
       })).sort((a, b) => b.createdAt - a.createdAt)
-      res.render("profile", { profile: JSON.parse(JSON.stringify(user)), tweets, isFollowed })
+
+      // 判斷 req.params.id 跟 登入者id 是否一致 
+      const thisUser = helpers.getUser(req).id === Number(req.params.id) ? true : false
+
+      res.render("profile", {
+        thisUser,
+        profile: JSON.parse(JSON.stringify(user)), tweets: JSON.parse(JSON.stringify(tweets)), isFollowed
+      })
     })
   },
 
   editUserProfile: (req, res) => {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
-      req.flash('error_msg', '無權編輯')
       return res.redirect(`/users/${req.params.id}/tweets`)
     }
     return User.findByPk(req.params.id, { raw: true }).then(user => {

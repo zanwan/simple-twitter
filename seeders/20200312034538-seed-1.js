@@ -15,7 +15,6 @@ module.exports = {
           introduction: faker.lorem.text().substr(0, 50),
           avatar: "https://api.adorable.io/avatars/285/1.png",
           role: "admin",
-          isAdmin: true,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -26,7 +25,6 @@ module.exports = {
           introduction: faker.lorem.text().substr(0, 50),
           avatar: "https://api.adorable.io/avatars/285/2.png",
           role: "user",
-          isAdmin: false,
           createdAt: new Date(),
           updatedAt: new Date()
         },
@@ -37,7 +35,6 @@ module.exports = {
           introduction: faker.lorem.text().substr(0, 50),
           avatar: "https://api.adorable.io/avatars/285/3.png",
           role: "user",
-          isAdmin: false,
           createdAt: new Date(),
           updatedAt: new Date()
         }
