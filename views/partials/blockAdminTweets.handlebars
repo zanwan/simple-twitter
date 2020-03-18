@@ -11,12 +11,9 @@
     <td>{{this.Likes.length}}</td>
     <td>{{moment this.createdAt}}</td>
     <td>
-      {{!-- <a href="#" type="button" class="btn btn-danger btn-sm">Delete</a> --}}
-      {{!-- {{#if .../user.isAdmin}} --}}
       <form action="/admin/tweets/{{this.id}}?_method=DELETE" method="POST" style="float: right;">
         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
       </form>
-      {{!-- {{/if}} --}}
     </td>
   </tr>
 </tbody>
