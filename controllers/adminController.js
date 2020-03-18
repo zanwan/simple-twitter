@@ -1,4 +1,5 @@
 const db = require("../models");
+const helpers = require("../_helpers");
 const { Tweet, User, Like, Reply } = db;
 const adminController = {
   //A3: 使用者權限管理!
@@ -19,7 +20,7 @@ const adminController = {
   // 修改使用者權限
   putUser: (req, res) => {
     return User.findByPk(req.params.id).then(user => {
-      if (req.user.id === user.id) {
+      if (helpers.getUser(req).id === user.id) {
         req.flash("error_messages", "without permission change");
         res.redirect("/admin/users");
       } else {

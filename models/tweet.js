@@ -5,12 +5,10 @@ module.exports = (sequelize, DataTypes) => {
     {
       description: DataTypes.TEXT,
       UserId: DataTypes.INTEGER,
-      ReplyCounts: DataTypes.INTEGER,
-      LikeCounts: DataTypes.INTEGER
     },
     {}
   )
-  Tweet.associate = function(models) {
+  Tweet.associate = function (models) {
     Tweet.hasMany(models.Reply)
     Tweet.hasMany(models.Like)
     Tweet.belongsTo(models.User)

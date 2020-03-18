@@ -47,7 +47,7 @@ app.use(express.static("public")); //讀取靜態檔案
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash("success_messages");
   res.locals.error_messages = req.flash("error_messages");
-  res.locals.user = req.user;
+  res.locals.user = helpers.getUser(req);
   next();
 });
 
@@ -69,7 +69,7 @@ io.use((socket, next) => {
 });
 
 // 4. 當聊天室開始時，便啟動監聽
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   // console.log(name + " is connected");
   // 使用者進來時，出現提示訊息
   io.sockets.emit(
@@ -77,7 +77,7 @@ io.on("connection", function(socket) {
     socket.request.session.username + " is joining now～"
   );
   // 使用者離開時，出現提示訊息
-  socket.on("disconnect", function() {
+  socket.on("disconnect", function () {
     // console.log(name + " is disconnected");
     io.sockets.emit(
       "chat message",
@@ -86,8 +86,8 @@ io.on("connection", function(socket) {
   });
 });
 
-io.on("connection", function(socket) {
-  socket.on("chat message", function(msg) {
+io.on("connection", function (socket) {
+  socket.on("chat message", function (msg) {
     // 使用者發言時，訊息從 client 端送出後，在畫面上 render 出訊息+時間~
     io.emit(
       "chat message",
@@ -103,3 +103,5 @@ server.listen(port, () => {
 
 // 引入 routes 並將 app 傳進去，讓 routes 可以用 app 這個物件來指定路由
 require("./routes")(app, passport);
+
+module.exports = app
