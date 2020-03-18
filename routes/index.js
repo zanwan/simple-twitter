@@ -78,7 +78,7 @@ module.exports = (app, passport) => {
     authenticated,
     upload.single("avatar"),
     userController.putUserProfile
-  );
+  ); //OK 
 
   /* ---------------------------------- */
   /*               Follow               */
