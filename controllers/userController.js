@@ -186,7 +186,14 @@ const userController = {
             .includes(tweet.id)
           : helpers.getUser(req).LikedTweets
       })).sort((a, b) => b.createdAt - a.createdAt)
-      res.render("profile", { profile: JSON.parse(JSON.stringify(user)), tweets, isFollowed })
+
+      // 判斷 req.params.id 跟 登入者id 是否一致 
+      const thisUser = helpers.getUser(req).id === Number(req.params.id) ? true : false
+
+      res.render("profile", {
+        thisUser,
+        profile: JSON.parse(JSON.stringify(user)), tweets: JSON.parse(JSON.stringify(tweets)), isFollowed
+      })
     })
   },
 

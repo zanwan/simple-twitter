@@ -16,20 +16,20 @@
             {{Replies.length}}</a>
 
           {{#if isLiked}}
-            <form action="/tweets/{{id}}/unlike?_method=DELETE" method="POST" class="card-link"
-              style="display:inline-block">
-              <button type="submit" class="fas fa-heart button-nofunny"
-                style="color: rgb(255, 102, 110);font-size:1.2rem">
-                {{Likes.length}}
-              </button>
-            </form>
+          <form action="/tweets/{{id}}/unlike?_method=DELETE" method="POST" class="card-link"
+            style="display:inline-block">
+            <button type="submit" class="fas fa-heart button-nofunny"
+              style="color: rgb(255, 102, 110);font-size:1.2rem">
+              {{Likes.length}}
+            </button>
+          </form>
           {{else}}
-            <form action="/tweets/{{id}}/like" method="POST" class="card-link" style="display:inline-block">
-              <button type="submit" class="far fa-heart button-nofunny"
-                style="color: rgb(255, 102, 110);font-size:1.2rem">
-                {{Likes.length}}
-              </button>
-            </form>
+          <form action="/tweets/{{id}}/like" method="POST" class="card-link" style="display:inline-block">
+            <button type="submit" class="far fa-heart button-nofunny"
+              style="color: rgb(255, 102, 110);font-size:1.2rem">
+              {{Likes.length}}
+            </button>
+          </form>
           {{/if}}
 
 
