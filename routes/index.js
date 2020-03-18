@@ -1,28 +1,27 @@
-const helpers = require('../_helpers');
+const helpers = require("../_helpers");
 const path = require("path");
 const tweetsController = require("../controllers/tweetsController.js");
 const adminController = require("../controllers/adminController.js");
 const userController = require("../controllers/userController.js");
 const multer = require("multer");
 const upload = multer({ dest: "temp/" });
-const helpers = require("../_helpers");
 module.exports = (app, passport) => {
   const authenticated = (req, res, next) => {
     if (helpers.ensureAuthenticated(req)) {
-      return next()
+      return next();
     }
-    res.redirect('/signin')
-  }
+    res.redirect("/signin");
+  };
 
   const authenticatedAdmin = (req, res, next) => {
     if (req.isAuthenticated()) {
-      if (helpers.getUser(req).role === 'admin') {
-        return next()
+      if (helpers.getUser(req).role === "admin") {
+        return next();
       }
-      return res.redirect('/')
+      return res.redirect("/");
     }
-    res.redirect('/signin')
-  }
+    res.redirect("/signin");
+  };
   app.get("/", (req, res) => res.redirect("/tweets"));
   /* ---------------------------------- */
   /*               signin               */
@@ -115,11 +114,6 @@ module.exports = (app, passport) => {
   );
   app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets);
   app.get("/admin/users", authenticatedAdmin, adminController.getAllUsers);
-
-  // 連到 /admin 頁面就轉到 /admin/tweets
-  app.get("/admin", authenticatedAdmin, (req, res) =>
-    res.redirect("/admin/tweets")
-  );
   app.get("/admin/tweets", authenticatedAdmin, adminController.getTweets);
   // 管理者刪除使用者評論
   app.delete(
