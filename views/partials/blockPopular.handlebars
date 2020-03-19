@@ -17,8 +17,8 @@
           </form>
 
         {{else}}
-          <form action="/followships/{{id}}" method="POST">
-            <button type="submit" class="btn btn-primary btn-sm float-right">Follow</button>
+          <form action="/followships/" method="POST">
+            <button type="submit" name="id" value="{{id}}" class="btn btn-primary btn-sm float-right">Follow</button>
           </form>
         {{/if}}
       </div>

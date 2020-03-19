@@ -1,31 +1,31 @@
 <div class="container">
-  <form action="/users/2/edit?_method=PUT" method="POST" enctype="multipart/form-data">
+  <form action="/users/{{user.id}}/edit" method="POST" enctype="multipart/form-data">
     <div class="row">
       {{!-- 推主個人檔案--}}
       <div class="col-md-4 mt-4">
         {{!-- 推主照片 --}}
         <div class="form-group text-center">
           <img src={{user.avatar}} alt="avatar" id="avatarProfileLg">
-          <input type="file" class="form-control-file btn btn-primary mt-4" id="avatar" name="avatar">
+          {{!-- 更換照片 --}}
+          <input type="file" class="form-control-file  btn btn-light mt-4" id="avatar" name="avatar">
         </div>
-      </div>
 
+      </div>
 
       {{!-- 編輯個人資訊 --}}
       <div class="col">
         <div class="row my-4">
           <div class="col">
 
-
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" name="name" id="name" value={{user.name}}>
+              <input type="text" class="form-control" name="name" value={{user.name}}>
             </div>
 
             <div class="form-group">
               <label for="introduction">Info</label>
-              <textarea type="text" class="form-control" name="introduction" id="introduction" style="resize: none; "
-                rows="5">{{user.introduction}}</textarea>
+              <textarea type="text" class="form-control" name="introduction" value="{{user.introduction}}"
+                style="resize: none; " rows="5">{{user.introduction}}</textarea>
             </div>
 
             <button type="submit" class="btn btn-primary float-right">Update</button>

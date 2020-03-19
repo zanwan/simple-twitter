@@ -10,24 +10,23 @@
       {{!-- 貼文內容 --}}
       <div class="col pt-1 ml-n4">
         <h6 class="card-subtitle mb-2 text-muted">@ {{User.name}}, {{moment createdAt}}</h6>
-        <p class="card-text">{{description}}</p>
+        <p class="card-text tweet-post">{{description}}</p>
         <div class="interation-block">
           <a href="/tweets/{{id}}/replies" class="card-link far fa-comment-dots" style="font-size:1.2rem">
-            {{Replies.length}}</a>
+            {{replyCount}}</a>
 
           {{#if isLiked}}
-            <form action="/tweets/{{id}}/unlike?_method=DELETE" method="POST" class="card-link"
-              style="display:inline-block">
+            <form action="/tweets/{{id}}/unlike" method="POST" class="card-link" style="display:inline-block">
               <button type="submit" class="fas fa-heart button-nofunny"
                 style="color: rgb(255, 102, 110);font-size:1.2rem">
-                {{Likes.length}}
+                {{likeCount}}
               </button>
             </form>
           {{else}}
             <form action="/tweets/{{id}}/like" method="POST" class="card-link" style="display:inline-block">
               <button type="submit" class="far fa-heart button-nofunny"
                 style="color: rgb(255, 102, 110);font-size:1.2rem">
-                {{Likes.length}}
+                {{likeCount}}
               </button>
             </form>
           {{/if}}
