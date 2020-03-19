@@ -78,7 +78,7 @@ module.exports = {
         UserId: Math.floor(Math.random() * 3) + 1,
         description: faker.lorem.text().substr(0, 100),
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })),
       {}
     )
@@ -88,7 +88,7 @@ module.exports = {
         UserId: Math.floor(Math.random() * 3) + 1,
         TweetId: ++index,
         createdAt: new Date(),
-        updatedAt: new Date(),
+        updatedAt: new Date()
       })),
       {}
     )

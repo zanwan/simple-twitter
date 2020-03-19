@@ -1,37 +1,37 @@
 {{!-- 推主個人檔案--}}
 {{!-- 推主照片 --}}
 <div class="text-center">
-  <img src="{{data.avatar}}" alt="avatar" id="avatarProfileLg">
+  <img src="{{avatar}}" alt="avatar" id="avatarProfileLg">
   {{!-- 推主簡介 --}}
-  <h2 class="mt-3">{{data.name}}</h2>
+  <h2 class="mt-3">{{User.name}}</h2>
   <div class="mx-auto" style="width: 15rem;">
-    <p>{{data.introduction}}</p>
+    <p>{{introduction}}</p>
     {{!-- 推主資訊 --}}
     <ui class="align-items-center listVertical">
-      <a href="/users/{{data.id}}/tweets">
+      <a href="/users/{{id}}/tweets">
         <strong>Tweets</strong>
-        <span class="badge badge-primary badge-pill">{{data.Tweets.length}}</span>
+        <span class="badge badge-primary badge-pill">{{Tweets.length}}</span>
       </a>
 
     </ui>
     <ui class="align-items-center listVertical">
-      <a href="/users/{{data.id}}/followings">
+      <a href="/users/{{id}}/followings">
         <strong>Following</strong>
-        <span class="badge badge-primary badge-pill">{{data.Followings.length}}</span>
+        <span class="badge badge-primary badge-pill">{{Followings.length}}</span>
       </a>
 
     </ui>
     <ui class="align-items-center listVertical">
-      <a href="/users/{{data.id}}/followers">
+      <a href="/users/{{id}}/followers">
         <strong>Follower</strong>
-        <span class="badge badge-primary badge-pill">{{data.Followers.length}}</span>
+        <span class="badge badge-primary badge-pill">{{Followers.length}}</span>
       </a>
 
     </ui>
     <ui class="align-items-center listVertical">
-      <a href="/users/{{data.id}}/likes">
+      <a href="/users/{{id}}/likes">
         <strong>Like</strong>
-        <span class="badge badge-primary badge-pill">{{data.Likes.length}}</span>
+        <span class="badge badge-primary badge-pill">{{LikedTweets.length}}</span>
       </a>
 
     </ui>

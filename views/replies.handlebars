@@ -2,7 +2,31 @@
   <div class="row">
 
     <div class="col-4 mt-4" id="popularField">
-      {{> blockUserProfile data = tweetuser}}
+      {{!-- 推主個人檔案 --}}
+      {{#if thisUser}}
+        {{>blockUserProfile profile}}
+      {{else}}
+        {{>blockUserProfile profile}}
+      {{/if}}
+
+      <div class="mx-auto text-center" style="width: 15rem;">
+
+        {{#if thisUser}}
+          {{!-- 編輯按鈕 --}}
+          <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+        {{else}}
+          {{!-- 追蹤按鈕 --}}
+          {{#if isFollowed}}
+            <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
+            </form>
+          {{else}}
+            <form action="/followships/" method="POST">
+              <button type="submit" name="id" value="{{profile.id}}" class="btn btn-primary mt-4">Follow</button>
+            </form>
+          {{/if}}
+        {{/if}}
+      </div>
     </div>
 
     {{!-- 貼文牆時間軸 --}}

@@ -8,11 +8,11 @@
           <div class="form-group">
             {{!-- 輸入欄 --}}
 
-            <textarea class="form-control text-form" name="newTweet" rows="3"
+            <textarea class="form-control text-form" name="description" id="tweet-post" maxlength='140' rows="3"
               placeholder="What's on your mind?"></textarea>
 
             {{!-- 按鈕 --}}
-            <button type="submit" class="btn btn-primary mt-2 float-right">Tweet</button>
+            <button type="submit" class="btn btn-primary mt-2 float-right"> Tweet</button>
           </div>
         </form>
       </div>
@@ -22,7 +22,7 @@
           {{#each tweets as |tweet|}}
             {{#> blockTweetPost}}
               {{tweet.value}}
-              {{/blockTweetPost}}
+              {{/ blockTweetPost}}
           {{/each}}
         </div>
       </div>

@@ -8,12 +8,12 @@
   <td>{{Followings.length}}</td>
   <td>{{Followers.length}}</td>
   <td>{{Likes.length}}</td>
-  <td>{{createdAt}}</td>
+  <td>{{moment createdAt}}</td>
 
   <td>
     <form action="/admin/users/{{id}}?_method=PUT" method="POST">
-      <button class="btn {{#if this.isAdmin}}btn-primary {{else}} btn-danger {{/if}} btn-sm">
-        Set {{#if this.isAdmin}}User {{else}} Admin {{/if}}
+      <button class="btn {{#ifCond this.role "user"}}btn-danger {{else}} btn-primary {{/ifCond}} btn-sm">
+        Set {{#ifCond this.role "admin"}}User {{else}} Admin {{/ifCond}}
       </button>
     </form>
   </td>

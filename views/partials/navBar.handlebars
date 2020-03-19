@@ -1,8 +1,8 @@
 <nav class=" navbar navbar-expand-lg navbar-light bg-light ">
   {{!-- 右上角 Logo --}}
   <a class="navbar-brand" href="/tweets">
-    <img src="https://via.placeholder.com/300" id="twitterLogo" class="d-inline-block align-center" alt="">
-    Simple Twitter
+    <img src="/svg/Twitter_Logo_Blue.svg" id="twitterLogo" class="d-inline-block align-center" alt="">
+
   </a>
   {{!-- 縮放按鈕 --}}
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
@@ -18,8 +18,8 @@
       <img src={{data.avatar}} class="d-inline-block align-top" id="avatarProfile" alt="profile-image">
     </a>
     <a href="/chat" style="color:#1da1f2;margin-left:10px">Chat Room</a>
-    {{#if user.isAdmin}}
-    <a href="/admin/tweets" style="color:black;margin-left:10px">Admin</a>
+    {{#if user.role}}
+      <a href="/admin/tweets" style="color:black;margin-left:10px">Admin</a>
     {{/if}}
     {{!-- 登出 --}}
     <a href="/logout" style="color:black;margin-left:10px">Logout</a>

@@ -1,145 +1,50 @@
-<div class="row">
-  <div class="col-md-4 pr-5 display-flex justify-content-center">
-    {{#if profile.avatar}}
-    <img class="my-5 rounded" src="{{profile.avatar}}" alt="{{profile.name}}" width="200px" height="200px"
-      style="border: solid 7px white" />
-    {{else}}
-    <img class="my-5 rounded" src="https://lighthouse-cdn.alphacamp.co/default/medium_user_photo.jpg" width="200px"
-      height="200px" style="border: solid 7px white" />
-    {{/if}}
-    <h2 class="mb-4" style="text-transform:capitalize;">
-      <strong>
-        {{profile.name}}
-      </strong>
-    </h2>
-    <p class="text-dark mb-3 ml-1" style="font-size:12px">{{profile.introduction}}</p>
-    <br />
-    <div class="mb-4 ml-2">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <h5>
-            <a href="/users/{{profile.id}}/tweets" style="text-decoration:none;">
-              <strong class="text-dark">
-                Tweets
-              </strong>
-              <span class="text-light badge badge-dark">
-                {{profile.Tweets.length}}
-              </span>
-            </a>
-          </h5>
-        </li>
-        <li class="list-group-item">
-          <h5>
-            <a href="/users/{{profile.id}}/followings" style="text-decoration:none;">
-              <strong class="text-dark">
-                Followings
-              </strong>
-              <span class="text-light badge badge-dark">
-                {{profile.Followings.length}}
-              </span>
-            </a>
-          </h5>
-        </li>
-        <li class="list-group-item">
-          <h5>
-            <a href="/users/{{profile.id}}/followers" style="text-decoration:none;">
-              <strong class="text-dark">
-                Followers
-              </strong>
-              <span class="text-light badge badge-dark">
-                {{profile.Followers.length}}
-              </span>
-            </a>
-          </h5>
-        </li>
-        <li class="list-group-item">
-          <h5 class="text-muted">
-            <a href="/users/{{profile.id}}/likes" style="text-decoration:none;">
-              <strong>
-                Likes
-              </strong>
-              <span class="text-light badge badge-primary">
-                {{profile.LikedTweets.length}}
-              </span>
-            </a>
-          </h5>
-        </li>
-      </ul>
-
-      <br />
-    </div>
-    <div class="text-right">
-      {{#ifCond profile.id user.id}}
-      <a href="/users/{{profile.id}}/edit">
-        <button class="btn btn-primary">
-          Edit Profile
-        </button>
-      </a>
+<div class="container">
+  <div class="row">
+    <div class="col-4 mt-4 text-center" id="popularField">
+      {{!-- 推主個人檔案 --}}
+      {{#if thisUser}}
+        {{>blockUserProfile profile}}
       {{else}}
-      {{#if isFollowed}}
-      <form action="/followships/{{profile.id}}?_method=DELETE" method="POST" style="display: contents;">
-        <button type="submit" class="btn btn-danger">
-          <i class="fa fa-user px-2" aria-hidden="true"></i>
-        </button>
-      </form>
-      {{else}}
-      <form action="/followships" method="POST" style="display: contents;">
-        <input type="hidden" name="id" value="{{profile.id}}" />
-        <button type="submit" class="btn btn-secondary">
-          <i class="fa fa-user-plus px-2" aria-hidden="true"></i>
-        </button>
-      </form>
+        {{>blockUserProfile profile}}
       {{/if}}
-      {{/ifCond}}
-    </div>
-  </div>
-  <div class="col-md-8 mt-5">
-    <h1 class="text-info mb-5">
-      <strong style="font-family:serif;">Likes</strong>
-    </h1>
-    {{#if LikedTweetList}}
-    {{#each LikedTweetList}}
-    <div class="card mb-3">
-      <div class="row">
-        <div class="col-md-4 my-4">
-          <img src="{{this.User.avatar}}" alt="{{this.User.name}}" width="170px" height="170px" class="rounded ml-2">
-        </div>
-        <div class="col-md-8 pt-2">
-          <div class="card-body">
-            <h5 class="card-title">
-              <a href="/users/{{this.User.id}}/tweets" style="text-decoration:none;">@{{this.User.name}}</a>
-              <small class="pl-2">&nbsp;{{moment this.createdAt}}</small></h5>
-            <p class="card-text pl-1">{{this.description}}</p>
-          </div>
-          <div class="card-body text-right inline-block mt-1">
-            <a href="/tweets/{{this.id}}/replies" class="btn btn-outline-info
-              mr-2">
-              Reply({{this.Replies.length}} )</a>
-            {{#if this.isLiked}}
-            <form action="/tweets/{{this.id}}/unlike" method="POST" style="display: contents;">
-              <button type="submit" class="btn btn-danger">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                ({{this.Likes.length}})
-              </button>
+
+      <div class="mx-auto text-center" style="width: 15rem;">
+        {{#if thisUser}}
+          {{!-- 編輯按鈕 --}}
+          <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+        {{else }}
+          {{!-- 追蹤按鈕 --}}
+          {{#if isFollowed}}
+            <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
             </form>
-            {{else}}
-            <form action="/tweets/{{this.id}}/like" method="POST" style="display: contents;">
-              <input type="hidden" name="userId" value="{{this.id}}" />
-              <button type="submit" class="btn btn-secondary">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-                ({{this.Likes.length}})
-              </button>
+          {{else}}
+            <form action="/followships/" method="POST">
+              <button type="submit" name="id" value="{{profile.id}}" class="btn btn-primary mt-4">Follow</button>
             </form>
-            {{/if}}
-          </div>
-        </div>
+          {{/if}}
+        {{/if}}
       </div>
     </div>
-    {{/each}}
-    {{else}}
-    <h3 class="mt-5 text-center text-info">
-      尚未建立資料
-    </h3>
-    {{/if}}
+
+
+    {{!-- Like貼文牆時間軸 --}}
+    <div class="col" id="main-stream">
+      {{!-- 原推文 --}}
+      <h3 class="mt-5">Like</h3>
+      <div class="row no-gutters my-3">
+        <div class="col">
+
+          {{#each LikedTweetList as |tweet|}}
+            {{#> blockTweetPost}}
+              {{tweet.value}}
+              {{/ blockTweetPost}}
+          {{/each}}
+
+        </div>
+      </div>
+      {{!-- ------ --}}
+
+    </div>
   </div>
 </div>
