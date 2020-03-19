@@ -12,7 +12,7 @@
         <div class="col mt-2 text-center">
           <h6 class="card-subtitle my-2 text-muted">@{{name}}</h6>
           <p class="card-text card-follow-text text-truncate-multiple-lines">{{introduction}}</p>
-          {{#if viewUser}}
+          {{#if thisUser}}
             {{#if isFollowed}}
               <a action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-danger mt-3">Unfollow</button>

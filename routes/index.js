@@ -27,14 +27,6 @@ module.exports = (app, passport) => {
   /* ---------------------------------- */
   /*               signin               */
   /* ---------------------------------- */
-
-  /* -------------------------------------------------------------------------- */
-  /*                                  聊天室試作                                 */
-  /* -------------------------------------------------------------------------- */
-  app.get("/chat", authenticated, (req, res) =>
-    res.sendFile(path.join(__dirname, "../public", "chat2.html"))
-  )
-
   app.get("/signup", userController.signUpPage)
   app.post("/signup", userController.signUp)
 
@@ -46,13 +38,20 @@ module.exports = (app, passport) => {
       failureFlash: true
     }),
     userController.signIn
-  ) //OK
+  )
+  /* ---------------------------------- */
+  /*                聊天試做             */
+  /* ---------------------------------- */
+
+  app.get("/chat", authenticated, (req, res) =>
+    res.sendFile(path.join(__dirname, "../public", "chat2.html"))
+  )
 
   /* ---------------------------------- */
   /*               tweets               */
   /* ---------------------------------- */
 
-  app.get("/tweets", authenticated, tweetsController.getTweets)
+  app.get("/tweets", authenticated, tweetsController.getTweets) //OK
   app.post("/tweets", authenticated, tweetsController.postTweets) //OK
   app.get("/tweets/:tweet_id/replies", authenticated, tweetsController.getTweet) //OK
   app.post("/tweets/:tweet_id/replies", authenticated, tweetsController.postReply) //OK

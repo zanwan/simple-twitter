@@ -83,11 +83,21 @@ const tweetsController = {
           { model: Tweet },
           { model: Like },
           { model: User, as: "Followers" },
-          { model: User, as: "Followings" }
+          { model: User, as: "Followings" },
+          { model: Tweet, as: "LikedTweets" }
         ]
       }).then(userdata => {
-        console.log("TWEET+++++++>", tweet)
-        return res.render("replies", { tweet, tweetuser: userdata.get({ plain: true }) })
+        const isFollowed = helpers
+          .getUser(req)
+          .Followings.map(d => d.id)
+          .includes(userdata.id)
+        const thisUser = helpers.getUser(req).id === Number(userdata.dataValues.id) ? true : false
+        return res.render("replies", {
+          tweet,
+          tweetuser: userdata.get({ plain: true }),
+          thisUser,
+          isFollowed
+        })
       })
     })
   },

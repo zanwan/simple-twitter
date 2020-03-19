@@ -8,13 +8,19 @@
       <div class="mx-auto text-center" style="width: 15rem;">
 
         {{#if thisUser}}
-        {{!-- 編輯按鈕 --}}
-        <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+          {{!-- 編輯按鈕 --}}
+          <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
         {{else }}
-        {{!-- 追蹤按鈕 --}}
-        <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
-          <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
-        </form>
+          {{!-- 追蹤按鈕 --}}
+          {{#if isFollowed}}
+            <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
+              <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
+            </form>
+          {{else}}
+            <form action="/followships/{{profile.id}}" method="POST">
+              <button type="submit" class="btn btn-primary mt-4">Follow</button>
+            </form>
+          {{/if}}
         {{/if}}
       </div>
     </div>
@@ -25,9 +31,9 @@
       <div class="row my-4">
         <div class="col">
           {{#each tweets as |tweet|}}
-          {{#> blockTweetPost}}
-          {{tweet.value}}
-          {{/ blockTweetPost}}
+            {{#> blockTweetPost}}
+              {{tweet.value}}
+              {{/ blockTweetPost}}
           {{/each}}
         </div>
       </div>
