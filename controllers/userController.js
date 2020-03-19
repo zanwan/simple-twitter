@@ -1,10 +1,10 @@
 const bcrypt = require("bcryptjs")
 const db = require("../models")
 const { Tweet, User, Like, Reply, Followship } = db
-const blockController = require("./blockController")
 const imgur = require("imgur-node-api")
-const IMGUR_CLIENT_ID = process.env.IMGUR_ID
 const helpers = require("../_helpers")
+const IMGUR_CLIENT_ID = process.env.IMGUR_ID
+
 const userController = {
   signUpPage: (req, res) => {
     return res.render("signup")
@@ -64,11 +64,16 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      const followingList = user.Followings.map(r => ({
+      const followingData = user.Followings.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
-          ? `${r.dataValues.introduction.substring(0, 50)}.....`
-          : r.dataValues.introduction
+          ? `${r.dataValues.introduction.substring(0, 200)}.....`
+          : r.dataValues.introduction,
+        isFollowed: helpers
+          .getUser(req)
+          .Followings.map(d => d.id)
+          .includes(r.dataValues.id),
+        userSelf: r.dataValues.id === helpers.getUser(req).id ? true : false
       })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
       const thisUser = helpers.getUser(req).id === Number(req.params.id) ? true : false
       return res.render(
@@ -77,7 +82,7 @@ const userController = {
           JSON.stringify({
             profile: user,
             isFollowed,
-            followingList,
+            followingData,
             thisUser
           })
         )
@@ -103,7 +108,7 @@ const userController = {
         .getUser(req)
         .Followings.map(d => d.id)
         .includes(user.id)
-      const followerList = user.Followers.map(r => ({
+      const followerData = user.Followers.map(r => ({
         ...r.dataValues,
         introduction: r.dataValues.introduction
           ? `${r.dataValues.introduction.substring(0, 50)}.....`
@@ -111,7 +116,8 @@ const userController = {
         isFollowed: helpers
           .getUser(req)
           .Followings.map(d => d.id)
-          .includes(r.id)
+          .includes(r.dataValues.id),
+        userSelf: r.dataValues.id === helpers.getUser(req).id ? true : false
       })).sort((a, b) => b.Followship.createdAt - a.Followship.createdAt)
       const thisUser = helpers.getUser(req).id === Number(req.params.id) ? true : false
       return res.render(
@@ -120,7 +126,7 @@ const userController = {
           JSON.stringify({
             profile: user,
             isFollowed,
-            followerList,
+            followerData,
             thisUser
           })
         )
@@ -198,7 +204,7 @@ const userController = {
     if (Number(req.params.id) !== helpers.getUser(req).id) {
       return res.redirect(`/users/${req.params.id}/tweets`)
     }
-    return User.findByPk(req.params.id, { raw: true }).then(user => {
+    return User.findByPk(helpers.getUser(req).id, { raw: true }).then(user => {
       return res.render("editProfile", { user })
     })
   },
@@ -210,11 +216,13 @@ const userController = {
     }
 
     const { file } = req
+
     if (file) {
       imgur.setClientID(IMGUR_CLIENT_ID)
       imgur.upload(file.path, (err, img) => {
         if (err) console.log("Error: ", err)
-        return User.findByPk(req.params.id).then(user => {
+        console.log("IMGUR=========>", img)
+        return User.findByPk(helpers.getUser(req).id).then(user => {
           user
             .update({
               name: req.body.name,
@@ -223,7 +231,7 @@ const userController = {
             })
             .then(user => {
               req.flash("success_messages", "user was successfully to update")
-              res.redirect(`/users/${req.params.id}/edit`)
+              res.redirect("back")
             })
         })
       })
@@ -237,7 +245,7 @@ const userController = {
           })
           .then(user => {
             req.flash("success_messages", "user was successfully to update")
-            res.redirect(`/users/${req.params.id}/edit`)
+            res.redirect("back")
           })
       })
     }

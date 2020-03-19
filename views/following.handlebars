@@ -13,14 +13,14 @@
         {{#if thisUser}}
           <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
         {{else}}
+          {{!-- 追蹤按鈕 --}}
           {{#if isFollowed}}
             <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
               <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
             </form>
-
           {{else}}
-            <form action="/followships/{{profile.id}}" method="POST">
-              <button type="submit" class="btn btn-primary mt-4">Follow</button>
+            <form action="/followships/" method="POST">
+              <button type="submit" name="id" value="{{profile.id}}" class="btn btn-primary mt-4">Follow</button>
             </form>
           {{/if}}
         {{/if}}
@@ -37,16 +37,16 @@
         <div class="col">
           <div class="row no-gutters">
             {{#if thisUser}}
-              {{#each followingList as |following|}}
-                {{#> blockFollowing}}
+              {{#each followingData as |following|}}
+                {{#> blockFollow}}
                   {{following.value}}
-                  {{/ blockFollowing}}
+                  {{/ blockFollow}}
               {{/each}}
             {{else}}
-              {{#each followingList as |following|}}
-                {{#> blockFollowing}}
+              {{#each followingData as |following|}}
+                {{#> blockFollow}}
                   {{following.value}}
-                  {{/ blockFollowing}}
+                  {{/ blockFollow}}
               {{/each}}
             {{/if}}
 

@@ -12,23 +12,19 @@
         <div class="col mt-2 text-center">
           <h6 class="card-subtitle my-2 text-muted">@{{name}}</h6>
           <p class="card-text card-follow-text text-truncate-multiple-lines">{{introduction}}</p>
-
-          <form action="/followships/{{id}}?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger btn-sm float-right">Unfollow</button>
-          </form>
-
-          {{#if viewUser}}
+          {{#if userSelf}}
+            <div style="height: 31px;"></div>
+          {{else}}
             {{#if isFollowed}}
-              <a action="/followships/{{otherUser.id}}?_method=DELETE" method="POST">
-                <button type="submit" class="btn btn-danger mt-3">Unfollow</button>
-              </a>
+              <form action="/followships/{{id}}?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-danger btn-sm float-right">Unfollow</button>
+              </form>
             {{else}}
-              <form action="/followships/{{otherUser.id}}" method="POST">
-                <button type="submit" class="btn btn-primary mt-3">Follow</button>
+              <form action="/followships/" method="POST">
+                <button type="submit" name="id" value="{{id}}"
+                  class="btn btn-primary btn-sm float-right">Follow</button>
               </form>
             {{/if}}
-          {{else}}
-            </br>
           {{/if}}
         </div>
       </div>

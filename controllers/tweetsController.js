@@ -1,7 +1,6 @@
 const db = require("../models")
 const helpers = require("../_helpers")
 const { Tweet, User, Like, Reply } = db
-const blockController = require("./blockController")
 
 const tweetsController = {
   //首頁 推文 與 popular 區塊
@@ -38,9 +37,11 @@ const tweetsController = {
         //當我們想要排序陣列時，就可以使用 sort 方法，它會自動把陣列按照「字典順序」排序
         //a,b 代表排序時挑出來的前後項，b - a 時回傳正數表示 b 比 a大
         users = users.sort((a, b) => b.followerCount - a.followerCount)
+        //排除使用者自己
+        popuser = users.filter(p => p.id !== helpers.getUser(req).id)
         return res.render("tweetsHome", {
           tweets: JSON.parse(JSON.stringify(data)),
-          popUsers: users
+          popUsers: popuser
         })
       })
     })
@@ -94,7 +95,7 @@ const tweetsController = {
         const thisUser = helpers.getUser(req).id === Number(userdata.dataValues.id) ? true : false
         return res.render("replies", {
           tweet,
-          tweetuser: userdata.get({ plain: true }),
+          profile: userdata.get({ plain: true }),
           thisUser,
           isFollowed
         })
