@@ -7,22 +7,26 @@
         <form action="/tweets" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-
             <textarea class="form-control text-form" name="description" id="tweet-post" maxlength='140' rows="3"
-              placeholder="What's on your mind?"></textarea>
-
+              placeholder="What's on your mind?">
+            </textarea>
             {{!-- 按鈕 --}}
-            <button type="submit" class="btn btn-primary mt-2 float-right"> Tweet</button>
+            <button type="submit" class="btn btn-primary mt-2 ml-2 float-right">
+              Tweet
+            </button>
           </div>
         </form>
+        <a href="/checkin" class="btn btn-info mt-2 ml-2 float-right">
+          Check-In
+        </a>
       </div>
       {{!-- 其他貼文 --}}
       <div class="row">
         <div class="col">
           {{#each tweets as |tweet|}}
-            {{#> blockTweetPost}}
-              {{tweet.value}}
-              {{/ blockTweetPost}}
+          {{#> blockTweetPost}}
+          {{tweet.value}}
+          {{/ blockTweetPost}}
           {{/each}}
         </div>
       </div>
@@ -36,9 +40,9 @@
         <div class="col">
 
           {{#each popUsers as |popUser|}}
-            {{#> blockPopular}}
-              {{popUser.value}}
-              {{/ blockPopular}}
+          {{#> blockPopular}}
+          {{popUser.value}}
+          {{/ blockPopular}}
           {{/each}}
         </div>
       </div>
