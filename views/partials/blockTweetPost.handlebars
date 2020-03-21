@@ -9,7 +9,12 @@
       </div>
       {{!-- 貼文內容 --}}
       <div class="col pt-1 ml-n4">
-        <h6 class="card-subtitle mb-2 text-muted">@ {{User.name}}, {{moment createdAt}} {{geoInfo}}</h6>
+        <h6 class="card-subtitle mb-2 text-muted"> @{{User.name}}, {{moment createdAt}}
+          {{#if geoInfo }}
+          from {{geoInfo}}
+          {{else}}
+          {{/if}}
+        </h6>
         <p class="card-text tweet-post">{{description}}</p>
         <div class="interation-block">
           <a href="/tweets/{{id}}/replies" class="card-link far fa-comment-dots" style="font-size:1.2rem">
@@ -30,12 +35,7 @@
             </button>
           </form>
           {{/if}}
-
-
-
-
         </div>
-
       </div>
     </div>
   </div>

@@ -50,10 +50,10 @@ module.exports = (app, passport) => {
   /* ---------------------------------- */
   /*               打卡試          */
   /* ---------------------------------- */
-  // app.get("/checkin", authenticated, checkInController.postLocation);
-  // app.get("/checkin", authenticated, (req, res) =>
-  //   res.sendFile(path.join(__dirname, "../public", "checkIn.html"))
-  // );
+
+  app.get("/checkin", authenticated, (req, res) =>
+    res.sendFile(path.join(__dirname, "../public", "checkIn.html"))
+  );
 
   /* ---------------------------------- */
   /*               tweets               */
