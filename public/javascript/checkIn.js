@@ -1,6 +1,7 @@
 function geoFindMe() {
   const status = document.querySelector("#status");
   const mapLink = document.querySelector("#map-link");
+  const mapLink2 = document.querySelector("#map-link2");
 
   mapLink.href = "";
   mapLink.textContent = "";
@@ -13,6 +14,8 @@ function geoFindMe() {
     mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
     mapLink.textContent = `Latitude: ${Math.round(latitude)} °, 
     Longitude: ${Math.round(longitude)} °`;
+    mapLink2.value = `Latitude: ${latitude} °, 
+    Longitude: ${longitude} °`;
   }
 
   function error() {
