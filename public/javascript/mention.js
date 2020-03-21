@@ -161,11 +161,8 @@ const mention = (config) => {
   function insertNameIntoInput(e, textArea) {
     let element = e.target.className === peopleClass ? e.target : e.target.parentElement;
     const first = textArea.value.substr(0, startAt);
-    console.log('first....', first)
     const last = textArea.value.substr(startAt + mentionSize, textArea.value.length);
-    console.log('last....', last)
     const content = `${first}${element.dataset.username}${last}`;
-    console.log('content...', content)
     textArea.value = content;
     mentionSize = element.dataset.username.length;
     hideLookup();
