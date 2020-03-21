@@ -51,7 +51,6 @@ const tweetsController = {
   //將新增的推播寫入資料庫
   postTweets: (req, res) => {
     if (req.body.description.length <= 140 && req.body.description.length > 0) {
-      console.log(req.body);
       Tweet.create({
         description: req.body.description.trim(),
         UserId: helpers.getUser(req).id,

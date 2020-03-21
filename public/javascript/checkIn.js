@@ -1,3 +1,4 @@
+// 此段文件，為控制前台 checkin的 按鈕而設置
 function geoFindMe() {
   const status = document.querySelector("#status");
   const mapLink = document.querySelector("#map-link");
@@ -11,7 +12,7 @@ function geoFindMe() {
     const longitude = position.coords.longitude;
 
     status.textContent = "";
-    mapLink.href = `https://www.openstreetmap.org/#map=18/${latitude}/${longitude}`;
+    mapLink.href = `/checkin`;
     mapLink.textContent = `Latitude: ${Math.round(latitude)} °, 
     Longitude: ${Math.round(longitude)} °`;
     mapLink2.value = `Latitude: ${latitude} °, 

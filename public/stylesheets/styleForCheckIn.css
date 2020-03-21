@@ -3,6 +3,8 @@ html {
   width: 100%;
 }
 h1 {
+  background-color: #1da1f2;
+  color: white;
   text-align: center;
   margin: auto;
 }
@@ -15,8 +17,8 @@ h1 {
 }
 #map {
   position: absolute;
-  top: 25%; /*地圖佔頁面的3/4，即 頁面高 - 地圖高 = 定位點高度 (100%-75%=25%) */
+  top: 10%; /*地圖佔頁面的3/4，即 頁面高 - 地圖高 = 定位點高度 (100%-75%=25%) */
   left: 0;
-  height: 75%; /*地圖高*/
+  height: 90%; /*地圖高*/
   width: 100vw;
 }

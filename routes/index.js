@@ -40,7 +40,7 @@ module.exports = (app, passport) => {
     userController.signIn
   );
   /* ---------------------------------- */
-  /*                聊天試做             */
+  /*                Chatroom             */
   /* ---------------------------------- */
 
   app.get("/chat", authenticated, (req, res) =>
@@ -48,11 +48,11 @@ module.exports = (app, passport) => {
   );
 
   /* ---------------------------------- */
-  /*               打卡試          */
+  /*               Check-in          */
   /* ---------------------------------- */
 
   app.get("/checkin", authenticated, (req, res) =>
-    res.sendFile(path.join(__dirname, "../public", "checkIn.html"))
+    res.sendFile(path.join(__dirname, "../public", "googleCheckIn.html"))
   );
 
   /* ---------------------------------- */
