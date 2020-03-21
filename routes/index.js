@@ -64,6 +64,7 @@ module.exports = (app, passport) => {
   app.get("/users/:id/edit", authenticated, userController.editUserProfile) //OK
   app.post("/users/:id/edit", authenticated, upload.single("avatar"), userController.putUserProfile) //OK
 
+  app.get('/api/user', authenticated, userController.getMention)
   /* ---------------------------------- */
   /*               Follow               */
   /* ---------------------------------- */

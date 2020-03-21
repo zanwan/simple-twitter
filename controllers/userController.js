@@ -299,6 +299,20 @@ const userController = {
     })
   },
 
+  getMention: (req, res) => {
+    return User.findByPk(helpers.getUser(req).id, {
+      include: [
+        {
+          model: User, as: "Followings", through: { attributes: [] }, attributes: ['id', 'name', 'email', 'avatar']
+        }
+      ]
+
+    }).then(user => {
+      console.log('user =>>> followings', JSON.parse(JSON.stringify(user.Followings)))
+      return res.json(user)
+    })
+  },
+
   logout: (req, res) => {
     req.flash("success_messages", "登出成功！")
     req.logout()
