@@ -308,7 +308,6 @@ const userController = {
       ]
 
     }).then(user => {
-      console.log('user =>>> followings', JSON.parse(JSON.stringify(user.Followings)))
       return res.json(user)
     })
   },

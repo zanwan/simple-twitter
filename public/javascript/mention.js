@@ -183,7 +183,6 @@ const mention = (config) => {
 
 axios.get('/api/user').then(function (res) {
   const data = res.data.Followings
-  console.log(data)
   mention({
     id: 'txtarea',
     people: data
