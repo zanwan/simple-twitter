@@ -55,7 +55,7 @@ const tweetsController = {
       Tweet.create({
         description: req.body.description.trim(),
         UserId: helpers.getUser(req).id,
-        geoInfo: req.body.mapLink
+        geoInfo: req.body.geoInfo
       }).then(tweet => {
         return res.redirect("/tweets");
       });
