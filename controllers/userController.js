@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const db = require("../models")
-const { Tweet, User, Like, Reply, Followship } = db
+const { Tweet, User, Like, Reply, Followship, Messagelog } = db
 const imgur = require("imgur-node-api")
 const helpers = require("../_helpers")
 const IMGUR_CLIENT_ID = process.env.IMGUR_ID
@@ -221,7 +221,6 @@ const userController = {
       imgur.setClientID(IMGUR_CLIENT_ID)
       imgur.upload(file.path, (err, img) => {
         if (err) console.log("Error: ", err)
-        console.log("IMGUR=========>", img)
         return User.findByPk(helpers.getUser(req).id).then(user => {
           user
             .update({

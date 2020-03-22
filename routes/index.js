@@ -3,6 +3,7 @@ const path = require("path")
 const tweetsController = require("../controllers/tweetsController.js")
 const adminController = require("../controllers/adminController.js")
 const userController = require("../controllers/userController.js")
+const messageController = require("../controllers/messageController")
 const multer = require("multer")
 const upload = multer({ dest: "temp/" })
 // const chatController = require("../controllers/chatController.js");
@@ -43,8 +44,14 @@ module.exports = (app, passport) => {
   /*                聊天試做             */
   /* ---------------------------------- */
 
+  app.get("/users/:id/messages", authenticated, messageController.getFollowingUser)
+
+  app.get("/users/:id/messages/:getterId", authenticated, messageController.startChatting)
+
+  app.get("/api/users/data", authenticated, messageController.getUserData)
+
   app.get("/chat", authenticated, (req, res) =>
-    res.sendFile(path.join(__dirname, "../public", "chat2.html"))
+    res.sendFile(path.join(__dirname, "../views/layouts", "messageRoom.html"))
   )
 
   /* ---------------------------------- */

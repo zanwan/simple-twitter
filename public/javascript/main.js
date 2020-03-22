@@ -6,6 +6,6 @@ window.addEventListener("scroll", event => {
 })
 
 //研究網址：https://flaviocopes.com/scrolling/
-const container = document.querySelector(". container")
-container.scrollTop
-container.scrollLeft
+// const container = document.querySelector(". container")
+// container.scrollTop
+// container.scrollLeft

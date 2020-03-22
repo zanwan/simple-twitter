@@ -1,9 +1,30 @@
-<div class="container">
-  <div class="row">
+<div class="container-fluid" style="margin-left: 0px;margin-right:0px; padding-left:0px; padding-right:0px">
+  <div class="row no-gutters">
+    {{!-- 模仿twitter的左側欄 --}}
+    <div class="col-2 mr-3">
+      <sction style="position: fixed;">
+        {{> blockLeftBar}}
+      </sction>
+
+
+
+
+    </div>
     {{!-- 貼文牆時間軸 --}}
-    <div class="col">
+    <div class="col mx-4">
+      <div class="row"
+        style="position: fixed; z-index:10; width:100% ; height:60px ;background-color:white; border-style:solid;border-width:0px; border-color:rgb(219, 231, 235)">
+        <h5 class="ml-3 mt-3">Home</h5>
+      </div>
+      {{!-- 成功失敗提示 --}}
+
+
       {{!-- 新增貼文 --}}
-      <div class="row my-3">
+      <div class="row my-1 mt-5">
+        <div class="mt-4" style="width: 100%;">
+          {{> blockWarning}}
+        </div>
+
         <form action="/tweets" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
@@ -29,19 +50,21 @@
     </div>
     {{!----------}}
     {{!-- 熱門推主 --}}
-    <div class="col-4 mt-4" id="popularField">
-      <h3>Popular</h3>
-      {{!-- 熱門推主 --}}
-      <div class="row">
-        <div class="col">
-
-          {{#each popUsers as |popUser|}}
-            {{#> blockPopular}}
-              {{popUser.value}}
-              {{/ blockPopular}}
-          {{/each}}
+    <div class="col-3 mt-4" id="popularField" style="z-index: 20;">
+      <section style="position: fixed;">
+        <h3>Popular</h3>
+        {{!-- 熱門推主 --}}
+        <div class="row">
+          <div class="col-8">
+            {{#each popUsers as |popUser|}}
+              {{#> blockPopular}}
+                {{popUser.value}}
+                {{/ blockPopular}}
+            {{/each}}
+          </div>
         </div>
-      </div>
+      </section>
+
     </div>
     {{!----------}}
   </div>

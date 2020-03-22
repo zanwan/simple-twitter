@@ -1,0 +1,60 @@
+<div class="mt-1 ml-n2">
+  <a href="/tweets">
+    <img src="/svg/Twitter_Logo_Blue.svg" id="twitterLogo" class="d-inline-block align-center" alt=""></a>
+</div>
+
+<div class="mt-4">
+  <a href="/tweets">
+    <img src="/svg/Twitter-Home.svg" style="width: 30px; height:30px">
+    <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middl">Home
+    </h5>
+  </a>
+</div>
+<div class="mt-4">
+  <img src="/svg/Twitter-Explore.svg" style="width: 30px; height:30px">
+  <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle;">
+    Explore
+  </h5>
+</div>
+<div class="mt-4">
+  <img src="/svg/Twitter-Notification.svg" style="width: 30px; height:30px">
+  <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle; ">
+    Notifications
+  </h5>
+</div>
+<div class="mt-4">
+  <a href="/users/{{user.id}}/messages">
+    <img src="/svg/Twitter-Messages.svg" style="width: 30px; height:30px">
+    <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle">Messages</h5>
+  </a>
+</div>
+<div class="mt-4">
+  <img src="/svg/Twitter-Bookmarks.svg" style="width: 30px; height:30px">
+  <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle">Bookmarks</h5>
+</div>
+<div class="mt-4">
+  <img src="/svg/Twitter-Lists.svg" style="width: 30px; height:30px">
+  <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle">Lists</h5>
+</div>
+<div class="mt-4">
+  <a href="/users/{{user.id}}/tweets">
+    <img src={{user.avatar}} class="d-inline-block align-top" id="avatarProfile" alt="profile-image">
+    <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle">Profile</h5>
+  </a>
+</div>
+<div class="mt-4">
+  <img src="/svg/Twitter-More.svg" style="width: 30px; height:30px">
+  <h5 class="ml-2" style="display: inline-block; margin-bottom:0; vertical-align:middle">More</h5>
+</div>
+<div class="mt-4">
+  {{#if user.role}}
+    <a href="/admin/tweets" style="color:black;">
+      <h5>Admin</h5>
+    </a>
+  {{/if}}
+</div>
+<div class="mt-4">
+  <a href="/logout" style="color:black;">
+    <h5>Logout</h5>
+  </a>
+</div>

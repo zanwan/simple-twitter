@@ -11,38 +11,25 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
     <script src="https://kit.fontawesome.com/c8f2260657.js" crossorigin="anonymous"></script>
-
+    {{!-- AXIOS --}}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
 
   <body>
-    <main role="main">
-      {{!-- NavBar 導覽列 --}}
+    <div class="container">
+      <main role="main">
+        {{!-- NavBar 導覽列 --}}
 
-      {{#if user}}
-        {{> navBar data = user}}
-      {{/if}}
-      {{#if success_messages}}
-        <div class="alert alert-success alert-dismissible fade show alart-style" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {{success_messages}}
-        </div>
-      {{/if}}
-      {{#if error_messages}}
-        <div class="alert alert-danger alert-dismissible fade show alart-style" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {{error_messages}}
-        </div>
-      {{/if}}
 
-      {{{body}}}
-    </main>
+
+        {{{body}}}
+      </main>
+    </div>
+
 
 
     {{!-- CDN Jquery, popper, Bootstrap --}}
+
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
       crossorigin="anonymous"></script>
@@ -52,8 +39,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"></script>
+
     {{!-- 自定義JS --}}
-    <script src="/javascript/main.js"></script>
+    <script type="text/javascript" src="/javascript/main.js"></script>
+    {{!-- JS libs 中的函式庫 --}}
+    <script type="text/javascript" src="/javascript/libs/moment.js"></script>
+
+
+
   </body>
 
 </html>

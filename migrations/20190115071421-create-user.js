@@ -26,6 +26,10 @@ module.exports = {
         reference: {
           model: "Followships",
           key: "followingId"
+        },
+        reference: {
+          model: "Messagelogs",
+          key: "getterId"
         }
       },
       email: {

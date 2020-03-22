@@ -1,0 +1,50 @@
+<div class="container-fluid" style="margin-left: 0px;margin-right:0px; padding-left:0px; padding-right:0px">
+  <div class="row no-gutters">
+    {{!-- 左側欄 --}}
+    <div class="col-2 mr-3">
+      <sction style="position: fixed;">
+        {{> blockLeftBar}}
+      </sction>
+    </div>
+
+
+    <div class="col-4 border-left ml-4" id="popularField">
+      {{!-- 已追蹤的人（可開啟聊天） --}}
+
+
+
+      <h5 class="text-left pt-3 pl-3 pb-3 border-bottom" style="margin-bottom: 0px;">Messages</h5>
+      {{!-- 聊天室卡片 --}}
+      {{#each chatUsers as |chatUser|}}
+        {{#> blockMessageHead}}
+          {{chatUser.value}}
+          {{/ blockMessageHead}}
+      {{/each}}
+
+
+    </div>
+    {{!-- 聊天區塊 --}}
+    <div class="col border-left border-right">
+      {{!-- 聊天視窗 --}}
+      <div class="row  my-4" style="height: 100vh;">
+        <div class="col my-auto text-center">
+          {{!-- 待整理的畫面 --}}
+
+          <div class="text-center mx-auto" style="width: 80%;">
+            <h5>You don't have a message selected</h5>
+            <h6 class="text-muted">Choose one from your existing message, or start a new one.</h6>
+            <button type="button" class="btn btn-primary mt-3">New message</button>
+          </div>
+          <div>
+
+
+
+          </div>
+
+
+        </div>
+      </div>
+      {{!-- ------ --}}
+    </div>
+  </div>
+</div>
