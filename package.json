@@ -29,6 +29,7 @@
     "mysql2": "^1.7.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pg": "^7.18.2",
     "sequelize": "^4.44.4",
     "sequelize-cli": "^5.5.1",
     "sinon": "^7.2.3",
