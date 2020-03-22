@@ -8,7 +8,7 @@
   "main": "app.js",
   "scripts": {
     "start": "NODE_ENV=development node app.js",
-    "build": "production",
+    "build": "NODE_ENV=production npm start",
     "dev": "NODE_ENV=development nodemon app.js",
     "test": "set \"NODE_ENV=test\" && mocha test/*/*.js test/*/*/*.js --exit --recursive --timeout 5000"
   },
