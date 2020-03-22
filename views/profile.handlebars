@@ -1,3 +1,4 @@
+{{>navBar data = user}}
 <div class="container">
   <div class="row">
     <div class="col-4 mt-4" id="popularField">
@@ -9,6 +10,7 @@
       {{/if}}
 
       <div class="mx-auto text-center" style="width: 15rem;">
+        <a href="/users/{{profile.id}}/messages" type="button" class="btn btn-primary mt-4">Messages</a>
 
         {{#if thisUser}}
           {{!-- 編輯按鈕 --}}
