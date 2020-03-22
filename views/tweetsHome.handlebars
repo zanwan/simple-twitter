@@ -19,9 +19,21 @@
             </div>
 
             {{!-- 按鈕 --}}
-            <button type="submit" class="btn btn-primary mt-2 float-right"> Tweet</button>
+            <button type="submit" class="btn btn-primary mt-2 ml-2 float-right">
+              Tweet
+            </button>
+            <a id="find-me" style="color: white" class="btn btn-info mt-2 ml-2 float-right">
+              Check-In
+            </a>
+            <p id="status" class="mt-2 ml-2 float-right"></p>
+            <a id="map-link" name="geoInfo" value="{{geoInfo}}" class="mt-2 ml-2 float-right"
+              target="_blank">{{geoInfo}}
+            </a>
+            <input id="map-link2" name="geoInfo" value="{{geoInfo}}" class="mt-2 ml-2 float-right" target="_blank"
+              type="hidden">
           </div>
         </form>
+
       </div>
       {{!-- 其他貼文 --}}
       <div class="row">
@@ -53,3 +65,9 @@
     {{!----------}}
   </div>
 </div>
+
+{{!-- /* -------------------------------------------------------------------------- */
+/* 載入check-in 腳本 */
+/* -------------------------------------------------------------------------- */ --}}
+
+<script src="/javascript/checkIn.js"></script>

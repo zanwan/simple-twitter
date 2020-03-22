@@ -1,0 +1,24 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+h1 {
+  background-color: #1da1f2;
+  color: white;
+  text-align: center;
+  margin: auto;
+}
+#body {
+  position: relative; /*相對定位*/
+  height: 100%;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+#map {
+  position: absolute;
+  top: 10%; /*地圖佔頁面的3/4，即 頁面高 - 地圖高 = 定位點高度 (100%-75%=25%) */
+  left: 0;
+  height: 90%; /*地圖高*/
+  width: 100vw;
+}
