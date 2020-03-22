@@ -8,21 +8,37 @@
           <div class="form-group">
             {{!-- 輸入欄 --}}
 
-            <textarea class="form-control text-form" name="description" id="tweet-post" maxlength='140' rows="3"
+            <textarea id="txtarea" class="form-control text-form " name="description" maxlength='140' rows="3"
               placeholder="What's on your mind?"></textarea>
+            {{!-- data show up --}}
+            <div class="mention-lookup-nt"
+              style="position: absolute; left: 63px; top: 216px; z-index: 5000; display: inline;">
+            </div>
 
             {{!-- 按鈕 --}}
-            <button type="submit" class="btn btn-primary mt-2 float-right"> Tweet</button>
+            <button type="submit" class="btn btn-primary mt-2 ml-2 float-right">
+              Tweet
+            </button>
+            <a id="find-me" style="color: white" class="btn btn-info mt-2 ml-2 float-right">
+              Check-In
+            </a>
+            <p id="status" class="mt-2 ml-2 float-right"></p>
+            <a id="map-link" name="geoInfo" value="{{geoInfo}}" class="mt-2 ml-2 float-right"
+              target="_blank">{{geoInfo}}
+            </a>
+            <input id="map-link2" name="geoInfo" value="{{geoInfo}}" class="mt-2 ml-2 float-right" target="_blank"
+              type="hidden">
           </div>
         </form>
+
       </div>
       {{!-- 其他貼文 --}}
       <div class="row">
         <div class="col">
           {{#each tweets as |tweet|}}
-            {{#> blockTweetPost}}
-              {{tweet.value}}
-              {{/ blockTweetPost}}
+          {{#> blockTweetPost}}
+          {{tweet.value}}
+          {{/ blockTweetPost}}
           {{/each}}
         </div>
       </div>
@@ -36,9 +52,9 @@
         <div class="col">
 
           {{#each popUsers as |popUser|}}
-            {{#> blockPopular}}
-              {{popUser.value}}
-              {{/ blockPopular}}
+          {{#> blockPopular}}
+          {{popUser.value}}
+          {{/ blockPopular}}
           {{/each}}
         </div>
       </div>
@@ -46,3 +62,9 @@
     {{!----------}}
   </div>
 </div>
+
+{{!-- /* -------------------------------------------------------------------------- */
+/* 載入check-in 腳本 */
+/* -------------------------------------------------------------------------- */ --}}
+
+<script src="/javascript/checkIn.js"></script>
