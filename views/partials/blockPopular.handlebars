@@ -9,7 +9,7 @@
       {{!-- 貼文內容 --}}
       <div class="col mt-2 pl-4">
         <h6 class="card-subtitle mb-2 text-muted">@ {{name}}</h6>
-        <p class="card-text popular-text text-truncate-multiple-lines">{{introduction}}</p>
+        <p class="card-text popular-text ">{{introduction}}</p>
 
         {{#if isFollowed}}
           <form action="/followships/{{id}}?_method=DELETE" method="POST">

@@ -1,0 +1,91 @@
+<div class="container-fluid" style="margin-left: 0px;margin-right:0px; padding-left:0px; padding-right:0px">
+  <div class="row no-gutters">
+    {{!-- 左側欄 --}}
+    <div class="col-2 mr-3">
+      <sction style="position: fixed;">
+        {{> blockLeftBar}}
+      </sction>
+    </div>
+
+
+    <div class="col-4 border-left ml-4" id="popularField">
+      {{!-- 已追蹤的人（可開啟聊天） --}}
+
+
+
+      <h5 class="text-left pt-3 pl-3 pb-3 border-bottom" style="margin-bottom: 0px;">Messages</h5>
+      {{!-- 聊天室卡片 --}}
+      {{#each chatUsers as |chatUser|}}
+        {{#> blockMessageHead}}
+          {{chatUser.value}}
+          {{/ blockMessageHead}}
+      {{/each}}
+
+
+    </div>
+    {{!-- 聊天區塊 --}}
+    <div class="col border-left border-right">
+      {{!-- 聊天視窗 --}}
+      <div class="row my-4" style="height: 100vh;">
+        <div class="col my-auto">
+          {{!-- 待整理的畫面 --}}
+
+          <div class="d-flex flex-column-reverse border-bottom overflow-auto" style="height:85vh;">
+
+            <div id="messages-list"></div>
+
+          </div>
+
+          <div>
+            {{!-- 輸入欄 --}}
+            <form id="message-form">
+              <div class="form-group mx-2 mt-2">
+                <div class="form-row">
+                  <div class="col">
+                    <input class="form-control" type="text" name="message" autocomplete="off"
+                      placeholder="Start a new message" />
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-primary" type="submit" id="message-btn">Send</button>
+                  </div>
+                </div>
+
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {{!-- ------ --}}
+  </div>
+</div>
+</div>
+
+
+
+{{!-- socket --}}
+{{!-- socket.io的函式庫 --}}
+{{!-- 就是這個函式庫建立前端與後端app.js中socket的連線，神奇吧 --}}
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script type="text/javascript" src="/javascript/messages.js"></script>
+
+<script type="text/x-handlebars-template" id="senter-bubble">
+<div id="message-block" class="d-flex align-items-end flex-column">
+  <div class="pr-3 pl-1" style="background-color: #1da1f2;color:white;border-radius: 20px 0px 0px 20px ">
+    <p style="padding: 5px; margin:5px">{{text}}</p>
+  </div>
+  <div class="pr-2 text-muted" style="font-size: 10px;">{{createAt}}</div>
+</div>
+</script>
+
+<script type="text/x-handlebars-template" id="getter-bubble">
+<div id="message-block" class="d-flex align-items-start flex-column">
+  <div class="pl-3 pr-1" style="background-color: #1da1f2;color:white;border-radius: 0px 20px 20px 0px ">
+    <p style="padding: 5px; margin:5px">測試訊息</p>
+  </div>
+  <div class="pl-1 mt-1 text-muted" style="font-size: 10px; ">Yesterday,11:57 PM</div>
+</div>
+</script>

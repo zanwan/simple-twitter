@@ -1,0 +1,18 @@
+<div class="card select-card border-top-0 border-right-0 border-left-0">
+  <div class="card-body" onclick="location.href='/users/{{currentUser}}/messages/{{id}}'" style="cursor: pointer;">
+
+    <div class="row no-gutters">
+      {{!-- 大頭照 --}}
+      <div class="col-3 pr-5">
+        <a href="/users/{{id}}/tweets">
+          <img src="{{avatar}}" alt="avatar" id="avatarTweet">
+        </a>
+      </div>
+      <div class="col mt-2 ml-2 text-left">
+        <h5 class="card-subtitle">{{name}}</h5>
+        <p class="card-text mt-1">最後一訊息</p>
+      </div>
+    </div>
+
+  </div>
+</div>

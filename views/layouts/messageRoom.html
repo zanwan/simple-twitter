@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/styleForChat.css" />
+  </head>
+
+  <body>
+    <div class="overflow-auto">
+      <ul id="messages"></ul>
+    </div>
+    <div>
+      <form action=""><input id="m" autocomplete="off" /><button>Send</button></form>
+    </div>
+    <!-- 腳本區 -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/chat2.js"></script>
+    <!-- 腳本區 -->
+  </body>
+</html>
