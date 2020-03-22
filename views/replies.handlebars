@@ -4,27 +4,27 @@
     <div class="col-4 mt-4" id="popularField">
       {{!-- 推主個人檔案 --}}
       {{#if thisUser}}
-        {{>blockUserProfile profile}}
+      {{>blockUserProfile profile}}
       {{else}}
-        {{>blockUserProfile profile}}
+      {{>blockUserProfile profile}}
       {{/if}}
 
       <div class="mx-auto text-center" style="width: 15rem;">
 
         {{#if thisUser}}
-          {{!-- 編輯按鈕 --}}
-          <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
+        {{!-- 編輯按鈕 --}}
+        <a href="/users/{{profile.id}}/edit" type="button" class="btn btn-primary mt-4">Edit Profile</a>
         {{else}}
-          {{!-- 追蹤按鈕 --}}
-          {{#if isFollowed}}
-            <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
-              <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
-            </form>
-          {{else}}
-            <form action="/followships/" method="POST">
-              <button type="submit" name="id" value="{{profile.id}}" class="btn btn-primary mt-4">Follow</button>
-            </form>
-          {{/if}}
+        {{!-- 追蹤按鈕 --}}
+        {{#if isFollowed}}
+        <form action="/followships/{{profile.id}}?_method=DELETE" method="POST">
+          <button type="submit" class="btn btn-danger mt-4">Unfollow</button>
+        </form>
+        {{else}}
+        <form action="/followships/" method="POST">
+          <button type="submit" name="id" value="{{profile.id}}" class="btn btn-primary mt-4">Follow</button>
+        </form>
+        {{/if}}
         {{/if}}
       </div>
     </div>
@@ -44,9 +44,9 @@
         <div class="col">
           <h3>Replies</h3>
           {{#each tweet.Replies as |reply|}}
-            {{#> blockReply}}
-              {{reply.value}}
-              {{/ blockReply}}
+          {{#> blockReply}}
+          {{reply.value}}
+          {{/ blockReply}}
           {{/each}}
         </div>
       </div>
@@ -56,8 +56,12 @@
         <form action="/tweets/{{tweet.id}}/replies" method="POST" class="col mt-3">
           <div class="form-group">
             {{!-- 輸入欄 --}}
-            <textarea class="form-control text-form" id="replyMsg" name="replyMsg" rows="3"
+            <textarea class="form-control text-form" id="txtarea" name="replyMsg" rows="3"
               placeholder="What's on your mind?"></textarea>
+            {{!-- data show up --}}
+            <div class="mention-lookup-nt"
+              style="position: absolute; left: 63px; top: 216px; z-index: 5000; display: inline;">
+            </div>
             {{!-- 按鈕 --}}
             <button type="submit" class="btn btn-primary mt-2 float-right">Reply</button>
           </div>

@@ -189,19 +189,3 @@ axios.get('/api/user').then(function (res) {
   })
 })
 
-// mention({
-//   id: 'txtarea',
-//   people: [{
-//     name: 'John F',
-//     username: 'john',
-//     avatar: '1.jpg'
-//   }, {
-//     name: 'Chris',
-//     username: 'chris',
-//     avatar: '2.jpg'
-//   }, {
-//     name: 'John F',
-//     username: 'john',
-//     avatar: '3.jpg'
-//   }]
-// })
