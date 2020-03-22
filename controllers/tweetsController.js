@@ -10,7 +10,6 @@ const tweetsController = {
       order: [["createdAt", "DESC"]],
       include: [User, Reply, { model: User, as: "LikedUsers" }]
     }).then(tweets => {
-      console.log("tweets=====+>", tweets)
       const data = tweets.map(tweet => ({
         ...tweet.dataValues,
         isLiked: tweet.LikedUsers.map(d => d.id).includes(helpers.getUser(req).id),
