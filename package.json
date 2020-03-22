@@ -1,6 +1,9 @@
 {
-  "name": "test",
+  "name": "simple-twitter",
   "version": "1.0.0",
+  "engines": {
+    "node": "12.16.x"
+  },
   "description": "",
   "main": "app.js",
   "scripts": {
