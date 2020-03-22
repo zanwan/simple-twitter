@@ -51,8 +51,14 @@ const messageController = {
         ...f.dataValues,
         currentUser: helpers.getUser(req).id
       }))
-      console.log("Userdata========>", addCurrentUser)
-      return res.render("messageRoom", { chatUsers: addCurrentUser })
+      let chatUserName
+      User.findByPk(req.params.getterId)
+        .then(userName => {
+          chatUserName = userName.dataValues.name
+        })
+        .then(final => {
+          return res.render("messageRoom", { chatUsers: addCurrentUser, chatUserName })
+        })
     })
   }
 }
