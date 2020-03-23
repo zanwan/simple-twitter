@@ -1,5 +1,5 @@
 <div class="card my-1 select-card">
-  <div class="card-body" onclick="location.href='/tweets/{{User.id}}/replies'" style="cursor: pointer;">
+  <div class="card-body" onclick="location.href='/tweets/{{id}}/replies'" style="cursor: pointer;">
     <div class="row no-gutters">
       {{!-- 大頭照 --}}
       <div class="col-3 pr-5">
@@ -11,7 +11,7 @@
       <div class="col pt-1 ml-n4">
         <h6 class="card-subtitle mb-2 text-muted"> @{{User.name}}, {{moment createdAt}}
           {{#if geoInfo }}
-          from {{geoInfo}}
+            from {{geoInfo}}
           {{else}}
           {{/if}}
         </h6>
@@ -21,19 +21,19 @@
             {{replyCount}}</a>
 
           {{#if isLiked}}
-          <form action="/tweets/{{id}}/unlike" method="POST" class="card-link" style="display:inline-block">
-            <button type="submit" class="fas fa-heart button-nofunny"
-              style="color: rgb(255, 102, 110);font-size:1.2rem">
-              {{likeCount}}
-            </button>
-          </form>
+            <form action="/tweets/{{id}}/unlike" method="POST" class="card-link" style="display:inline-block">
+              <button type="submit" class="fas fa-heart button-nofunny"
+                style="color: rgb(255, 102, 110);font-size:1.2rem">
+                {{likeCount}}
+              </button>
+            </form>
           {{else}}
-          <form action="/tweets/{{id}}/like" method="POST" class="card-link" style="display:inline-block">
-            <button type="submit" class="far fa-heart button-nofunny"
-              style="color: rgb(255, 102, 110);font-size:1.2rem">
-              {{likeCount}}
-            </button>
-          </form>
+            <form action="/tweets/{{id}}/like" method="POST" class="card-link" style="display:inline-block">
+              <button type="submit" class="far fa-heart button-nofunny"
+                style="color: rgb(255, 102, 110);font-size:1.2rem">
+                {{likeCount}}
+              </button>
+            </form>
           {{/if}}
         </div>
       </div>
