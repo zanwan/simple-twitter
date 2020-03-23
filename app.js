@@ -13,7 +13,7 @@ const app = express()
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config()
 }
-const port = 3000
+const port = process.env.PORT || 3000
 
 //在 app.js 中建立應用程式中的 server
 //等於 app.js 是在 node.js 的 server 中
